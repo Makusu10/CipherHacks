@@ -1,4 +1,4 @@
-# CipherHacks — practice cybersecurity, 
+# CipherHacks — practice cybersecurity
 
 A free-first, story-driven cybersecurity playground. Work six case files from
 Recruit (passwords, phishing) to Apex (timed boss battle + blue-team triage),
