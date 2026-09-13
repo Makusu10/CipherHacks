@@ -1,5 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="px-wrap" role="img" aria-label="Animated pixel-art night city with a small terminal robot. Original art, decorative.">
+<svg class="px-scene" viewBox="0 0 360 150" aria-hidden="true">
+<rect x="0" y="0" width="360" height="150" fill="#070d1a"/>
+<rect x="0" y="0" width="360" height="86" fill="#0b1630"/>
+<circle class="px-star" cx="30" cy="18" r="1.6" fill="#bfe9ff"/>
+<circle class="px-star s2" cx="90" cy="30" r="1.3" fill="#ffffff"/>
+<circle class="px-star s3" cx="160" cy="14" r="1.6" fill="#bfe9ff"/>
+<circle class="px-star s2" cx="225" cy="26" r="1.2" fill="#ffffff"/>
+<circle class="px-star" cx="290" cy="16" r="1.6" fill="#9df2c9"/>
+<circle class="px-star s3" cx="330" cy="34" r="1.2" fill="#ffffff"/>
+<rect class="px-cloud" x="40" y="34" width="34" height="6" fill="#1d2f52"/>
+<rect class="px-cloud" x="46" y="30" width="22" height="6" fill="#27406b"/>
+<rect class="px-cloud c2" x="230" y="44" width="40" height="6" fill="#1d2f52"/>
+<rect x="0" y="96" width="360" height="54" fill="#0a2a22"/>
+<rect x="0" y="96" width="360" height="4" fill="#123c33"/>
+<rect x="18" y="62" width="34" height="40" fill="#101d33"/>
+<rect x="58" y="50" width="30" height="52" fill="#13253f"/>
+<rect x="94" y="68" width="40" height="34" fill="#101d33"/>
+<rect x="228" y="56" width="32" height="46" fill="#13253f"/>
+<rect x="266" y="66" width="42" height="36" fill="#101d33"/>
+<rect x="314" y="52" width="28" height="50" fill="#13253f"/>
+<rect class="px-win" x="24" y="68" width="5" height="5" fill="#3cf5a5"/>
+<rect class="px-win w2" x="64" y="58" width="5" height="5" fill="#ffd166"/>
+<rect class="px-win w3" x="100" y="74" width="5" height="5" fill="#3fe0ff"/>
+<rect class="px-win w2" x="234" y="64" width="5" height="5" fill="#3cf5a5"/>
+<rect class="px-win" x="272" y="72" width="5" height="5" fill="#ffd166"/>
+<rect class="px-win w3" x="320" y="60" width="5" height="5" fill="#3fe0ff"/>
+<rect x="140" y="70" width="80" height="32" fill="#0d1626"/>
+<rect x="140" y="70" width="80" height="4" fill="#3cf5a5"/>
+<rect class="px-pkt" x="0" y="80" width="8" height="3" fill="#3fe0ff"/>
+<rect class="px-pkt p2" x="0" y="88" width="8" height="3" fill="#3cf5a5"/>
+<rect class="px-pkt p3" x="0" y="94" width="8" height="3" fill="#ffd166"/>
+<g id="px-bot" class="px-bot px-mascot" tabindex="0" aria-label="Pixel robot mascot. Activate for a tip.">
+<rect x="160" y="106" width="40" height="30" fill="#c7d2e4"/>
+<rect x="160" y="106" width="40" height="6" fill="#8fa0bd"/>
+<rect x="166" y="116" width="28" height="14" fill="#06281c"/>
+<rect class="px-eye" x="171" y="120" width="5" height="6" fill="#3cf5a5"/>
+<rect class="px-eye" x="184" y="120" width="5" height="6" fill="#3cf5a5"/>
+<rect x="156" y="122" width="4" height="8" fill="#8fa0bd"/>
+<rect x="200" y="122" width="4" height="8" fill="#8fa0bd"/>
+<rect x="172" y="136" width="6" height="6" fill="#8fa0bd"/>
+<rect x="182" y="136" width="6" height="6" fill="#8fa0bd"/>
+<rect x="196" y="100" width="3" height="8" fill="#8fa0bd"/>
+<circle cx="197.5" cy="98" r="3" fill="#ff7070"/>
+</g>
+<g class="px-flag"><rect x="52" y="34" width="3" height="18" fill="#8fa0bd"/><rect x="55" y="34" width="16" height="9" fill="#3cf5a5"/></g>
+<rect x="0" y="142" width="360" height="8" fill="#04070d"/>
+</svg>
+<div class="px-cap"><span id="px-say">boop. hover or tap the bot — it talks.</span><span class="mono" id="px-type">$ help  →  3 boxes online▊</span></div>
+</div>
 <div class="hero grid hero2">
 <div>
 <p class="kicker">Completely free · no signup to try · fictional targets only</p>
@@ -37,13 +87,14 @@ $ </div>
 <div class="card" id="t3" hidden><h3>Duels, seasons, crews</h3><p>Five-question bouts vs a sparring bot with ELO. Guilds pool XP. Boards reset monthly so newcomers aren't buried. Daily one-question streak keeps you warm.</p><p><a class="btn small" href="/arena">Enter arena</a> <a class="btn small" href="/guilds">Find a guild</a></p></div>
 
 <div class="grid three">
-<div class="card lift"><h3>1. Recruit (1–10)</h3><p>Passwords, phishing, CIA triad. Quiz + cards only. Checkpoint unlocks the terminal.</p></div>
-<div class="card lift"><h3>2. Operator (11–25)</h3><p>Linux, ports, permissions. Guided labs, hints cost coins you earned.</p></div>
-<div class="card lift"><h3>3. Analyst (26–45)</h3><p>OSINT habits, fake scans, SQLi/XSS on our demo app. Less help, more reading.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="12" y="2" width="10" height="12" fill="#3cf5a5"/><rect x="14" y="14" width="6" height="8" fill="#8fa0bd"/><rect x="4" y="6" width="6" height="4" fill="#ffd166"/><rect x="24" y="6" width="6" height="4" fill="#3fe0ff"/></svg> 1. Recruit (1–10)</h3><p>Passwords, phishing, CIA triad. Quiz + cards only. Checkpoint unlocks the terminal.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="2" y="4" width="30" height="16" fill="#101d33"/><rect x="5" y="7" width="14" height="3" fill="#3cf5a5"/><rect x="5" y="12" width="9" height="3" fill="#3fe0ff"/><rect x="5" y="17" width="5" height="2" fill="#ffd166"/></svg> 2. Operator (11–25)</h3><p>Linux, ports, permissions. Guided labs, hints cost coins you earned.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><circle cx="14" cy="11" r="7" fill="none" stroke="#3fe0ff" stroke-width="3"/><rect x="19" y="15" width="9" height="3" fill="#8fa0bd" transform="rotate(45 19 15)"/><rect x="24" y="4" width="6" height="6" fill="#ff7070"/></svg> 3. Analyst (26–45)</h3><p>OSINT habits, fake scans, SQLi/XSS on our demo app. Less help, more reading.</p></div>
 </div>
 <div class="marquee"><strong>Free-first promise:</strong> cards, exams, lessons, and terminals are guest-open — no signup, no card. Handles exist only to save XP, flags, ELO, and guilds. Arena, guilds, and daily stay logged-in so ranks mean something.</div>
 {% endblock %}
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/pixel.js') }}" defer></script>
 <script>
 document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){
 document.querySelectorAll("[data-tab]").forEach(function(x){x.classList.remove("primary")});
