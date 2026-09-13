@@ -197,3 +197,11 @@ def test_character_sheet():
     assert "Street Awake" in html
     assert "Next title:" in html and "XP to go" in html
     assert "Trophy case" in html and "Flag vault" in html
+
+def test_identity_chip_levels_up():
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": _handle("chipbud"), "consent": "yes"})
+    html = c.get("/").get_data(as_text=True)
+    assert 'class="btn small who recruit"' in html
+    assert html.count("<i></i>") >= 1

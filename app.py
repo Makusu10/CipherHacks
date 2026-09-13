@@ -135,8 +135,11 @@ def create_app():
     @app.context_processor
     def inject_user():
         me = current_user()
+        band = band_for_level(me["level"]) if me else None
         return {"me": me, "band_label": band_label, "rank_title": rank_title,
-                "my_rank": rank_title(me["level"]) if me else None}
+                "my_rank": rank_title(me["level"]) if me else None,
+                "my_band": band,
+                "my_band_idx": BAND_ORDER.index(band) + 1 if band else 0}
 
     @app.route("/")
     def index():
