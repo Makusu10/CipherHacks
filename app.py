@@ -300,7 +300,7 @@ def create_app():
                     con.execute("""INSERT INTO progress(user_id, lesson_slug, completed, score, completed_at)
                                    VALUES(?,?,?,?,?) ON CONFLICT(user_id, lesson_slug) DO UPDATE SET
                                    completed=1, score=excluded.score, completed_at=excluded.completed_at""",
-                                (me["id"], slug, pct, datetime.utcnow().isoformat()))
+                                (me["id"], slug, 1, pct, datetime.utcnow().isoformat()))
                     con.commit()
             result = {"score": score, "total": len(quiz), "pct": pct, "passed": passed}
             me = current_user()
@@ -816,4 +816,8 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # PORT env lets multiple local apps coexist (LigtasPH :5000, CipherHacks :5001).
+    # Debug stays OFF unless explicitly enabled: debug pages leak tracebacks
+    # (and an interactive console) to anyone with the link.
+    app.run(debug=os.environ.get("FLASK_DEBUG", "") == "1",
+            port=int(os.environ.get("PORT", "5000")))

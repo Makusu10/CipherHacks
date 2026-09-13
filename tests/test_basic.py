@@ -205,3 +205,15 @@ def test_identity_chip_levels_up():
     html = c.get("/").get_data(as_text=True)
     assert 'class="btn small who recruit"' in html
     assert html.count("<i></i>") >= 1
+
+def test_logged_in_lesson_banks_xp():
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": _handle("lessonxp"), "consent": "yes"})
+    r = c.post("/lesson/passwords-2fa", data={"q0": "0", "q1": "1", "q2": "0"})
+    html = r.get_data(as_text=True)
+    assert r.status_code == 200 and "Passed: 3/3" in html
+    prof = c.get("/profile").get_data(as_text=True)
+    assert "40 XP" in prof
+    dash = c.get("/dashboard").get_data(as_text=True)
+    assert "Replay file" in dash
