@@ -6,10 +6,11 @@ typing real commands into scripted practice boxes. No real targets, no card,
 no trackers. Guests can try cards, exams, lessons, and terminals with zero
 signup; a free handle only saves XP, flags, ELO, and guilds.
 
-**You get:** 29 lessons with checkpoint gating, 40+ flashcards, exam builder,
-8 scripted terminal labs, 1v1 arena with ELO, 4 season ladders (XP, flag
-hunters, duelists, guilds), guild hall, daily streak, coins-for-hints shop,
-rank titles (Street Awake → Apex Myth), and Prestige at level 100.
+**You get:** 29 lessons with checkpoint gating, 70+ quiz + card prompts, exam
+builder, 8 scripted terminal labs, 1v1 arena with ELO, 4 season ladders (XP,
+flag hunters, duelists, guilds), guild hall, daily streak, coins-for-hints
+shop (priced by band), rank titles (Street Awake → Apex Myth), Prestige at
+level 100, and a pixel-arcade interface with hand-drawn art.
 
 ---
 
@@ -80,7 +81,8 @@ with a live terminal you can type in immediately — no account needed.
 2. **Cards:** click **Cards** → flip with mouse or `Enter`, mark
    Got / Missed. Misses pile into your weak list.
 3. **Exam:** click **Exams** → keep All bands, 10 questions → submit.
-   Score shows; nothing is saved yet.
+   Score shows; nothing is saved yet. Banked only at 70%+ with a handle —
+   fails say so plainly instead of promising XP.
 4. **Lab:** click **Labs** → `linux-basics` → run
    `cat /home/recruit/flag.txt`. You found a flag — it banks only with a
    handle (next step).
@@ -110,6 +112,10 @@ Apex 91–100. Doors need XP **plus** the previous checkpoint — grinding easy
 quizzes cannot skip you. Prestige at 100 resets to 1 with a badge + monthly
 rotator pool.
 
+Scoring is honest everywhere: lessons, exams, and checkpoints bank XP only
+at 70%+. Fail screens say “no XP banked” outright — never a reward message
+for a failing score.
+
 ## 6. Stop and restart
 
 - **Stop:** focus the server window, press `Ctrl + C`. Or close the window.
@@ -123,8 +129,10 @@ rotator pool.
 python -m pytest tests/ -q
 ```
 
-6 tests should pass: health, gating, blocked-command guard, guest-first
-access, full 1–100 ladder, game layer (ranks, cases, boards).
+10 tests should pass: health, gating, blocked-command guard, guest-first
+access, full 1–100 ladder, game layer (ranks, cases, boards), grader SEO
+checks (words, FAQ, meta, robots, sitemap), quiz radio groups, logged-in
+exam XP banking, and fail-state honesty.
 
 ## 8. Admin panel (optional)
 
@@ -162,9 +170,12 @@ data/terminal_scenarios.json  8 scripted labs, flags, hint ladders, cost multipl
 utils/leveling.py      XP curve, bands, ELO math, rank titles, case dossiers
 utils/db.py · utils/seed.py  SQLite schema + idempotent seed (lessons, demo bots)
 templates/             Pages: map, cases, cards, exams, labs, arena, ladders, guilds, legal
-static/css/style.css   Hand CSS, hoverable nav, pixel-art scene, game boards (no frameworks)
+static/css/style.css   Hand CSS, pixel arcade nav, case-file hero, quest log, game boards (no frameworks)
 static/js/             app.js (consent), pixel.js (mascot, typing teaser)
-tests/                 6 pytest checks
+static/img/            logo.svg + favicon.svg + og.png, all hand-made (no stock)
+robots/sitemap         /robots.txt + /sitemap.xml routes; JSON-LD (Organization,
+                       WebSite, Course, FAQPage) + canonical/OG tags in base.html
+tests/                 10 pytest checks
 ```
 
 ## 11. Safety, privacy, honesty (read before teaching others)
