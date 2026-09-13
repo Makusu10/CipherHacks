@@ -10,8 +10,8 @@ from flask import Flask, g, jsonify, redirect, render_template, request, session
 import config
 from utils.db import connect, init_db
 from utils.leveling import (
-    BANDS, CHECKPOINT_FOR_BAND, band_for_level, band_label,
-    elo_delta, level_from_xp,
+    BANDS, BAND_DOSSIER, CHECKPOINT_FOR_BAND, band_for_level, band_label,
+    elo_delta, level_from_xp, progress_to_next, rank_title,
 )
 
 BAND_ORDER = [b[0] for b in BANDS]
@@ -134,7 +134,9 @@ def create_app():
 
     @app.context_processor
     def inject_user():
-        return {"me": current_user(), "band_label": band_label}
+        me = current_user()
+        return {"me": me, "band_label": band_label, "rank_title": rank_title,
+                "my_rank": rank_title(me["level"]) if me else None}
 
     @app.route("/")
     def index():
@@ -197,7 +199,28 @@ def create_app():
             tree.append({"les": les, "done": les["slug"] in done, "locked": locked})
         con = get_db()
         badges = con.execute("SELECT code FROM badges WHERE user_id=?", (me["id"],)).fetchall()
-        return render_template("dashboard.html", tree=tree, badges=[b["code"] for b in badges], me=me)
+        lvl, have, need = progress_to_next(me["xp"])
+        return render_template("dashboard.html", tree=tree, badges=[b["code"] for b in badges], me=me,
+                               dossier=BAND_DOSSIER, rank=rank_title(me["level"]),
+                               prog={"have": have, "need": need,
+                                     "pct": round(100 * have / max(1, need))})
+
+    @app.route("/missions")
+    def missions():
+        con = get_db()
+        lessons = con.execute("SELECT slug, band, title, xp_reward FROM lessons ORDER BY id").fetchall()
+        me = current_user()
+        done = completed_slugs(me["id"]) if me else set()
+        cases = []
+        for slug, lo, hi, label in BANDS:
+            title, brief = BAND_DOSSIER[slug]
+            items = [dict(l) for l in lessons if l["band"] == slug]
+            for it in items:
+                it["done"] = it["slug"] in done
+                it["locked"] = bool(me and not can_access_band(me["id"], slug)) if slug != "recruit" else False
+            cases.append({"band": slug, "label": label, "lo": lo, "hi": hi,
+                          "title": title, "brief": brief, "items": items})
+        return render_template("missions.html", cases=cases, me=me)
 
     @app.route("/lesson/<slug>", methods=["GET", "POST"])
     def lesson(slug):
@@ -495,10 +518,18 @@ def create_app():
         guilds = db.execute("""SELECT g.name, COALESCE(SUM(u.xp),0) xp, COUNT(m.user_id) members
                                FROM guilds g LEFT JOIN guild_members m ON m.guild_id=g.id
                                LEFT JOIN users u ON u.id=m.user_id GROUP BY g.id ORDER BY xp DESC LIMIT 10""").fetchall()
+        hunters = db.execute("""SELECT u.username, COUNT(f.lab_id) flags, u.xp FROM flags f
+                                JOIN users u ON u.id=f.user_id GROUP BY f.user_id
+                                ORDER BY flags DESC, u.xp DESC LIMIT 10""").fetchall()
+        duelists = db.execute("""SELECT u.username, COUNT(b.id) bouts, AVG(b.user_score) avg,
+                                 SUM(CASE WHEN b.user_score > b.opp_score THEN 1 ELSE 0 END) wins
+                                 FROM battles b JOIN users u ON u.id=b.user_id GROUP BY b.user_id
+                                 ORDER BY wins DESC, bouts DESC LIMIT 10""").fetchall()
         season = date.today().strftime("%Y-%m")
         if db is not connect:
             pass
-        return render_template("leaderboards.html", top=top, guilds=guilds, season=season)
+        return render_template("leaderboards.html", top=top, guilds=guilds, season=season,
+                               hunters=hunters, duelists=duelists)
 
     @app.route("/profile", methods=["GET", "POST"])
     @login_required

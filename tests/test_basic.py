@@ -87,3 +87,15 @@ def test_full_ladder():
     h1 = c.post("/api/hint", json={"lab_id": "linux-basics", "tier": 0}).get_json()
     h2 = c.post("/api/hint", json={"lab_id": "ssrf-sim", "tier": 0}).get_json()
     assert h1["cost"] == 5 and h2["cost"] > h1["cost"]
+
+def test_game_layer():
+    from utils.leveling import rank_title, BAND_DOSSIER
+    assert rank_title(1) == "Street Awake"
+    assert rank_title(100) == "Apex Myth"
+    assert set(BAND_DOSSIER) == {"recruit", "operator", "analyst", "specialist", "redteam", "apex"}
+    app = create_app()
+    c = app.test_client()
+    assert c.get("/missions").status_code == 200
+    assert "Case 01" in c.get("/missions").get_data(as_text=True)
+    lb = c.get("/leaderboards").get_data(as_text=True)
+    assert "Flag hunters" in lb and "Duelists" in lb

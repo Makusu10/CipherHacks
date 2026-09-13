@@ -45,6 +45,27 @@ main{max-width:1120px;margin:0 auto;padding:1.2rem 1rem 4rem}
 .card.lift:hover svg{animation:wig .4s steps(2)}
 @keyframes wig{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){.card.lift:hover{transform:none}.card.lift:hover svg{animation:none}}
+/* ---- game layer: map, dossiers, versus, banners ---- */
+.rankbar{background:linear-gradient(180deg,rgba(60,245,165,.06),transparent),var(--panel)}
+.xpbar{height:12px;border:1px solid var(--line);border-radius:99px;background:#0a1220;overflow:hidden}
+.xpbar span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .4s}
+.bandhead{margin:1.4rem 0 .2rem}
+.bandhead h2{margin:.15rem 0;font-size:1.35rem}
+.mapline{height:2px;background:repeating-linear-gradient(90deg,var(--green) 0 8px,transparent 8px 16px);opacity:.5;margin:.2rem 0 .8rem}
+.mapnode{display:flex;gap:.8rem;border:1px solid var(--line);border-radius:12px;padding:.8rem;background:var(--panel2);margin:.55rem 0;position:relative}
+.mapnode.done{border-color:var(--green)}
+.mapnode.locked{opacity:.66}
+.mapdot{font-size:1.3rem;color:var(--green);line-height:1.4}
+.mapnode.locked .mapdot{color:var(--muted)}
+.dossier{border-left:4px solid var(--green)}
+.case-list{margin:.5rem 0;padding-left:1.2rem}
+.case-list li{margin:.3rem 0}
+.versus{display:flex;align-items:center;gap:1rem;justify-content:space-between;text-align:center}
+.vside b{display:block;font-size:1.2rem}
+.vs{font-size:1.6rem;color:var(--amber);border:2px solid var(--amber);border-radius:12px;padding:.3rem .8rem}
+.banner{background:linear-gradient(135deg,rgba(255,209,102,.12),transparent),var(--panel);border-color:var(--amber)}
+.labcard{position:relative}
+.labcard::after{content:"SIM";position:absolute;top:.7rem;right:.7rem;font-size:.7rem;letter-spacing:1px;color:var(--amber);border:1px solid var(--amber);border-radius:6px;padding:.1rem .4rem}
 .kicker{color:var(--green);text-transform:uppercase;letter-spacing:1.6px;font-size:.76rem;font-weight:800}
 .muted{color:var(--muted)}
 .grid{display:grid;gap:.9rem}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Case files — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Narrative wrapper · six cases, one city</p>
+<h1>Case files</h1>
+<p class="muted">Every lesson is a mission inside a case. Work top to bottom: XP opens the door, the checkpoint stamps the file. {% if not me %}Guests can read everything — <a href="/signup">claim a handle</a> to bank XP.{% endif %}</p>
+{% for c in cases %}
+<div class="card dossier">
+<p class="kicker">{{ c.label }} · Lv {{ c.lo }}–{{ c.hi }}</p>
+<h2 style="margin:.2rem 0">{{ c.title }}</h2>
+<p>{{ c.brief }}</p>
+<ol class="case-list">
+{% for it in c.items %}
+<li>{% if it.done %}✅{% elif it.locked %}🔒{% else %}▫️{% endif %}
+<a href="/lesson/{{ it.slug }}">{{ it.title }}</a>
+<span class="tag">+{{ it.xp_reward }} XP{% if 'checkpoint' in it.slug %} · checkpoint{% endif %}</span></li>
+{% endfor %}
+</ol>
+</div>
+{% endfor %}
+{% endblock %}

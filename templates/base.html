@@ -13,6 +13,7 @@
 <nav class="nav" aria-label="Primary">
 <a class="brand mono" href="/" aria-label="CipherHacks home">cipher<span>hacks</span></a>
 <a class="btn small" href="/dashboard">Tree</a>
+<a class="btn small" href="/missions">Cases</a>
 <a class="btn small" href="/flashcards">Cards</a>
 <a class="btn small" href="/exams">Exams</a>
 <a class="btn small" href="/labs">Labs</a>
@@ -21,7 +22,7 @@
 <a class="btn small" href="/guilds">Guilds</a>
 <a class="btn small" href="/daily">Daily</a>
 {% if me %}
-<a class="btn small" href="/profile">{{ me['username'] }} · Lv{{ me['level'] }}</a>
+<a class="btn small" href="/profile" title="{{ my_rank }}">{{ me['username'] }} · {{ my_rank }} · Lv{{ me['level'] }}</a>
 <form class="inline" method="post" action="/logout"><button class="btn small ghost" type="submit">Log out</button></form>
 {% else %}
 <a class="btn small primary" href="/signup">Start practicing</a>

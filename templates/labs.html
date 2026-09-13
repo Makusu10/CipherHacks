@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Labs — CipherHacks{% endblock %}
 {% block content %}
-<p class="kicker">Scripted terminal · fictional boxes</p>
-<h1>Labs</h1>
-<p class="muted">These boxes are pretend. Commands run against fixed scripts — no containers yet, no real network. If a command mentions a real host, it gets blocked.</p>
+<p class="kicker">Simulated terminal · sandboxed fiction, no real network</p>
+<h1>Practice boxes</h1>
+<p class="muted">Type real commands — the box answers from a fixed script. No containers yet, no live hosts; anything aimed at a real address gets blocked. Flags are <span class="mono">flag{...}</span>, async by design: solve anytime, climb the <a href="/leaderboards">flag board</a>.{% if not me %} Guests can run every box — <a href="/signup">claim a handle</a> to bank flags.{% endif %}</p>
 <div class="grid three">
 {% for id, s in scenarios.items() %}
-<div class="card"><h3>{{ s.title }}</h3><p class="muted">{{ s.intro }}</p><p><a class="btn small primary" href="/lab/{{ id }}">Open {{ id }}</a></p></div>
+<div class="card lift labcard">
+<p><span class="pill">{{ s.title.split('(')[1].replace(')', '') if '(' in s.title else 'box' }}</span><span class="pill">hints ×{{ s.cost_mult }}</span></p>
+<h3 style="margin:.3rem 0">{{ s.title }}</h3>
+<p class="muted">{{ s.intro }}</p>
+<p class="mono tag">$ {{ 'scan 10.13.0.5' if id=='scan-sim' else ('crack --wordlist words.txt hash.txt' if id=='hash-drill' else ('sudo -l' if id=='privesc-sim' else ('list-buckets' if id=='cloud-sim' else ('grep FAIL auth.log' if id=='logs-sim' else 'ls -la')))) }}</p>
+<p><a class="btn small primary" href="/lab/{{ id }}">Jack in →</a></p>
+</div>
 {% endfor %}
 </div>
+<p class="tag">Honest scope: scripted outputs today, ephemeral containers later. Nothing here touches a real network.</p>
 {% endblock %}

@@ -1,27 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — CipherHacks{% endblock %}
+{% block title %}Skill map — CipherHacks{% endblock %}
 {% block content %}
-<p class="kicker">Skill tree · free track</p>
-<h1>Your map, {{ me['username'] }}</h1>
+<p class="kicker">Character map · level unlocks material, not just titles</p>
+<h1>{{ me['username'] }} <span class="muted">· {{ rank }}</span></h1>
+<div class="card rankbar">
 <div class="statrow">
 <div class="stat"><b>Lv {{ me['level'] }}</b><span class="muted">{{ me['xp'] }} XP</span></div>
-<div class="stat"><b>{{ me['coins'] }}</b><span class="muted">coins for hints</span></div>
+<div class="stat"><b>{{ me['coins'] }}</b><span class="muted">coins</span></div>
 <div class="stat"><b>{{ me['elo'] }}</b><span class="muted">arena ELO</span></div>
 <div class="stat"><b>{{ me['streak'] }}d</b><span class="muted">streak</span></div>
 </div>
-<p class="muted">Next bands need checkpoints, not just XP. Quick lane: <a href="/flashcards">cards</a> → <a href="/exams">exam</a> → <a href="/labs">lab</a> → <a href="/arena">duel</a>.</p>
+<p class="muted">Next level: {{ prog.have }}/{{ prog.need }} XP</p>
+<div class="xpbar" role="progressbar" aria-valuenow="{{ prog.pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Progress to next level"><span style="width:{{ prog.pct }}%"></span></div>
 <div class="badge-wall">{% for b in badges %}<span class="pill">{{ b }}</span>{% else %}<span class="muted">No badges yet — clear a lesson.</span>{% endfor %}</div>
-<div class="tree">
+</div>
+<p class="muted">Quick lane: <a href="/missions">cases</a> → <a href="/flashcards">cards</a> → <a href="/exams">exam</a> → <a href="/labs">lab</a> → <a href="/arena">duel</a>.</p>
+{% set ns = namespace(band='') %}
 {% for t in tree %}
-<div class="node {% if t.done %}done{% endif %} {% if t.locked %}locked{% endif %}">
-<p><span class="pill {{ t.les['band'] }}">{{ t.les['band'] }}</span> {% if t.les['is_checkpoint'] %}<span class="pill">checkpoint</span>{% endif %}</p>
-<h3 style="margin:.3rem 0">{{ t.les['title'] }}</h3>
+{% if t.les['band'] != ns.band %}
+{% set ns.band = t.les['band'] %}
+<div class="bandhead">
+<p class="kicker">{{ band_label(ns.band) }}</p>
+<h2>{{ dossier[ns.band][0] }}</h2>
+<p class="muted">{{ dossier[ns.band][1] }}</p>
+</div>
+<div class="mapline" aria-hidden="true"></div>
+{% endif %}
+<div class="mapnode {% if t.done %}done{% endif %} {% if t.locked %}locked{% endif %}">
+<span class="mapdot">{% if t.done %}●{% elif t.locked %}■{% else %}○{% endif %}</span>
+<div>
+<p><span class="pill {{ t.les['band'] }}">{{ t.les['band'] }}</span>{% if t.les['is_checkpoint'] %}<span class="pill">checkpoint</span>{% endif %}</p>
+<h3 style="margin:.2rem 0">{{ t.les['title'] }}</h3>
 <p class="tag">+{{ t.les['xp_reward'] }} XP · +{{ t.les['coins_reward'] }} coins</p>
-{% if t.locked %}<p class="muted">Locked — clear the earlier checkpoint.</p>
-{% elif t.done %}<p><a class="btn small" href="/lesson/{{ t.les['slug'] }}">Review</a> · done</p>
-{% else %}<p><a class="btn small primary" href="/lesson/{{ t.les['slug'] }}">Open lesson</a></p>{% endif %}
+{% if t.locked %}<p class="muted">Sealed — clear the earlier checkpoint.</p>
+{% elif t.done %}<p><a class="btn small" href="/lesson/{{ t.les['slug'] }}">Replay file</a> · closed</p>
+{% else %}<p><a class="btn small primary" href="/lesson/{{ t.les['slug'] }}">Open file</a></p>{% endif %}
+</div>
 </div>
 {% endfor %}
-</div>
-<div class="card"><h3>How the ladder works</h3><p class="muted">Recruit is quiz-only — no terminal until Operator. Each band runs ~2x deeper than the last: longer chains, less hand-holding, pricier hints (Analyst 1.5x, Specialist 2x, Red/Apex 2.5x). Band doors need XP <em>plus</em> the previous checkpoint — grinding easy quizzes can't skip you ahead. Prestige unlocks at 100 with a monthly rotator pool.</p><p><a class="btn small" href="/labs">Try the labs</a> <a class="btn small" href="/daily">Today's daily</a></p></div>
+<div class="card"><h3>Prestige</h3><p class="muted">Lv 100 opens the reset: back to 1 with a permanent badge plus the monthly rotator pool, so myths never idle. <a href="/profile">Profile</a> holds the button.</p></div>
 {% endblock %}

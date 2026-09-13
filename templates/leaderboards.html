@@ -1,15 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Ranks — CipherHacks{% endblock %}
+{% block title %}Ladders — CipherHacks{% endblock %}
 {% block content %}
-<p class="kicker">Season {{ season }} · resets monthly</p>
-<h1>Leaderboards</h1>
-<p class="muted">Sorted by XP. Two demo bots sit low so you can see movement honestly — they are labeled _bot.</p>
-<div class="grid two">
-<div class="card"><h3>Global</h3><table><thead><tr><th>#</th><th>Handle</th><th>XP</th><th>Lv</th><th>ELO</th></tr></thead><tbody>
-{% for r in top %}<tr><td>{{ loop.index }}</td><td class="mono">{{ r['username'] }}</td><td>{{ r['xp'] }}</td><td>{{ r['level'] }}</td><td>{{ r['elo'] }}</td></tr>{% endfor %}
-</tbody></table></div>
-<div class="card"><h3>Guilds</h3><table><thead><tr><th>#</th><th>Guild</th><th>Members</th><th>XP</th></tr></thead><tbody>
-{% for g in guilds %}<tr><td>{{ loop.index }}</td><td>{{ g['name'] }}</td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">No guilds yet. Start one.</td></tr>{% endfor %}
-</tbody></table><p><a class="btn small" href="/guilds">Guild hall</a></p></div>
+<p class="kicker">Season {{ season }} · monthly reset · newcomers welcome</p>
+<h1>Season ladders</h1>
+<p class="muted">Four boards, four games: XP grind, async flag hunt, duel wins, crew wars. Demo bots sit low and labeled — honest movement, no 2019 fossils on top.</p>
+<div class="tabs" role="tablist" aria-label="Ladders">
+<button class="btn small primary" data-lb="b1" type="button">XP</button>
+<button class="btn small" data-lb="b2" type="button">Flag hunters</button>
+<button class="btn small" data-lb="b3" type="button">Duelists</button>
+<button class="btn small" data-lb="b4" type="button">Guilds</button>
 </div>
+<div class="card" id="b1"><h3>Global XP</h3><table><thead><tr><th>#</th><th>Handle</th><th>XP</th><th>Lv</th><th>ELO</th></tr></thead><tbody>
+{% for r in top %}<tr><td>{% if loop.index==1 %}🥇{% elif loop.index==2 %}🥈{% elif loop.index==3 %}🥉{% else %}{{ loop.index }}{% endif %}</td><td class="mono">{{ r['username'] }}</td><td>{{ r['xp'] }}</td><td>{{ r['level'] }}</td><td>{{ r['elo'] }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="card" id="b2" hidden><h3>Async CTF — flag hunters</h3><p class="muted">Solve lab boxes anytime; every <span class="mono">flag{...}</span> counts here, win or lose the season.</p><table><thead><tr><th>#</th><th>Hunter</th><th>Flags</th><th>XP</th></tr></thead><tbody>
+{% for h in hunters %}<tr><td>{{ loop.index }}</td><td class="mono">{{ h['username'] }}</td><td>{{ h['flags'] }}</td><td>{{ h['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">No flags banked yet. <a href="/labs">Boxes are open</a>.</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="card" id="b3" hidden><h3>Duelists — arena wins</h3><table><thead><tr><th>#</th><th>Fighter</th><th>Bouts</th><th>Wins</th><th>Avg</th></tr></thead><tbody>
+{% for d in duelists %}<tr><td>{{ loop.index }}</td><td class="mono">{{ d['username'] }}</td><td>{{ d['bouts'] }}</td><td>{{ d['wins'] }}</td><td>{{ "%.1f"|format(d['avg'] or 0) }}</td></tr>{% else %}<tr><td colspan="5" class="muted">No duels yet. <a href="/arena">Warm up vs the bot</a>.</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="card" id="b4" hidden><h3>Guild wars</h3><table><thead><tr><th>#</th><th>Guild</th><th>Members</th><th>XP</th></tr></thead><tbody>
+{% for g in guilds %}<tr><td>{{ loop.index }}</td><td>{{ g['name'] }}</td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">No guilds yet. <a href="/guilds">Raise a banner</a>.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("[data-lb]").forEach(function(b){b.addEventListener("click",function(){
+document.querySelectorAll("[data-lb]").forEach(function(x){x.classList.remove("primary")});
+b.classList.add("primary");["b1","b2","b3","b4"].forEach(function(id){document.getElementById(id).hidden=(id!==b.dataset.lb)});});});
+</script>
 {% endblock %}

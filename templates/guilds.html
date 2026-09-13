@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Guilds — CipherHacks{% endblock %}
 {% block content %}
+<p class="kicker">Crews · pooled XP · season glory</p>
 <h1>Guild hall</h1>
 {% if msg %}<div class="ok" role="status">{{ msg }}</div>{% endif %}
-<p class="muted">{% if mine %}You fight for <strong>{{ mine }}</strong>.{% else %}No guild yet.{% endif %}</p>
+{% if mine %}<div class="card banner"><h2 style="margin:0">⚔ {{ mine }}</h2><p class="muted">You fight under this banner. Wins pool into the season board.</p></div>
+{% else %}<p class="muted">Guildless. Found a crew or swear to one — standings below are season-pooled XP.</p>{% endif %}
 <div class="grid two">
 <div class="card"><h3>Form or join</h3>
-<form method="post"><label class="fl" for="name">Guild name</label><input id="name" name="name" type="text" maxlength="32" required placeholder="packet-pirates"><label class="fl" for="motto">Motto (optional)</label><input id="motto" name="motto" type="text" maxlength="120" placeholder="Slow scans, clean notes."><p><button class="btn small primary" name="action" value="create" type="submit">Create guild</button> <button class="btn small" name="action" value="join" type="submit">Join by name</button></p></form>
-{% if mine %}<form method="post"><button class="btn small ghost" name="action" value="leave" type="submit">Leave guild</button></form>{% endif %}</div>
-<div class="card"><h3>Standings</h3><table><thead><tr><th>Guild</th><th>Motto</th><th>Members</th><th>XP</th></tr></thead><tbody>
-{% for g in guilds %}<tr><td>{{ g['name'] }}</td><td class="muted">{{ g['motto'] }}</td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">Empty hall.</td></tr>{% endfor %}
+<form method="post"><label class="fl" for="name">Guild name</label><input id="name" name="name" type="text" maxlength="32" required placeholder="packet-pirates"><label class="fl" for="motto">War-cry / motto (optional)</label><input id="motto" name="motto" type="text" maxlength="120" placeholder="Slow scans, clean notes."><p><button class="btn small primary" name="action" value="create" type="submit">Raise banner</button> <button class="btn small" name="action" value="join" type="submit">Swear allegiance</button></p></form>
+{% if mine %}<form method="post"><button class="btn small ghost" name="action" value="leave" type="submit">Break oath (leave)</button></form>{% endif %}</div>
+<div class="card"><h3>Season standings</h3><table><thead><tr><th>#</th><th>Banner</th><th>Crew</th><th>XP</th></tr></thead><tbody>
+{% for g in guilds %}<tr><td>{% if loop.index==1 %}🥇{% elif loop.index==2 %}🥈{% elif loop.index==3 %}🥉{% else %}{{ loop.index }}{% endif %}</td><td><strong>{{ g['name'] }}</strong><br><span class="muted">{{ g['motto'] }}</span></td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">Empty hall. First banner gets the top seat free.</td></tr>{% endfor %}
 </tbody></table></div>
 </div>
 {% endblock %}
