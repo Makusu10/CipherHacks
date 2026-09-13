@@ -3,7 +3,7 @@
     "slug": "passwords-2fa",
     "band": "recruit",
     "title": "Passwords that hold + 2FA that helps",
-    "body": "A password manager plus a second factor beats memorized cleverness. Pick one manager, turn on app-based 2FA for email first, then bank and school accounts. Write down backup codes on paper. This lesson sticks to habits you can do tonight on your own accounts — nothing to scan, nothing to probe.",
+    "body": "A password manager plus a second factor beats memorized cleverness. Pick one manager, turn on app-based 2FA for email first, then bank and school accounts. Write down backup codes on paper. Quiz and flashcards only in Recruit — no terminal in this band by design.",
     "xp_reward": 40,
     "coins_reward": 10,
     "quiz": [
@@ -40,7 +40,7 @@
     "slug": "recruit-checkpoint",
     "band": "recruit",
     "title": "Recruit checkpoint",
-    "body": "Short gate before Operator. You need 3 of 4 to pass. No terminal yet — that unlocks after this.",
+    "body": "Gate before Operator. Pass at 70% to unlock the terminal band. No terminal questions here — that starts at level 11.",
     "xp_reward": 60,
     "coins_reward": 15,
     "is_checkpoint": true,
@@ -52,10 +52,23 @@
     ]
   },
   {
+    "slug": "osi-tcpip",
+    "band": "operator",
+    "title": "OSI and TCP/IP without tears",
+    "body": "Seven OSI layers, four TCP/IP layers — but you only need the working map: Link gets frames to neighbors, Internet (IP) routes packets, Transport (TCP/UDP) orders or fires, Application (HTTP/DNS/SSH) talks. When a lab says '80/tcp open', read it as: IP reachable, TCP handshake worked, something answers HTTP. Twice the depth of Recruit: names plus reading outputs.",
+    "xp_reward": 60,
+    "coins_reward": 15,
+    "quiz": [
+      {"q": "TCP vs UDP in one line?", "choices": ["TCP orders and retries, UDP fires and forgets", "UDP is always encrypted", "TCP has no ports"], "answer": 0},
+      {"q": "An IP address lives at which layer?", "choices": ["Internet / Network", "Physical cable", "Application menus"], "answer": 0},
+      {"q": "'80/tcp open' means?", "choices": ["Something answers HTTP over TCP", "The machine is off", "Wi-Fi password found"], "answer": 0}
+    ]
+  },
+  {
     "slug": "linux-first-steps",
     "band": "operator",
     "title": "Linux: ls, cd, cat without fear",
-    "body": "Open the practice terminal in the Lab page. Try pwd, ls, ls -la, cat readme.txt. Flags look like flag{...}. Everything here runs against a fake machine we ship — don't try these scans or logins on real school or cafe networks.",
+    "body": "First terminal band. Open the linux-basics lab: pwd, ls, ls -la, cat readme.txt, cat /home/recruit/flag.txt. Guided and fully scripted — every command has one right place to run. Everything here runs against a fake machine we ship.",
     "xp_reward": 60,
     "coins_reward": 15,
     "quiz": [
@@ -67,7 +80,7 @@
     "slug": "ports-protocols",
     "band": "operator",
     "title": "Ports and protocols you will actually meet",
-    "body": "IP gets packets to the machine, TCP keeps them ordered, UDP fires and forgets. Common doors: 22 SSH, 53 DNS, 80 HTTP, 443 HTTPS, 3306 MySQL. The scan-sim lab pretends to knock on these so you learn reading output, not touching real hosts.",
+    "body": "Common doors: 22 SSH, 53 DNS, 80 HTTP, 443 HTTPS, 3306 MySQL. The scan-sim lab pretends to knock on these so you learn reading output, not touching real hosts. Pair with the OSI lesson: port numbers belong to Transport, service names to Application.",
     "xp_reward": 60,
     "coins_reward": 15,
     "quiz": [
@@ -79,19 +92,20 @@
     "slug": "perms-scripting",
     "band": "operator",
     "title": "Permissions and tiny scripts",
-    "body": "rwx for user, group, other. chmod +x makes a script runnable. A three-line bash loop beats clicking 50 times. The lab asks you to read a permission string and run one safe local script — still inside our sandbox.",
-    "xp_reward": 60,
-    "coins_reward": 15,
+    "body": "rwx for user, group, other. chmod +x makes a script runnable. A three-line bash loop beats clicking 50 times; a five-line Python loop beats bash for text. The lab asks you to read one permission string and run one safe local script — still inside our sandbox.",
+    "xp_reward": 65,
+    "coins_reward": 16,
     "quiz": [
       {"q": "What does rwx mean?", "choices": ["read, write, execute", "run, wait, exit", "root, wheel, xfer"], "answer": 0},
-      {"q": "chmod +x does what?", "choices": ["Makes a file executable", "Deletes a file", "Encrypts a file"], "answer": 0}
+      {"q": "chmod +x does what?", "choices": ["Makes a file executable", "Deletes a file", "Encrypts a file"], "answer": 0},
+      {"q": "Scripting pays off when?", "choices": ["Repeating a safe check many times", "Guessing someone's password", "Scanning a real campus"], "answer": 0}
     ]
   },
   {
     "slug": "operator-checkpoint",
     "band": "operator",
     "title": "Operator checkpoint + terminal gate",
-    "body": "Pass this plus the linux-basics lab flag to reach Analyst. Hints now cost coins.",
+    "body": "Pass this plus the linux-basics lab flag to reach Analyst. From here hints cost coins and hand-holding drops.",
     "xp_reward": 80,
     "coins_reward": 20,
     "is_checkpoint": true,
@@ -105,7 +119,7 @@
     "slug": "osint-footprinting",
     "band": "analyst",
     "title": "OSINT without stalking",
-    "body": "Practice on our fictional company 'Alon Freight'. Check the fake site map, staff page, and DNS-style records we provide in the lab. Lesson: collect what's public, write down sources, stop before contact or intrusion. Real people are off limits.",
+    "body": "Practice on fictional 'Alon Freight'. Check the fake site map, staff page, and DNS-style records in the lab. Collect what's public, write source + date per fact, stop before contact or intrusion. Real people and real companies are off limits — this habit is what separates analysts from stalkers.",
     "xp_reward": 70,
     "coins_reward": 18,
     "quiz": [
@@ -114,29 +128,239 @@
     ]
   },
   {
+    "slug": "enum-scanning",
+    "band": "analyst",
+    "title": "Enumeration and reading scan output",
+    "body": "Enumeration turns one address into a list: hostnames, ports, services, versions. The scan-sim lab fakes an nmap-style table — your job is reading, not running: which ports are open, what service that suggests, what to probe next. Hints here cost 1.5x Operator prices because the answers are longer.",
+    "xp_reward": 75,
+    "coins_reward": 18,
+    "quiz": [
+      {"q": "Enumeration comes after?", "choices": ["Basic recon / footprinting", "Deleting logs", "Cracking hashes"], "answer": 0},
+      {"q": "22/tcp open suggests?", "choices": ["SSH may answer", "Webmail is running", "DNS is broken"], "answer": 0},
+      {"q": "Next step after finding 80/tcp open on the practice box?", "choices": ["Probe the web app we ship", "Scan the school network", "Try default passwords on real routers"], "answer": 0}
+    ]
+  },
+  {
     "slug": "owasp-sqli-xss",
     "band": "analyst",
     "title": "SQL injection and XSS, safely demoed",
-    "body": "A login form that builds SQL by gluing strings breaks when you type ' OR '1'='1. A comment box that echoes raw HTML lets scripts run. Our practice app shows both with the database reset button. Never test this on real sites — use only the lab we ship.",
+    "body": "A login form that builds SQL by gluing strings breaks on ' OR '1'='1. A comment box echoing raw HTML lets scripts run. Our practice app shows both with a reset button, plus the fix side: parameterized queries, output escaping, CSP. Never test this on real sites — lab only.",
     "xp_reward": 80,
     "coins_reward": 20,
     "quiz": [
-      {"q": "The root cause of classic SQLi?", "choices": ["String-built queries without parameters", "Passwords too short", "Wi-Fi signal weak"], "answer": 0},
-      {"q": "Stored XSS lands where?", "choices": ["Saved then shown to others without escaping", "Only in server logs nobody reads", "Only in encrypted backups"], "answer": 0}
+      {"q": "Root cause of classic SQLi?", "choices": ["String-built queries without parameters", "Passwords too short", "Wi-Fi signal weak"], "answer": 0},
+      {"q": "Stored XSS lands where?", "choices": ["Saved then shown to others without escaping", "Only in encrypted backups", "Only in server RAM"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "csrf-practice-app",
+    "band": "analyst",
+    "title": "CSRF and the practice app",
+    "body": "Cross-Site Request Forgery rides your logged-in session: a malicious page triggers an action you didn't mean. Defense is SameSite cookies, anti-CSRF tokens, and checking intent on state-changing requests. The practice app demos a forged 'change email' request and its token fix. Roughly double the Operator depth: now you chain request, session, and defense.",
+    "xp_reward": 80,
+    "coins_reward": 20,
+    "quiz": [
+      {"q": "CSRF abuses what?", "choices": ["Your live session on another site", "Your password length", "Your screen brightness"], "answer": 0},
+      {"q": "Standard CSRF fix?", "choices": ["Anti-CSRF token + SameSite cookies", "Hiding all buttons", "Longer page titles"], "answer": 0}
     ]
   },
   {
     "slug": "analyst-checkpoint",
     "band": "analyst",
     "title": "Analyst checkpoint",
-    "body": "Gate to Specialist. Requires the scan-sim flag plus this quiz.",
+    "body": "Gate to Specialist. Requires the scan-sim flag plus this quiz. Specialist is where PBQ-style recall stops being enough — multi-step boxes start.",
     "xp_reward": 90,
     "coins_reward": 22,
     "is_checkpoint": true,
     "quiz": [
-      {"q": "Simulated nmap shows 80/tcp open. That usually means?", "choices": ["A web server may be there", "The machine is off", "Email is running"], "answer": 0},
+      {"q": "Simulated scan shows 80/tcp open. That usually means?", "choices": ["A web server may be there", "The machine is off", "Email is running"], "answer": 0},
       {"q": "Fix for SQLi?", "choices": ["Parameterized queries", "Hiding the login page", "Longer HTML"], "answer": 0},
       {"q": "Fix for reflected XSS?", "choices": ["Output escaping + CSP", "Faster internet", "More cookies"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "privesc-concepts",
+    "band": "specialist",
+    "title": "Privilege escalation, concept-first",
+    "body": "Getting a foothold is step one; misconfigurations decide step two: world-writable scripts, stray sudo rules, weak service permissions. The privesc-sim lab gives a fake sudo -l readout and three files — you read, pick the intended path, and submit the flag. No real systems, no kernel exploits, just the habit of checking config before cleverness.",
+    "xp_reward": 110,
+    "coins_reward": 26,
+    "quiz": [
+      {"q": "First privesc check on a Linux box?", "choices": ["sudo -l, file perms, cron jobs", "Reboot immediately", "Delete auth logs"], "answer": 0},
+      {"q": "Most suspicious finding?", "choices": ["World-writable script run by root", "A readme.txt you can read", "A strong root password"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "hash-cracking-drills",
+    "band": "specialist",
+    "title": "Hashes, salts, and wordlists",
+    "body": "MD5/SHA are fast fingerprints, bcrypt/argon2 are slow on purpose. Salts stop rainbow tables; pepper and cost factors slow brute force. The hash-drill lab hands a known MD5 plus a 4-word list — crack it, then answer why the same trick fails on salted bcrypt. Double Analyst depth: mechanism plus why the easy path dies.",
+    "xp_reward": 110,
+    "coins_reward": 26,
+    "quiz": [
+      {"q": "Why salt passwords?", "choices": ["Identical passwords get different hashes", "To make login faster", "To skip hashing"], "answer": 0},
+      {"q": "Best long-term storage?", "choices": ["bcrypt/argon2 with salt", "Plain MD5", "Base64 of password"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "bof-sandbox",
+    "band": "specialist",
+    "title": "Stack overflows, safely caged",
+    "body": "A fixed-size buffer plus unchecked input overwrites the return address — that is the whole bug in one sentence. The bof-sim lab runs a fake vulnerable program: feed it lengths, watch the offset report, find EIP control without any shellcode, then answer how canaries, ASLR, and NX break the real version. Concept + mitigation, no weaponized payload.",
+    "xp_reward": 120,
+    "coins_reward": 28,
+    "quiz": [
+      {"q": "A stack overflow overwrites?", "choices": ["Adjacent stack data, possibly the return address", "The monitor brightness", "DNS records"], "answer": 0},
+      {"q": "Which mitigation randomizes memory layout?", "choices": ["ASLR", "CAPS LOCK", "HTTP"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "ad-paths",
+    "band": "specialist",
+    "title": "Active Directory paths, mapped not run",
+    "body": "AD attacks are graph problems: users → groups → privileges → Domain Admin. Kerberoasting, AS-REP roasting, and token theft abuse real protocol edges. Our lesson is map-reading on a drawn fictional domain — find the shortest path, name the fix (strong passwords, no pre-auth disabled, tiered admins). You never touch a real domain here.",
+    "xp_reward": 120,
+    "coins_reward": 28,
+    "quiz": [
+      {"q": "AD attack paths are best seen as?", "choices": ["A graph of trust edges", "A single password", "A Wi-Fi signal"], "answer": 0},
+      {"q": "Kerberoasting targets?", "choices": ["Weak service-account passwords via tickets", "Printer ink levels", "Browser history"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "wifi-basics",
+    "band": "specialist",
+    "title": "Wireless basics, hands off neighbors",
+    "body": "WPA2/WPA3 handshakes, evil twins, and why open cafe Wi-Fi plus no VPN leaks. No capturing, no deauth — the lesson is reading a sanitized handshake diagram and picking defenses: WPA3, strong PSK, VPN on open nets, forgetting hostile SSIDs. Touching neighbor networks stays out of bounds everywhere on this site.",
+    "xp_reward": 100,
+    "coins_reward": 24,
+    "quiz": [
+      {"q": "Safest on open cafe Wi-Fi?", "choices": ["VPN + HTTPS, forget the net after", "Online banking quickly", "File sharing on"], "answer": 0},
+      {"q": "An 'evil twin' is?", "choices": ["A fake AP copying a legit name", "A faster router brand", "A VPN protocol"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "specialist-checkpoint",
+    "band": "specialist",
+    "title": "Specialist checkpoint",
+    "body": "Gate to Red Team. Quiz gate at 70% plus XP; bring hash-drill and privesc-sim flags as proof of practice. This is the wall PBQ-only study can't climb — multi-step chaining starts next.",
+    "xp_reward": 130,
+    "coins_reward": 30,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "Privesc habit?", "choices": ["Enumerate config before exploits", "Run random kernel exploits", "Wipe logs first"], "answer": 0},
+      {"q": "Salt + slow hash gives?", "choices": ["Unique, expensive guesses", "Plaintext backup", "Faster login"], "answer": 0},
+      {"q": "AD fix that kills many paths?", "choices": ["Strong service passwords + tiered admins", "More printers", "Longer monitor cables"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "mitre-chains",
+    "band": "redteam",
+    "title": "Chained attacks, MITRE-style",
+    "body": "Real intrusions chain: recon → initial access → execution → persistence → privilege escalation → defense evasion → collection → exfiltration. Map each lab step you already did onto ATT&CK tactics, then plan a fictional 4-stage chain in the worksheet. Double Specialist depth: single boxes become campaigns with detection points at every hop.",
+    "xp_reward": 150,
+    "coins_reward": 34,
+    "quiz": [
+      {"q": "ATT&CK tactics order (early → late)?", "choices": ["Recon, access, execution, persistence, collection, exfil", "Exfil, recon, access", "Persistence only"], "answer": 0},
+      {"q": "Why map detections per hop?", "choices": ["One missed hop still catches the chain", "To slow attackers politely", "For longer reports"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "ssrf-deser",
+    "band": "redteam",
+    "title": "SSRF and deserialization, caged",
+    "body": "SSRF tricks a server into fetching internal URLs; unsafe deserialization turns crafted data into code. The ssrf-sim lab gives a fake fetcher with an allowlist off by one character — find the bypass path, read the metadata-style file, submit the flag, then write the fix (allowlist, no internal fetches, signed serializers). Fictional fetcher only.",
+    "xp_reward": 160,
+    "coins_reward": 36,
+    "quiz": [
+      {"q": "SSRF in one line?", "choices": ["Server fetched an attacker-chosen URL", "User chose a weak password", "Wi-Fi dropped"], "answer": 0},
+      {"q": "Deserialization fix?", "choices": ["Trusted schemas, signed data, no eval", "Bigger servers", "More cookies"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "malware-sandbox",
+    "band": "redteam",
+    "title": "Malware analysis without malware",
+    "body": "Static first (strings, headers, hashes), dynamic second (sandboxed API calls, network), never on your daily machine. Our lesson uses printed fake reports — list persistence tricks, C2 signs, and why you hash before uploading anywhere. No live samples ship or needed.",
+    "xp_reward": 150,
+    "coins_reward": 34,
+    "quiz": [
+      {"q": "Safe order?", "choices": ["Hashes/strings first, sandbox second, bare metal never", "Double-click first", "Disable AV first"], "answer": 0},
+      {"q": "C2 indicator?", "choices": ["Odd beaconing to new domains", "A desktop wallpaper", "Fast boot"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "cloud-misconfig",
+    "band": "redteam",
+    "title": "Cloud misconfigs vs fake AWS",
+    "body": "Public S3-style buckets, wide-open security groups, leaked keys in fake repos. The cloud-sim lab lists buckets and policies — find the world-readable one, quote the policy line, submit the flag, then write the fix (least privilege, block-public defaults, key rotation). Fake cloud only; real account IDs never appear.",
+    "xp_reward": 160,
+    "coins_reward": 36,
+    "quiz": [
+      {"q": "Most common cloud hole?", "choices": ["Over-permissive storage/policy", "Too many regions", "Long bucket names"], "answer": 0},
+      {"q": "Key hygiene?", "choices": ["Short-lived, rotated, never in code", "Pasted in chat for speed", "One key forever"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "redteam-checkpoint",
+    "band": "redteam",
+    "title": "Red Team checkpoint",
+    "body": "Gate to Apex. Quiz gate at 70% plus XP; ssrf-sim and cloud-sim flags are the matching hands-on proof. Apex mixes offense with defense under a timer.",
+    "xp_reward": 170,
+    "coins_reward": 38,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "SSRF fix?", "choices": ["Strict allowlist + no internal fetches", "Faster DNS", "More RAM"], "answer": 0},
+      {"q": "Cloud fix?", "choices": ["Least privilege + block-public defaults", "Public-by-default", "Keys in screenshots"], "answer": 0},
+      {"q": "Chain thinking?", "choices": ["Each hop needs a detection", "One big exploit ends it", "Logs don't matter"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "soc-logs-ir",
+    "band": "apex",
+    "title": "Blue team: logs and incident response",
+    "body": "Offense halves the picture. Read the logs-sim bundle: auth failures, odd hours, new processes, outbound spikes. Triage with PICERL (prepare, identify, contain, eradicate, recover, lessons), write a one-paragraph incident note, and name what you'd alert vs ignore. Timed in the boss mission — calm reading beats fast clicking.",
+    "xp_reward": 190,
+    "coins_reward": 42,
+    "quiz": [
+      {"q": "First IR move on suspected compromise?", "choices": ["Contain (isolate) before wiping", "Wipe and hope", "Post logs publicly"], "answer": 0},
+      {"q": "Strongest compromise signal?", "choices": ["Impossible-hour logins + new persistence", "One failed login", "A full disk"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "boss-battle",
+    "band": "apex",
+    "title": "Boss battle: everything chained",
+    "body": "Timed capstone mixing every band: hygiene call, Linux find, scan read, web bug, hash crack, cloud policy, log triage — seven flags, one clock, hints locked to tier-1 only. Pass here and Prestige unlocks: reset to level 1 with a permanent badge plus the monthly rotator pool.",
+    "xp_reward": 220,
+    "coins_reward": 50,
+    "quiz": [
+      {"q": "Boss strategy?", "choices": ["Breadth first, hardest flag last, notes always", "Random clicking fast", "Hints first on all"], "answer": 0},
+      {"q": "Prestige means?", "choices": ["Reset to 1 with badge + harder monthly pool", "Delete account", "Free admin"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "apex-checkpoint",
+    "band": "apex",
+    "title": "Apex checkpoint",
+    "body": "Final gate. Quiz at 70% plus XP; soc-logs-ir and boss-battle work is the matching proof. Clears the Prestige button on your profile.",
+    "xp_reward": 200,
+    "coins_reward": 46,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "Contain vs eradicate?", "choices": ["Isolate first, remove cause second", "Same thing", "Skip both"], "answer": 0},
+      {"q": "Apex proves?", "choices": ["Chained offense + calm defense under time", "Memorized ports only", "Fastest clicks"], "answer": 0},
+      {"q": "After Apex?", "choices": ["Prestige or monthly rotator", "Nothing left", "Real targets"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "prestige-rotator",
+    "band": "apex",
+    "title": "Monthly rotator (prestige pool)",
+    "body": "Harder monthly set for prestiged players: re-rolled flags, tighter timers, tier-1 hints only. Same fictional boxes, meaner configs. New prompt lands the first of each month — this prototype ships January's set so the loop is visible.",
+    "xp_reward": 250,
+    "coins_reward": 60,
+    "quiz": [
+      {"q": "Rotator rules?", "choices": ["New flags, tighter time, minimal hints", "Same easy flags forever", "Real infrastructure"], "answer": 0}
     ]
   }
 ]

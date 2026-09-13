@@ -242,7 +242,13 @@ def create_app():
             sc = scenarios()
             # map lesson slug to lab for hint display on linked labs
             lab_map = {"linux-first-steps": "linux-basics", "osint-footprinting": "scan-sim",
-                       "owasp-sqli-xss": "scan-sim", "ports-protocols": "scan-sim"}
+                       "owasp-sqli-xss": "scan-sim", "ports-protocols": "scan-sim",
+                       "enum-scanning": "scan-sim", "csrf-practice-app": "scan-sim",
+                       "osi-tcpip": "scan-sim", "perms-scripting": "linux-basics",
+                       "hash-cracking-drills": "hash-drill", "privesc-concepts": "privesc-sim",
+                       "bof-sandbox": "bof-sim", "ssrf-deser": "ssrf-sim",
+                       "cloud-misconfig": "cloud-sim", "soc-logs-ir": "logs-sim",
+                       "boss-battle": "logs-sim", "mitre-chains": "ssrf-sim"}
             lab = lab_map.get(slug)
             if lab and lab in sc:
                 hints = sc[lab]["hints"]
@@ -269,28 +275,87 @@ def create_app():
             return ""
         lc = c.lower()
         if lc in ("help", "?"):
+            if lab_id == "privesc-sim":
+                return "commands: help, id, sudo -l, ls, ls -la, cat <file>, clear"
+            if lab_id == "bof-sim":
+                return "commands: help, ls, run --safe <input>, check offset <n>, cat guard.txt, clear"
+            if lab_id == "ssrf-sim":
+                return "commands: help, ls, fetch --url <u>, fetch --internal, cat policy.txt, clear"
+            if lab_id == "cloud-sim":
+                return "commands: help, ls, list-buckets, show-policy <bucket>, cat fix.txt, clear"
+            if lab_id == "logs-sim":
+                return "commands: help, ls, tail <file>, grep <word> <file>, cat timeline.txt, clear"
             return "commands: help, pwd, ls, ls -la, cat <file>, scan <ip>, probe --web, crack --wordlist words.txt hash.txt, submit flag{...}, clear"
         if lc == "pwd":
-            return "/home/recruit" if lab_id == "linux-basics" else "/home/analyst"
+            homes = {"linux-basics": "/home/recruit", "scan-sim": "/home/analyst",
+                     "hash-drill": "/home/cracker", "privesc-sim": "/home/foothold",
+                     "bof-sim": "/home/dev", "ssrf-sim": "/home/web", "cloud-sim": "/home/cloud",
+                     "logs-sim": "/home/soc"}
+            return homes.get(lab_id, "/home/recruit")
         if lc in ("ls", "dir"):
-            if lab_id == "linux-basics":
-                return "readme.txt  missions/"
-            if lab_id == "scan-sim":
-                return "vuln.txt  notes.txt"
-            return "hash.txt  words.txt  crack"
+            listing = {"linux-basics": "readme.txt  missions/", "scan-sim": "vuln.txt  notes.txt",
+                       "hash-drill": "hash.txt  words.txt  crack", "privesc-sim": "run_backup.sh  sudo.txt",
+                       "bof-sim": "vuln_demo  guard.txt", "ssrf-sim": "fetcher  policy.txt",
+                       "cloud-sim": "buckets.txt  fix.txt", "logs-sim": "auth.log  timeline.txt"}
+            return listing.get(lab_id, "readme.txt")
         if lc == "ls -la":
             if lab_id == "linux-basics":
                 return "total 12\n-rw-r--r-- 1 you you 68 readme.txt\n-rw-r--r-- 1 you you 41 .note\ndrwxr-xr-x 2 you you 4096 missions/"
-            return "total 12\n-rw-r--r-- 1 you you 52 hash.txt\n-rw-r--r-- 1 you you 28 words.txt"
+            if lab_id == "privesc-sim":
+                return "total 16\n-rwxrwxrwx 1 root root 52 run_backup.sh\n-rw-r--r-- 1 you you 44 sudo.txt"
+            return "total 12\n-rw-r--r-- 1 you you 52 notes.txt"
+        if lc in ("id",):
+            return "uid=1000(you) gid=1000(you) groups=1000(you)" + (" — cron runs run_backup.sh as root (fictional)" if lab_id == "privesc-sim" else "")
+        if lc == "sudo -l":
+            if lab_id == "privesc-sim":
+                return "user may run /usr/bin/find as root + cron runs run_backup.sh as root (both fictional)"
+            return "sorry, user may not run sudo here."
+        if lc.startswith("run --safe"):
+            if lab_id != "bof-sim":
+                return "run: nothing runnable here."
+            payload = c[10:].strip()
+            if len(payload) >= 64:
+                return "input 64+ bytes → saved return overwritten (simulated). EIP control at offset 64. See guard.txt."
+            return f"input {len(payload)} bytes → program exits cleanly (need ~64)."
+        if lc.startswith("check offset"):
+            if lab_id != "bof-sim":
+                return "check: nothing to check here."
+            return "offset 64 = saved return (simulated). No shellcode in this lesson — read guard.txt."
+        if lc.startswith("fetch "):
+            if lab_id != "ssrf-sim":
+                return "fetch: no fetcher on this box."
+            if "--internal" in lc:
+                return "GET /internal/status 200 — metadata-style blob leaks role=job-runner. Flag: flag{server_fetched_wrong_url}"
+            return "GET http://example.com 200 — public page, nothing secret."
+        if lc == "list-buckets":
+            if lab_id != "cloud-sim":
+                return "list-buckets: no cloud here."
+            return "invoices-2026 (public-read!)\nbackups-2026 (private)\nlogs-2026 (private)"
+        if lc.startswith("show-policy"):
+            if lab_id != "cloud-sim":
+                return "show-policy: no cloud here."
+            if "invoices" in lc:
+                return '{"bucket":"invoices-2026","effect":"Allow","principal":"*","action":"s3:GetObject"} ← world-readable (fictional)'
+            return "private bucket — no public statements."
+        if lc.startswith("tail "):
+            if lab_id != "logs-sim":
+                return "tail: no logs here."
+            return "02:11 fail root ×3\n02:14 login ok (odd hour)\n02:15 new cron persistence\n02:16 outbound spike"
+        if lc.startswith("grep "):
+            if lab_id != "logs-sim":
+                return "grep: no logs here."
+            return "FAIL ×14 pre-dawn, then one ok at 02:14 — see timeline.txt."
         if lc.startswith("cat "):
             name = c[4:].strip().strip("'\"")
             files = sc.get("files", {})
             if name in files:
                 return files[name]
-            if name in ("readme.txt", ".note", "vuln.txt", "notes.txt", "hash.txt", "words.txt"):
+            if name in ("readme.txt", ".note", "vuln.txt", "notes.txt", "hash.txt", "words.txt",
+                        "sudo.txt", "run_backup.sh", "guard.txt", "policy.txt", "buckets.txt",
+                        "fix.txt", "auth.log", "timeline.txt"):
                 return files.get(name, "empty file")
-            if name == "/home/recruit/flag.txt":
-                return files.get("/home/recruit/flag.txt", "no such file")
+            if name in ("/home/recruit/flag.txt", "/root/flag.txt"):
+                return files.get(name, "no such file")
             if name in ("missions/brief.txt",):
                 return "Brief: practice only. Targets here are fictional."
             return f"cat: {name}: no such file"
@@ -359,14 +424,15 @@ def create_app():
         data = request.get_json(force=True, silent=True) or {}
         lab_id = data.get("lab_id", "")
         tier = int(data.get("tier", 0))
-        costs = [5, 15, 30]
+        base = [5, 15, 30]
         if lab_id not in scenarios() or tier not in (0, 1, 2):
             return jsonify(ok=False), 400
-        cost = costs[tier]
+        mult = float(scenarios()[lab_id].get("cost_mult", 1.0))
+        cost = max(1, round(base[tier] * mult))
         con = get_db()
         u = con.execute("SELECT coins FROM users WHERE id=?", (me["id"],)).fetchone()
         if u["coins"] < cost:
-            return jsonify(ok=False, msg="Not enough coins. Earn XP first."), 402
+            return jsonify(ok=False, msg=f"Need {cost} coins (band-priced). Earn XP first."), 402
         con.execute("UPDATE users SET coins=coins-? WHERE id=?", (cost, me["id"]))
         con.commit()
         return jsonify(ok=True, hint=scenarios()[lab_id]["hints"][tier], cost=cost)

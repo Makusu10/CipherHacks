@@ -55,3 +55,35 @@ def test_free_modes():
     assert c.get("/guilds").status_code == 302
     home = c.get("/").get_data(as_text=True)
     assert "no signup" in home.lower()
+
+def test_full_ladder():
+    import json as _json
+    app = create_app()
+    c = app.test_client()
+    # all six bands present with checkpoints
+    data = open("data/curriculum.json", encoding="utf-8").read()
+    lessons = _json.loads(data)
+    bands = {l["band"] for l in lessons}
+    assert {"recruit", "operator", "analyst", "specialist", "redteam", "apex"} <= bands
+    for cp in ["recruit-checkpoint", "operator-checkpoint", "analyst-checkpoint",
+               "specialist-checkpoint", "redteam-checkpoint", "apex-checkpoint"]:
+        assert any(l["slug"] == cp for l in lessons), cp
+    # recruit has no terminal talk; operator+ does
+    rec = [l for l in lessons if l["band"] == "recruit"]
+    assert all("terminal" not in (l["slug"]) for l in rec)
+    # new labs answer without login
+    for lab, cmd, expect in [
+        ("privesc-sim", "sudo -l", "run_backup"),
+        ("bof-sim", "check offset 64", "offset 64"),
+        ("ssrf-sim", "fetch --internal", "flag{server_fetched_wrong_url}"),
+        ("cloud-sim", "list-buckets", "invoices-2026"),
+        ("logs-sim", "grep FAIL auth.log", "02:14"),
+    ]:
+        r = c.post("/api/terminal", json={"lab_id": lab, "cmd": cmd})
+        assert r.status_code == 200, lab
+        assert expect in r.get_json()["output"], lab
+    # band-priced hints: red lab tier-0 costs more than recruit base
+    c.post("/signup", data={"username": _handle("pricetester"), "consent": "yes"})
+    h1 = c.post("/api/hint", json={"lab_id": "linux-basics", "tier": 0}).get_json()
+    h2 = c.post("/api/hint", json={"lab_id": "ssrf-sim", "tier": 0}).get_json()
+    assert h1["cost"] == 5 and h2["cost"] > h1["cost"]
