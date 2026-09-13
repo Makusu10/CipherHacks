@@ -200,17 +200,17 @@ def create_app():
         return render_template("dashboard.html", tree=tree, badges=[b["code"] for b in badges], me=me)
 
     @app.route("/lesson/<slug>", methods=["GET", "POST"])
-    @login_required
     def lesson(slug):
         me = current_user()
         con = get_db()
         les = con.execute("SELECT * FROM lessons WHERE slug=?", (slug,)).fetchone()
         if not les:
             return render_template("error.html", msg="Lesson not found."), 404
-        if not can_access_band(me["id"], les["band"]):
+        if me and not can_access_band(me["id"], les["band"]):
             return render_template("error.html", msg="Locked. Clear the previous band checkpoint first."), 403
         quiz = json.loads(les["quiz_json"] or "[]")
         result = None
+        guest_note = None
         if request.method == "POST":
             score = 0
             for i, item in enumerate(quiz):
@@ -222,15 +222,18 @@ def create_app():
                     score += 1
             pct = round(100 * score / max(1, len(quiz)))
             passed = pct >= 70
-            first = con.execute("SELECT * FROM progress WHERE user_id=? AND lesson_slug=?",
-                                (me["id"], slug)).fetchone()
-            if passed and (not first or not first["completed"]):
-                award_xp(me["id"], les["xp_reward"], les["coins_reward"])
-                con.execute("""INSERT INTO progress(user_id, lesson_slug, completed, score, completed_at)
-                               VALUES(?,?,?,?,?) ON CONFLICT(user_id, lesson_slug) DO UPDATE SET
-                               completed=1, score=excluded.score, completed_at=excluded.completed_at""",
-                            (me["id"], slug, pct, datetime.utcnow().isoformat()))
-                con.commit()
+            if not me:
+                guest_note = "Guest try — score shown, nothing saved. Claim a free handle to bank XP."
+            else:
+                first = con.execute("SELECT * FROM progress WHERE user_id=? AND lesson_slug=?",
+                                    (me["id"], slug)).fetchone()
+                if passed and (not first or not first["completed"]):
+                    award_xp(me["id"], les["xp_reward"], les["coins_reward"])
+                    con.execute("""INSERT INTO progress(user_id, lesson_slug, completed, score, completed_at)
+                                   VALUES(?,?,?,?,?) ON CONFLICT(user_id, lesson_slug) DO UPDATE SET
+                                   completed=1, score=excluded.score, completed_at=excluded.completed_at""",
+                                (me["id"], slug, pct, datetime.utcnow().isoformat()))
+                    con.commit()
             result = {"score": score, "total": len(quiz), "pct": pct, "passed": passed}
             me = current_user()
         # hint ladder (3 tiers, escalating cost)
@@ -245,16 +248,14 @@ def create_app():
                 hints = sc[lab]["hints"]
         except Exception:
             hints = []
-        return render_template("lesson.html", les=les, quiz=quiz, result=result, hints=hints, me=me)
+        return render_template("lesson.html", les=les, quiz=quiz, result=result, hints=hints, me=me, guest_note=guest_note)
 
     # ---- labs / scripted terminal ----
     @app.route("/labs")
-    @login_required
     def labs():
         return render_template("labs.html", scenarios=scenarios(), me=current_user())
 
     @app.route("/lab/<lab_id>")
-    @login_required
     def lab(lab_id):
         sc = scenarios()
         if lab_id not in sc:
@@ -318,7 +319,6 @@ def create_app():
         return f"{c.split()[0]}: command not found (practice box, try 'help')"
 
     @app.route("/api/terminal", methods=["POST"])
-    @login_required
     def api_terminal():
         data = request.get_json(force=True, silent=True) or {}
         lab_id = data.get("lab_id", "")
@@ -495,7 +495,6 @@ def create_app():
         return render_template("daily.html", q=q, already=already, msg=msg, me=current_user())
 
     @app.route("/flashcards")
-    @login_required
     def flashcards():
         con = get_db()
         cards = []
@@ -515,7 +514,6 @@ def create_app():
         return render_template("flashcards.html", cards=cards[:40], me=current_user())
 
     @app.route("/exams", methods=["GET", "POST"])
-    @login_required
     def exams():
         me = current_user()
         con = get_db()
@@ -531,6 +529,7 @@ def create_app():
                 pass
         questions = random.sample(pool, min(n, len(pool))) if pool else []
         result = None
+        guest_note = None
         if request.method == "POST":
             qs = json.loads(request.form.get("qs", "[]"))
             score = 0
@@ -541,13 +540,15 @@ def create_app():
                 except ValueError:
                     pass
             pct = round(100 * score / max(1, len(qs)))
-            if pct >= 70:
+            if not me:
+                guest_note = "Guest score — nothing banked. Claim a free handle to save XP."
+            elif pct >= 70:
                 award_xp(me["id"], 60, 12)
                 me = current_user()
             result = {"score": score, "total": len(qs), "pct": pct}
             questions = qs
         return render_template("exams.html", questions=questions, result=result,
-                               band=band, n=n, me=me)
+                               band=band, n=n, me=me, guest_note=guest_note)
 
     @app.route("/guilds", methods=["GET", "POST"])
     @login_required

@@ -10,7 +10,8 @@
 <input id="n" name="n" type="text" inputmode="numeric" value="{{ n }}">
 <p><button class="btn small primary" type="submit">Build exam</button></p>
 </form>
-{% if result %}<div class="ok" role="status">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). 70%+ earned +60 XP.</div>{% endif %}
+{% if guest_note %}<div class="alert" role="status">{{ guest_note }} <a href="/signup">Claim handle</a></div>{% endif %}
+{% if result %}<div class="ok" role="status">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). {% if me %}70%+ earned +60 XP.{% else %}Log in to bank XP.{% endif %}</div>{% endif %}
 {% if questions and not result %}
 <form class="quiz card" method="post">
 <input type="hidden" name="qs" value='{{ questions|tojson }}'>

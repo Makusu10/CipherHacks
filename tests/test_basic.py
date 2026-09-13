@@ -30,7 +30,7 @@ def test_signup_gating_quiz():
 def test_terminal_blocked():
     app = create_app()
     c = app.test_client()
-    c.post("/signup", data={"username": _handle("tester2"), "consent": "yes"})
+    # guest terminal works, abuse blocked
     r = c.post("/api/terminal", json={"lab_id": "linux-basics", "cmd": "ssh root@real"})
     assert r.status_code == 200
     assert "Blocked" in r.get_json()["output"]
@@ -40,10 +40,18 @@ def test_terminal_blocked():
 def test_free_modes():
     app = create_app()
     c = app.test_client()
-    c.post("/signup", data={"username": _handle("tester3"), "consent": "yes"})
+    # guest-first: no signup needed to try
     assert c.get("/flashcards").status_code == 200
     assert c.get("/exams").status_code == 200
     assert c.get("/labs").status_code == 200
-    assert c.get("/arena").status_code == 200
+    assert c.get("/lab/linux-basics").status_code == 200
+    assert c.get("/lesson/passwords-2fa").status_code == 200
+    # guest quiz POST shows score, banks nothing
+    r = c.post("/lesson/passwords-2fa", data={"q0": "0", "q1": "1", "q2": "0"})
+    assert r.status_code == 200
+    assert "Guest try" in r.get_data(as_text=True)
+    # ranked modes still need a handle
+    assert c.get("/arena").status_code == 302
+    assert c.get("/guilds").status_code == 302
     home = c.get("/").get_data(as_text=True)
-    assert "free" in home.lower() and "Claim a free handle" in home
+    assert "no signup" in home.lower()

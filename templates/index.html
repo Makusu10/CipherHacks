@@ -2,12 +2,12 @@
 {% block content %}
 <div class="hero grid hero2">
 <div>
-<p class="kicker">Free while in prototype · fictional targets only</p>
+<p class="kicker">Completely free · no signup to try · fictional targets only</p>
 <h1>Type your way into security.</h1>
 <div class="scan" aria-hidden="true"></div>
-<p class="lead">CipherHacks runs like a match, not a textbook: flip flashcards, sit timed exams, crack scripted terminal boxes, then duel in the arena. XP unlocks harder bands. Checkpoints stop you skipping ahead. <strong>Free account = full practice set.</strong> No card, no trial clock.</p>
-<p><a class="btn primary big" href="/signup">Claim a free handle</a>
-<a class="btn big" href="/dashboard">Peek at the skill tree</a></p>
+<p class="lead">CipherHacks runs like a match, not a textbook: flip flashcards, sit timed exams, crack scripted terminal boxes, then duel in the arena. <strong>Everything below works right now — no handle needed.</strong> Claim one only when you want XP, ranks, and guilds saved. No card, no trial clock, ever in this build.</p>
+<p><a class="btn primary big" href="/flashcards">Play now — no signup</a>
+<a class="btn big" href="/signup">Save progress (free)</a></p>
 <p><span class="pill free">free</span><span class="pill recruit">11 lessons live</span><span class="pill operator">3 labs</span><span class="pill analyst">arena + ELO</span></p>
 <div class="statrow" aria-label="What is live">
 <div class="stat"><b>40+</b><span class="muted">quiz + card prompts</span></div>
@@ -17,15 +17,13 @@
 </div>
 </div>
 <div class="card" aria-label="Live preview">
-<p class="kicker">Preview — no login needed to read</p>
+<p class="kicker">Live terminal — type below, no login</p>
 <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box</span></div>
-<div class="term-out mono" id="demo">$ help
-commands: help, pwd, ls, ls -la, cat &lt;file&gt;, scan &lt;ip&gt;, probe --web, crack, submit flag{...}
-$ ls -la
-readme.txt  .note  missions/
-$ <span id="caret">▊</span></div></div>
-<p class="muted">The real box answers back after signup. Everything here is invented — no real hosts.</p>
-<p><a class="btn small primary" href="/signup">Try it free</a> <a class="btn small" href="/labs">See labs</a></p>
+<div class="term-out mono" id="demo-out" aria-live="polite">Type 'help' below — this box answers for guests.
+$ </div>
+<form class="term-in" id="demo-f"><span class="mono" aria-hidden="true">$</span><input id="demo-cmd" class="mono" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Try a terminal command" placeholder="help, ls, ls -la, cat readme.txt"></form></div>
+<p class="muted">Full boxes live under <a href="/labs">Labs</a> — also guest-open. Flags bank XP only with a handle. Everything here is invented — no real hosts.</p>
+<p><a class="btn small primary" href="/labs">Open labs free</a> <a class="btn small" href="/flashcards">Try cards free</a></p>
 </div>
 </div>
 
@@ -43,12 +41,16 @@ $ <span id="caret">▊</span></div></div>
 <div class="card lift"><h3>2. Operator (11–25)</h3><p>Linux, ports, permissions. Guided labs, hints cost coins you earned.</p></div>
 <div class="card lift"><h3>3. Analyst (26–45)</h3><p>OSINT habits, fake scans, SQLi/XSS on our demo app. Less help, more reading.</p></div>
 </div>
-<div class="marquee"><strong>Free-first promise:</strong> every mode on this page works with a free handle. If a paywall ever appears, the free practice set stays. No card collected anywhere in this build.</div>
+<div class="marquee"><strong>Free-first promise:</strong> cards, exams, lessons, and terminals are guest-open — no signup, no card. Handles exist only to save XP, flags, ELO, and guilds. Arena, guilds, and daily stay logged-in so ranks mean something.</div>
 {% endblock %}
 {% block scripts %}
 <script>
 document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){
 document.querySelectorAll("[data-tab]").forEach(function(x){x.classList.remove("primary")});
 b.classList.add("primary");["t1","t2","t3"].forEach(function(id){document.getElementById(id).hidden=(id!==b.dataset.tab)});});});
+(function(){var out=document.getElementById("demo-out"),f=document.getElementById("demo-f"),cmd=document.getElementById("demo-cmd");
+if(!f)return;f.addEventListener("submit",async function(e){e.preventDefault();var c=cmd.value;cmd.value="";out.textContent+=c+"\n";
+try{var r=await fetch("/api/terminal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab_id:"linux-basics",cmd:c})});
+var j=await r.json();if(j.output==="__clear__"){out.textContent="$ ";}else{out.textContent+=j.output+"\n$ ";}out.scrollTop=out.scrollHeight;}catch(err){out.textContent+="box busy — try again\n$ ";}});})();
 </script>
 {% endblock %}

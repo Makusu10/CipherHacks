@@ -5,6 +5,7 @@
 <p class="kicker">{{ les['band'] }} {% if les['is_checkpoint'] %}· checkpoint (70% to pass){% endif %}</p>
 <h1>{{ les['title'] }}</h1>
 <div class="card"><p>{{ les['body'] }}</p><p class="tag">Reward: +{{ les['xp_reward'] }} XP, +{{ les['coins_reward'] }} coins on first pass.</p></div>
+{% if guest_note %}<div class="alert" role="status">{{ guest_note }} <a href="/signup">Claim handle</a></div>{% endif %}
 {% if result %}
 {% if result.passed %}<div class="ok" role="status">Passed: {{ result.score }}/{{ result.total }} ({{ result.pct }}%). XP and coins added on first clear.</div>
 {% else %}<div class="alert" role="alert">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). Need 70%. Read once more and retry — no penalty.</div>{% endif %}

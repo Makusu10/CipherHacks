@@ -5,6 +5,7 @@
 <p class="kicker">Practice box · {{ lab_id }}</p>
 <h1>{{ lab.title }}</h1>
 <p class="muted">{{ lab.intro }}</p>
+{% if not me %}<div class="alert" role="status">Free try — terminal answers without signup. Flag + hints bank XP only with a <a href="/signup">free handle</a>.</div>{% endif %}
 <div class="term" role="region" aria-label="Practice terminal">
 <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box — fictional</span></div>
 <div class="term-out mono" id="out" aria-live="polite">Type 'help' to list commands. Flags look like flag{...}.
