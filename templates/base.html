@@ -12,7 +12,14 @@
 <meta property="og:title" content="{% block og_title %}CipherHacks — practice cybersecurity, honestly{% endblock %}">
 <meta property="og:description" content="Free story-driven security practice: skill map, terminal labs on fictional targets, arena duels, guilds.">
 <meta property="og:url" content="{{ request.url }}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{{ request.url_root.rstrip('/') }}{{ url_for('static', filename='img/og.png') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CipherHacks banner: type your way into security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CipherHacks — practice cybersecurity, honestly">
+<meta name="twitter:description" content="Free story-driven security practice: skill map, terminal labs on fictional targets, arena duels, guilds.">
+<meta name="twitter:image" content="{{ request.url_root.rstrip('/') }}{{ url_for('static', filename='img/og.png') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="screen">
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Organization", "name": "CipherHacks",

@@ -58,10 +58,10 @@
 <p class="lead">CipherHacks runs like a match, not a textbook: flip flashcards, sit timed exams, crack scripted terminal boxes, then duel in the arena. <strong>Everything below works right now — no handle needed.</strong> Claim one only when you want XP, ranks, and guilds saved. No card, no trial clock, ever in this build.</p>
 <p><a class="btn primary big" href="/flashcards">Play now — no signup</a>
 <a class="btn big" href="/signup">Save progress (free)</a></p>
-<p><span class="pill free">free</span><span class="pill recruit">11 lessons live</span><span class="pill operator">3 labs</span><span class="pill analyst">arena + ELO</span></p>
+<p><span class="pill free">free</span><span class="pill recruit">29 lessons live</span><span class="pill operator">8 labs</span><span class="pill analyst">arena + ELO</span></p>
 <div class="statrow" aria-label="What is live">
-<div class="stat"><b>40+</b><span class="muted">quiz + card prompts</span></div>
-<div class="stat"><b>3</b><span class="muted">terminal boxes</span></div>
+<div class="stat"><b>70+</b><span class="muted">quiz + card prompts</span></div>
+<div class="stat"><b>8</b><span class="muted">terminal boxes</span></div>
 <div class="stat"><b>5Q</b><span class="muted">arena bouts</span></div>
 <div class="stat"><b>0</b><span class="muted">pesos to start</span></div>
 </div>
@@ -77,6 +77,7 @@ $ </div>
 </div>
 </div>
 
+<h2>Three ways to play</h2>
 <div class="tabs" role="tablist" aria-label="Modes">
 <button class="btn small primary" data-tab="t1" type="button">Cards + Exams</button>
 <button class="btn small" data-tab="t2" type="button">Terminal labs</button>
@@ -86,14 +87,51 @@ $ </div>
 <div class="card" id="t2" hidden><h3>Labs that talk back</h3><p>Scripted boxes pretend to be a recruit host, a scan target, a hash file. Type <span class="mono">scan 10.13.0.5</span>, read the fake output, submit <span class="mono">flag{...}</span> for +100 XP. Real-host syntax gets blocked on purpose.</p><p><a class="btn small" href="/labs">Open labs</a></p></div>
 <div class="card" id="t3" hidden><h3>Duels, seasons, crews</h3><p>Five-question bouts vs a sparring bot with ELO. Guilds pool XP. Boards reset monthly so newcomers aren't buried. Daily one-question streak keeps you warm.</p><p><a class="btn small" href="/arena">Enter arena</a> <a class="btn small" href="/guilds">Find a guild</a></p></div>
 
+<h2>The six bands, from hygiene to boss fight</h2>
+<p>Level unlocks material, not just titles — each band runs roughly twice as deep as the last, and every door needs XP <em>plus</em> the previous checkpoint. Concrete examples under each band so you know what Tuesday night looks like.</p>
 <div class="grid three">
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="12" y="2" width="10" height="12" fill="#3cf5a5"/><rect x="14" y="14" width="6" height="8" fill="#8fa0bd"/><rect x="4" y="6" width="6" height="4" fill="#ffd166"/><rect x="24" y="6" width="6" height="4" fill="#3fe0ff"/></svg> 1. Recruit (1–10)</h3><p>Hygiene + core concepts. Quiz and cards only — no terminal yet. Checkpoint opens Operator.</p></div>
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="2" y="4" width="30" height="16" fill="#101d33"/><rect x="5" y="7" width="14" height="3" fill="#3cf5a5"/><rect x="5" y="12" width="9" height="3" fill="#3fe0ff"/><rect x="5" y="17" width="5" height="2" fill="#ffd166"/></svg> 2. Operator (11–25)</h3><p>OSI, ports, Linux, perms, tiny scripts. Terminal unlocks here, tightly guided.</p></div>
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><circle cx="14" cy="11" r="7" fill="none" stroke="#3fe0ff" stroke-width="3"/><rect x="19" y="15" width="9" height="3" fill="#8fa0bd" transform="rotate(45 19 15)"/><rect x="24" y="4" width="6" height="6" fill="#ff7070"/></svg> 3. Analyst (26–45)</h3><p>OSINT, enum, SQLi/XSS/CSRF on the practice app. Less help, 1.5x hints.</p></div>
-<div class="card lift"><h3>4. Specialist (46–70)</h3><p>Privesc, hashes, caged overflows, AD maps, wireless defense. Multi-step boxes, 2x hints — past PBQ depth.</p></div>
-<div class="card lift"><h3>5. Red Team (71–90)</h3><p>MITRE chains, SSRF/deser, sandboxed malware reads, fake-cloud misconfigs. 2.5x hints.</p></div>
-<div class="card lift"><h3>6. Apex (91–100)</h3><p>Timed boss battle + blue-team logs/IR. Prestige resets to 1 with badge + monthly rotator.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="12" y="2" width="10" height="12" fill="#3cf5a5"/><rect x="14" y="14" width="6" height="8" fill="#8fa0bd"/><rect x="4" y="6" width="6" height="4" fill="#ffd166"/><rect x="24" y="6" width="6" height="4" fill="#3fe0ff"/></svg> 1. Recruit (1–10)</h3><p>Passwords, phishing, CIA triad. Quiz and cards only — no terminal yet. Example: tell which sender is forged, <span class="mono">registrar@myschooI.edu.ph</span>, then pass the checkpoint to earn shell access.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="2" y="4" width="30" height="16" fill="#101d33"/><rect x="5" y="7" width="14" height="3" fill="#3cf5a5"/><rect x="5" y="12" width="9" height="3" fill="#3fe0ff"/><rect x="5" y="17" width="5" height="2" fill="#ffd166"/></svg> 2. Operator (11–25)</h3><p>OSI, ports, Linux, permissions, tiny scripts. Terminal goes live, tightly guided. Example: <span class="mono">ls -la</span> finds <span class="mono">.note</span>, then <span class="mono">cat /home/recruit/flag.txt</span> banks your first flag.</p></div>
+<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><circle cx="14" cy="11" r="7" fill="none" stroke="#3fe0ff" stroke-width="3"/><rect x="19" y="15" width="9" height="3" fill="#8fa0bd" transform="rotate(45 19 15)"/><rect x="24" y="4" width="6" height="6" fill="#ff7070"/></svg> 3. Analyst (26–45)</h3><p>OSINT, scan reading, SQLi, XSS, CSRF on our demo app. Example: <span class="mono">scan 10.13.0.5</span> shows 80/tcp open, <span class="mono">probe --web</span> exposes the glued-string login. Hints cost 1.5x now.</p></div>
+<div class="card lift"><h3>4. Specialist (46–70)</h3><p>Privilege escalation, hash drills, a caged stack overflow (offset only, no shellcode), AD map-reading, wireless defense. Example: <span class="mono">sudo -l</span> plus a world-writable cron script — config before cleverness. Hints 2x. This is the wall rote memorization cannot climb.</p></div>
+<div class="card lift"><h3>5. Red Team (71–90)</h3><p>MITRE-style chains, SSRF and deserialization on a fake fetcher, sandboxed malware report-reading, fake-cloud misconfigs. Example: <span class="mono">list-buckets</span> finds a world-readable invoice bucket; you quote the policy line, fix it, move on. Hints 2.5x.</p></div>
+<div class="card lift"><h3>6. Apex (91–100)</h3><p>Timed boss battle chaining every band plus blue-team log triage — contain first, then cure. Example: a 02:14 login, fresh cron persistence, and an outbound spike means isolate before wiping. Prestige resets you to 1 with a badge and a monthly rotator pool.</p></div>
 </div>
+
+<h2>A sample evening: 30 minutes, zero signup</h2>
+<div class="card"><ol>
+<li><strong>Minutes 0–5 — warm hands.</strong> Type <span class="mono">help</span> in the terminal above, then <span class="mono">ls -la</span>. Notice <span class="mono">.note</span>: hidden files start with a dot. That single fact returns in three later labs.</li>
+<li><strong>Minutes 5–15 — cards.</strong> Open <a href="/flashcards">flashcards</a>, flip twenty, mark Missed honestly. Your weak list is the study plan exam-cram apps charge for.</li>
+<li><strong>Minutes 15–25 — one box.</strong> Open <a href="/labs">labs</a>, pick scan-sim, run <span class="mono">scan 10.13.0.5</span> and <span class="mono">probe --web</span>. Read the fake report like a detective, not a tourist: port, service, evidence, fix.</li>
+<li><strong>Minutes 25–30 — one duel.</strong> Claim the free handle, fight the sparring bot in the <a href="/arena">arena</a>, watch ELO move. Tomorrow the <a href="/daily">daily</a> keeps the streak warm.</li>
+</ol></div>
+
+<h2>What CipherHacks is not</h2>
+<div class="card"><ul>
+<li>No certificates and no job promises — badges are practice markers, not credentials.</li>
+<li>No real targets, ever — every box is invented and scripted; real-host commands are blocked at the parser.</li>
+<li>No payments — coins are earned by practice, and the refund page says so in one paragraph.</li>
+<li>No trackers — one session cookie, no analytics, no third-party embeds; the cookie banner covers exactly that.</li>
+</ul></div>
+
+<section aria-labelledby="faq-h">
+<h2 id="faq-h">Frequently asked questions</h2>
+<div class="card">
+<h3>Is CipherHacks really free?</h3>
+<p>Yes. Cards, exams, lessons, and all 8 terminal boxes work with no account. A free handle only saves XP, flags, ELO, and guilds. No card is collected anywhere in this build.</p>
+<h3>Do I install anything to practice?</h3>
+<p>No. The terminal, cards, and exams run in your browser against our scripted boxes. To host it yourself you need only Python 3.11+ — the README walks through it in five minutes.</p>
+<h3>Will this get me hired or certified?</h3>
+<p>No, and don't trust any trainer that promises that. This builds applied habits — reading scans, Linux fluency, web-bug fixes, log triage — that make later cert study and interviews easier. Badges here are not credentials.</p>
+<h3>Am I learning to hack real websites?</h3>
+<p>No. Every technique is taught against fictional systems we ship, with the fix taught beside the bug. Trying these on real networks breaks the code of conduct and Philippine law (RA 10175) — the Terms say so plainly.</p>
+<h3>How do levels, checkpoints, and Prestige work?</h3>
+<p>XP sets your level; each band door also needs the previous checkpoint quiz at 70%, so easy-quiz grinding can't skip ahead. At level 100 you may Prestige: reset to 1 with a permanent badge plus a harder monthly challenge pool.</p>
+<h3>What does CipherHacks store about me?</h3>
+<p>Your handle plus progress — nothing else. No email, no analytics. One session cookie keeps you logged in, and Profile has a one-click delete that wipes everything. Details live on the Privacy page.</p>
+</div>
+</section>
+
 <div class="marquee"><strong>Free-first promise:</strong> cards, exams, lessons, and terminals are guest-open — no signup, no card. Handles exist only to save XP, flags, ELO, and guilds. Arena, guilds, and daily stay logged-in so ranks mean something.</div>
 {% endblock %}
 {% block scripts %}
@@ -106,5 +144,15 @@ b.classList.add("primary");["t1","t2","t3"].forEach(function(id){document.getEle
 if(!f)return;f.addEventListener("submit",async function(e){e.preventDefault();var c=cmd.value;cmd.value="";out.textContent+=c+"\n";
 try{var r=await fetch("/api/terminal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab_id:"linux-basics",cmd:c})});
 var j=await r.json();if(j.output==="__clear__"){out.textContent="$ ";}else{out.textContent+=j.output+"\n$ ";}out.scrollTop=out.scrollHeight;}catch(err){out.textContent+="box busy — try again\n$ ";}});})();
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+{"@type": "Question", "name": "Is CipherHacks really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Cards, exams, lessons, and all 8 terminal boxes work with no account. A free handle only saves XP, flags, ELO, and guilds."}},
+{"@type": "Question", "name": "Do I install anything to practice?", "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs in the browser against scripted practice boxes. Self-hosting needs only Python 3.11+."}},
+{"@type": "Question", "name": "Will this get me hired or certified?", "acceptedAnswer": {"@type": "Answer", "text": "No. It builds applied habits that make later cert study easier. Badges are practice markers, not credentials."}},
+{"@type": "Question", "name": "Am I learning to hack real websites?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every technique targets fictional training systems, with defenses taught beside each bug."}},
+{"@type": "Question", "name": "How do levels, checkpoints, and Prestige work?", "acceptedAnswer": {"@type": "Answer", "text": "XP sets level; each band also needs the prior checkpoint at 70%. Level 100 unlocks Prestige: reset to 1 with a badge and monthly challenges."}},
+{"@type": "Question", "name": "What does CipherHacks store about me?", "acceptedAnswer": {"@type": "Answer", "text": "Handle plus progress only. One session cookie, no analytics, one-click delete on the Profile page."}}
+]}
 </script>
 {% endblock %}

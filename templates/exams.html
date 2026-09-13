@@ -14,7 +14,7 @@
 {% if result %}<div class="ok" role="status">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). {% if me %}70%+ earned +60 XP.{% else %}Log in to bank XP.{% endif %}</div>{% endif %}
 {% if questions and not result %}
 <form class="quiz card" method="post">
-<input type="hidden" name="qs" value='{{ questions|tojson }}'>
+<input type="hidden" name="qs" value="{{ questions|tojson|forceescape }}">
 <input type="hidden" name="band" value="{{ band }}"><input type="hidden" name="n" value="{{ n }}">
 {% for item in questions %}
 <fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>

@@ -14,7 +14,7 @@
 {% endif %}
 {% if questions and not result %}
 <form class="quiz card" method="post" id="duel">
-<input type="hidden" name="qs" value='{{ questions|tojson }}'>
+<input type="hidden" name="qs" value="{{ questions|tojson|forceescape }}">
 {% for item in questions %}
 <fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
 {% for c in item.choices %}<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}

@@ -99,3 +99,23 @@ def test_game_layer():
     assert "Case 01" in c.get("/missions").get_data(as_text=True)
     lb = c.get("/leaderboards").get_data(as_text=True)
     assert "Flag hunters" in lb and "Duelists" in lb
+
+def test_grader_mediums():
+    import re
+    app = create_app()
+    c = app.test_client()
+    home = c.get("/").get_data(as_text=True)
+    words = len(re.sub(r"<[^>]+>", " ", home).split())
+    assert words >= 800, words
+    assert "Frequently asked questions" in home
+    assert home.count("<h3>") >= 6
+    assert '"@type": "FAQPage"' in home
+    for tag in ["og:title", "og:description", "og:image", "twitter:card",
+                "twitter:title", "twitter:description", 'rel="canonical"']:
+        assert tag in home, tag
+    r = c.get("/robots.txt")
+    assert r.status_code == 200 and "Allow: /" in r.get_data(as_text=True)
+    assert "Sitemap:" in r.get_data(as_text=True)
+    s = c.get("/sitemap.xml")
+    assert s.status_code == 200 and "<urlset" in s.get_data(as_text=True)
+    assert c.get("/static/img/og.png").status_code == 200
