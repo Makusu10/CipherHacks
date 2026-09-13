@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Cookies — CipherHacks{% endblock %}
+{% block content %}
+<h1>Cookie policy</h1>
+<div class="card">
+<h2>Do we need consent? Yes, and we ask once.</h2>
+<p>We set one strictly-necessary session cookie after login. EU/UK/PH guidance still wants a notice, so the banner explains it and stores your dismissal locally. No opt-out needed beyond that because there is nothing else to opt out of.</p>
+<table><thead><tr><th>Name</th><th>Purpose</th><th>Expiry</th></tr></thead><tbody>
+<tr><td class="mono">session</td><td>Keeps you logged in</td><td>Browser session</td></tr>
+<tr><td class="mono">ch-consent (localStorage, not a cookie)</td><td>Remembers you saw the notice</td><td>Until you clear site data</td></tr>
+</tbody></table>
+<h2>No other cookies</h2><p>No analytics (_ga etc.), no ad IDs, no fingerprinting, no third-party requests at all in this build. If that changes, this page updates and the banner returns.</p>
+<h2>Manage</h2><p>Clear site data in your browser to wipe both. Logging out clears the server side.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{
+  "linux-basics": {
+    "title": "Linux basics (Operator)",
+    "intro": "Fictional host recruit-box. Try: pwd, ls, ls -la, cat readme.txt, cat /home/recruit/flag.txt",
+    "files": {
+      "readme.txt": "Welcome recruit. List hidden files, then read the flag in /home/recruit/flag.txt",
+      ".note": "Hidden files start with a dot. Good.",
+      "/home/recruit/flag.txt": "flag{ls_cat_win}"
+    },
+    "flags": ["flag{ls_cat_win}"],
+    "hints": [
+      "List everything, including dotfiles, then look in /home/recruit.",
+      "Run: ls -la  then  cat /home/recruit/flag.txt",
+      "Full answer: pwd, ls -la, cat readme.txt, cat /home/recruit/flag.txt — submit flag{ls_cat_win}"
+    ]
+  },
+  "scan-sim": {
+    "title": "Scan sim (Analyst)",
+    "intro": "Fictional target 10.13.0.5. Try: scan 10.13.0.5, probe --web, cat vuln.txt",
+    "files": {
+      "vuln.txt": "/Fake report: 80/tcp open, login form builds SQL by string concat. Evidence in probe output."
+    },
+    "flags": ["flag{scan_read_think}"],
+    "hints": [
+      "Start with a scan, then probe the web port, then read vuln.txt.",
+      "Run: scan 10.13.0.5  then  probe --web",
+      "Full answer: scan, probe --web, cat vuln.txt — submit flag{scan_read_think}"
+    ]
+  },
+  "hash-drill": {
+    "title": "Hash drill (Specialist preview)",
+    "intro": "Locked file needs a wordlist hit. Try: ls, crack --wordlist words.txt hash.txt",
+    "files": {
+      "hash.txt": "5d41402abc4b2a76b9719d911017c592 (hint: common word)",
+      "words.txt": "password\nhello\nadmin\nletmein"
+    },
+    "flags": ["flag{hello_cracked}"],
+    "hints": [
+      "That hash is MD5 of a very common greeting in words.txt.",
+      "Run: crack --wordlist words.txt hash.txt",
+      "Full answer: the word is hello — submit flag{hello_cracked}"
+    ]
+  }
+}

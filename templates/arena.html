@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Arena — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">1v1 · sparring bot · ELO</p>
+<h1>Battle arena</h1>
+<p class="muted">Five questions pulled from lessons you could already see. Bot rating hovers near yours. Win: +50 XP. Your ELO: {{ me['elo'] }}.</p>
+{% if result %}
+<div class="{% if result.you > result.opp %}ok{% else %}alert{% endif %}" role="status">You {{ result.you }} — {{ result.opp }} rival ({{ result.opp_elo }}). ELO {{ "%+d"|format(result.delta) }}.</div>
+{% endif %}
+{% if questions and not result %}
+<form class="quiz card" method="post">
+<input type="hidden" name="qs" value='{{ questions|tojson }}'>
+{% for item in questions %}
+<fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
+{% for c in item.choices %}<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}
+</fieldset>
+{% endfor %}
+<button class="btn primary" type="submit">Fight (submit 5)</button>
+</form>
+{% elif not questions %}<div class="card"><p>No questions yet.</p></div>
+{% else %}<p><a class="btn primary" href="/arena">Rematch</a></p>{% endif %}
+<div class="card"><h3>Recent bouts</h3>
+<table><thead><tr><th>When</th><th>Rival</th><th>Score</th><th>ELO</th></tr></thead><tbody>
+{% for b in history %}<tr><td class="muted">{{ b['played_at'][:16] }}</td><td class="mono">{{ b['opponent'] }}</td><td>{{ b['user_score'] }}–{{ b['opp_score'] }}</td><td>{{ "%+d"|format(b['elo_delta']) }}</td></tr>{% else %}<tr><td colspan="4" class="muted">No bouts yet. First fight earns the duelist badge.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero">
+<p class="kicker">Fictional targets only · no real hacking</p>
+<h1>Learn security by typing, not just tapping.</h1>
+<div class="scan" aria-hidden="true"></div>
+<p style="max-width:62ch">CipherHacks is a small practice ground I built to teach the boring-important stuff first: passwords, phishing, Linux, ports, then web bugs and hash drills. Quizzes unlock a scripted terminal. Wins earn XP and coins. Coins buy hints. Top ranks reset monthly so late joiners still have a shot.</p>
+<p><a class="btn primary" href="/signup">Create a handle and start at Recruit</a>
+<a class="btn" href="/dashboard">See the skill tree</a></p>
+<p class="muted">Early prototype. Curriculum covers Recruit → Analyst fully; Specialist and up ship as scripted previews. No certificates, no job promises.</p>
+</div>
+<div class="grid three">
+<div class="card"><h3>1. Recruit (Lv 1–10)</h3><p>Passwords, 2FA, phishing, CIA triad. Quiz-only. Pass the checkpoint to earn terminal access.</p></div>
+<div class="card"><h3>2. Operator (Lv 11–25)</h3><p>Linux commands, ports, permissions, tiny scripts. Guided labs with a hint ladder that costs coins.</p></div>
+<div class="card"><h3>3. Analyst (Lv 26–45)</h3><p>OSINT habits, fake nmap reads, SQLi and XSS on our demo app. Less hand-holding.</p></div>
+</div>
+<div class="card">
+<h2>How it differs from cert-cram tools</h2>
+<p>Flashcards stop at recall. Here you also type <span class="mono">ls -la</span>, read a fake scan, submit <span class="mono">flag{...}</span>, duel a rival for ELO, and join a guild for the season board. Gating is strict: XP alone doesn't unlock the next band — you must also pass its checkpoint.</p>
+</div>
+<div class="grid two">
+<div class="card"><h3>What you get now</h3><ul><li>Skill-tree dashboard with locks</li><li>11 lessons with auto-graded quizzes</li><li>3 scripted terminal labs</li><li>1v1 arena vs sparring bot + ELO</li><li>Guilds, seasons, daily streak</li></ul></div>
+<div class="card"><h3>What you don't get</h3><ul><li>No real targets, ever — practice boxes only</li><li>No tracking scripts or ad embeds</li><li>No fake reviews or “#1 platform” claims</li><li>No payments, so no surprise charges</li></ul></div>
+</div>
+{% endblock %}

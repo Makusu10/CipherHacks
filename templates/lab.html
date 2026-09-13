@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ lab.title }} — CipherHacks{% endblock %}
+{% block content %}
+<p><a href="/labs">← all labs</a></p>
+<p class="kicker">Practice box · {{ lab_id }}</p>
+<h1>{{ lab.title }}</h1>
+<p class="muted">{{ lab.intro }}</p>
+<div class="term" role="region" aria-label="Practice terminal">
+<div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box — fictional</span></div>
+<div class="term-out mono" id="out" aria-live="polite">Type 'help' to list commands. Flags look like flag{...}.
+$ </div>
+<form class="term-in" id="f"><span class="mono" aria-hidden="true">$</span><input id="cmd" class="mono" name="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input" placeholder="pwd, ls, cat readme.txt, help"></form>
+</div>
+<div class="grid two">
+<div class="card">
+<h3>Submit flag</h3>
+<form id="flagf"><label class="fl" for="flag">Flag value</label><input id="flag" name="flag" type="text" placeholder="flag{...}" autocomplete="off"><p><button class="btn primary small" type="submit">Check flag (+100 XP)</button></p></form>
+<p id="flagmsg" class="muted" role="status"></p>
+</div>
+<div class="card">
+<h3>Hints (cost coins)</h3>
+<p><button class="btn small" data-tier="0" type="button">Nudge · 5</button> <button class="btn small" data-tier="1" type="button">Steer · 15</button> <button class="btn small" data-tier="2" type="button">Full answer · 30</button></p>
+<p id="hintout" class="muted" role="status"></p>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  var out=document.getElementById("out"), f=document.getElementById("f"), cmd=document.getElementById("cmd");
+  var lab="{{ lab_id }}";
+  function print(t){ out.textContent += t + "\n$ "; out.scrollTop=out.scrollHeight; }
+  f.addEventListener("submit", async function(e){ e.preventDefault();
+    var c=cmd.value; cmd.value=""; out.textContent += c+"\n";
+    var r=await fetch("/api/terminal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab_id:lab,cmd:c})});
+    var j=await r.json(); if(j.output==="__clear__"){out.textContent="$ ";} else {print(j.output);} cmd.focus(); });
+  document.getElementById("flagf").addEventListener("submit", async function(e){ e.preventDefault();
+    var v=document.getElementById("flag").value;
+    var r=await fetch("/api/flag",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab_id:lab,flag:v})});
+    var j=await r.json(); document.getElementById("flagmsg").textContent=j.msg; });
+  document.querySelectorAll("[data-tier]").forEach(function(b){ b.addEventListener("click", async function(){
+    var r=await fetch("/api/hint",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lab_id:lab,tier:parseInt(b.dataset.tier)})});
+    var j=await r.json(); document.getElementById("hintout").textContent=j.hint||j.msg; });});
+  cmd.focus();
+})();
+</script>
+{% endblock %}

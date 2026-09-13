@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Guilds — CipherHacks{% endblock %}
+{% block content %}
+<h1>Guild hall</h1>
+{% if msg %}<div class="ok" role="status">{{ msg }}</div>{% endif %}
+<p class="muted">{% if mine %}You fight for <strong>{{ mine }}</strong>.{% else %}No guild yet.{% endif %}</p>
+<div class="grid two">
+<div class="card"><h3>Form or join</h3>
+<form method="post"><label class="fl" for="name">Guild name</label><input id="name" name="name" type="text" maxlength="32" required placeholder="packet-pirates"><label class="fl" for="motto">Motto (optional)</label><input id="motto" name="motto" type="text" maxlength="120" placeholder="Slow scans, clean notes."><p><button class="btn small primary" name="action" value="create" type="submit">Create guild</button> <button class="btn small" name="action" value="join" type="submit">Join by name</button></p></form>
+{% if mine %}<form method="post"><button class="btn small ghost" name="action" value="leave" type="submit">Leave guild</button></form>{% endif %}</div>
+<div class="card"><h3>Standings</h3><table><thead><tr><th>Guild</th><th>Motto</th><th>Members</th><th>XP</th></tr></thead><tbody>
+{% for g in guilds %}<tr><td>{{ g['name'] }}</td><td class="muted">{{ g['motto'] }}</td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">Empty hall.</td></tr>{% endfor %}
+</tbody></table></div>
+</div>
+{% endblock %}

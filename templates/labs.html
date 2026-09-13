@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Labs — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Scripted terminal · fictional boxes</p>
+<h1>Labs</h1>
+<p class="muted">These boxes are pretend. Commands run against fixed scripts — no containers yet, no real network. If a command mentions a real host, it gets blocked.</p>
+<div class="grid three">
+{% for id, s in scenarios.items() %}
+<div class="card"><h3>{{ s.title }}</h3><p class="muted">{{ s.intro }}</p><p><a class="btn small primary" href="/lab/{{ id }}">Open {{ id }}</a></p></div>
+{% endfor %}
+</div>
+{% endblock %}

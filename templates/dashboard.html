@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Skill tree</p>
+<h1>Your map, {{ me['username'] }}</h1>
+<p class="muted">Level {{ me['level'] }} · {{ me['xp'] }} XP · {{ me['coins'] }} coins · ELO {{ me['elo'] }} · streak {{ me['streak'] }} · {% if me['prestige'] %}prestige {{ me['prestige'] }} · {% endif %}next bands need checkpoints, not just XP.</p>
+{% if badges %}<p>{% for b in badges %}<span class="pill">{{ b }}</span>{% endfor %}</p>{% endif %}
+<div class="tree">
+{% for t in tree %}
+<div class="node {% if t.done %}done{% endif %} {% if t.locked %}locked{% endif %}">
+<p><span class="pill {{ t.les['band'] }}">{{ t.les['band'] }}</span> {% if t.les['is_checkpoint'] %}<span class="pill">checkpoint</span>{% endif %}</p>
+<h3 style="margin:.3rem 0">{{ t.les['title'] }}</h3>
+<p class="tag">+{{ t.les['xp_reward'] }} XP · +{{ t.les['coins_reward'] }} coins</p>
+{% if t.locked %}<p class="muted">Locked — clear the earlier checkpoint.</p>
+{% elif t.done %}<p><a class="btn small" href="/lesson/{{ t.les['slug'] }}">Review</a> · done</p>
+{% else %}<p><a class="btn small primary" href="/lesson/{{ t.les['slug'] }}">Open lesson</a></p>{% endif %}
+</div>
+{% endfor %}
+</div>
+<div class="card"><h3>Specialist and beyond (preview)</h3><p class="muted">Lv 46+ boxes, red-team chains, and Apex boss missions are sketched but not fully built in this prototype. The hash-drill lab under Labs gives a taste. Prestige unlocks at 100 and currently resets XP with a badge.</p><p><a class="btn small" href="/labs">Try the labs</a> <a class="btn small" href="/daily">Today's daily</a></p></div>
+{% endblock %}

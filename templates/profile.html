@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Profile — CipherHacks{% endblock %}
+{% block content %}
+<h1>{{ me['username'] }}</h1>
+<p class="muted">Lv {{ me['level'] }} · {{ me['xp'] }} XP · {{ me['coins'] }} coins · ELO {{ me['elo'] }} · streak {{ me['streak'] }} · prestige {{ me['prestige'] }} · {{ done }} lessons cleared.</p>
+<div class="grid two">
+<div class="card"><h3>Badges</h3><p>{% for b in badges %}<span class="pill">{{ b.code }} · {{ b.awarded_at[:10] }}</span>{% else %}<span class="muted">None yet. Clear a lesson.</span>{% endfor %}</p>
+<h3>Flags</h3><p>{% for f in flags %}<span class="pill mono">{{ f.lab_id }}</span>{% else %}<span class="muted">No flags yet.</span>{% endfor %}</p>
+<h3>Guilds</h3><p>{% for g in guilds %}<span class="pill">{{ g.name }}</span>{% else %}<span class="muted">Guildless.</span>{% endfor %}</p></div>
+<div class="card"><h3>Account</h3>
+{% if can_prestige %}<form method="post"><input type="hidden" name="action" value="prestige"><button class="btn small" type="submit">Prestige: reset to Lv 1 + badge</button></form>{% else %}<p class="muted">Prestige unlocks at Lv 100.</p>{% endif %}
+<hr><form method="post" onsubmit="return confirm('Delete handle and all progress?');"><input type="hidden" name="action" value="delete"><button class="btn small ghost" type="submit">Delete my data</button></form>
+<p class="tag">Deletion is immediate and removes your row, progress, badges, and flags. See <a href="/privacy">Privacy</a>.</p></div>
+</div>
+{% endblock %}

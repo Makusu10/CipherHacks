@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Ranks — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Season {{ season }} · resets monthly</p>
+<h1>Leaderboards</h1>
+<p class="muted">Sorted by XP. Two demo bots sit low so you can see movement honestly — they are labeled _bot.</p>
+<div class="grid two">
+<div class="card"><h3>Global</h3><table><thead><tr><th>#</th><th>Handle</th><th>XP</th><th>Lv</th><th>ELO</th></tr></thead><tbody>
+{% for r in top %}<tr><td>{{ loop.index }}</td><td class="mono">{{ r['username'] }}</td><td>{{ r['xp'] }}</td><td>{{ r['level'] }}</td><td>{{ r['elo'] }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="card"><h3>Guilds</h3><table><thead><tr><th>#</th><th>Guild</th><th>Members</th><th>XP</th></tr></thead><tbody>
+{% for g in guilds %}<tr><td>{{ loop.index }}</td><td>{{ g['name'] }}</td><td>{{ g['members'] }}</td><td>{{ g['xp'] }}</td></tr>{% else %}<tr><td colspan="4" class="muted">No guilds yet. Start one.</td></tr>{% endfor %}
+</tbody></table><p><a class="btn small" href="/guilds">Guild hall</a></p></div>
+</div>
+{% endblock %}

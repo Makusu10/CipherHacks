@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Admin — CipherHacks{% endblock %}
+{% block content %}
+<h1>Content panel</h1>
+{% if msg %}<div class="ok">{{ msg }}</div>{% endif %}
+<p class="muted">Add lessons without redeploying. Quiz JSON format: [{"q":"...","choices":["a","b"],"answer":0}]. Keep targets fictional.</p>
+<form class="card" method="post">
+<input type="hidden" name="token" value="{{ request.args.get('token','') }}">
+<label class="fl" for="slug">Slug</label><input id="slug" name="slug" type="text" required placeholder="web-ssrf-intro">
+<label class="fl" for="band">Band</label><select id="band" name="band"><option>recruit</option><option>operator</option><option>analyst</option><option>specialist</option><option>redteam</option><option>apex</option></select>
+<label class="fl" for="title">Title</label><input id="title" name="title" type="text" required>
+<label class="fl" for="body">Body</label><textarea id="body" name="body" rows="4" required></textarea>
+<label class="fl" for="quiz_json">Quiz JSON</label><textarea id="quiz_json" name="quiz_json" rows="4" class="mono">[]</textarea>
+<p><button class="btn primary" type="submit">Save lesson</button></p>
+</form>
+<div class="card"><h3>Live ({{ lessons|length }})</h3><ul>{% for l in lessons %}<li class="mono">{{ l['band'] }} — {{ l['slug'] }} — {{ l['title'] }}</li>{% endfor %}</ul></div>
+{% endblock %}

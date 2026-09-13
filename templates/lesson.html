@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ les['title'] }} — CipherHacks{% endblock %}
+{% block content %}
+<p><a href="/dashboard">← back to tree</a></p>
+<p class="kicker">{{ les['band'] }} {% if les['is_checkpoint'] %}· checkpoint (70% to pass){% endif %}</p>
+<h1>{{ les['title'] }}</h1>
+<div class="card"><p>{{ les['body'] }}</p><p class="tag">Reward: +{{ les['xp_reward'] }} XP, +{{ les['coins_reward'] }} coins on first pass.</p></div>
+{% if result %}
+{% if result.passed %}<div class="ok" role="status">Passed: {{ result.score }}/{{ result.total }} ({{ result.pct }}%). XP and coins added on first clear.</div>
+{% else %}<div class="alert" role="alert">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). Need 70%. Read once more and retry — no penalty.</div>{% endif %}
+{% endif %}
+{% if quiz %}
+<form class="quiz card" method="post">
+{% for item in quiz %}
+<fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
+{% for c in item.choices %}
+<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>
+{% endfor %}
+</fieldset>
+{% endfor %}
+<button class="btn primary" type="submit">Submit answers</button>
+</form>
+{% endif %}
+{% if hints %}
+<div class="card"><h3>Stuck? Hint ladder costs coins</h3><p class="muted">Tier 1: 5 · Tier 2: 15 · Tier 3: 30. Go to the linked lab page to spend.</p><p><a class="btn small" href="/labs">Open labs</a></p></div>
+{% endif %}
+{% endblock %}

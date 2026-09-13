@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Daily — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Duolingo-style streak, one question</p>
+<h1>Daily challenge</h1>
+{% if msg %}<div class="ok" role="status">{{ msg }}</div>{% endif %}
+{% if already and not msg %}<div class="card"><p>Already logged today. Streak kept. Back tomorrow.</p></div>
+{% elif q %}
+<div class="card"><form method="post"><fieldset><legend>{{ q.q }}</legend>
+{% for c in q.choices %}<label><input type="radio" name="q0" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}
+</fieldset><button class="btn primary" type="submit">Answer daily (+30 XP)</button></form></div>
+{% else %}<div class="card"><p>No question pool yet.</p></div>{% endif %}
+{% endblock %}

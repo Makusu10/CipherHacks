@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}CipherHacks — practice cybersecurity, honestly{% endblock %}</title>
+<meta name="description" content="CipherHacks: story-driven cybersecurity practice with quizzes, scripted terminal labs, duels, and guilds. Fictional targets only. Early prototype.">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<nav class="nav" aria-label="Primary">
+<a class="brand mono" href="/" aria-label="CipherHacks home">cipher<span>hacks</span></a>
+<a class="btn small" href="/dashboard">Dashboard</a>
+<a class="btn small" href="/labs">Labs</a>
+<a class="btn small" href="/arena">Arena</a>
+<a class="btn small" href="/leaderboards">Ranks</a>
+<a class="btn small" href="/guilds">Guilds</a>
+<a class="btn small" href="/daily">Daily</a>
+{% if me %}
+<a class="btn small" href="/profile">{{ me['username'] }} · Lv{{ me['level'] }}</a>
+<form class="inline" method="post" action="/logout"><button class="btn small ghost" type="submit">Log out</button></form>
+{% else %}
+<a class="btn small primary" href="/signup">Start practicing</a>
+<a class="btn small" href="/login">Log in</a>
+{% endif %}
+</nav>
+</header>
+<main id="main" tabindex="-1">
+{% block content %}{% endblock %}
+</main>
+<footer class="site">
+<div class="wrap">
+<div>
+<p class="mono" style="color:var(--green)">cipherhacks — early prototype</p>
+<p>Hands-on security practice against fictional targets we ship. No real systems, no cert guarantees, no hype leaderboard from 2019. If you find a bug, tell us before posting it.</p>
+<p class="tag">Operator: Makusu10 (sole dev, PH). Contact: via GitHub issues on Makusu10/CipherHacks. Business details are placeholder until commercial launch — see <a href="/about">About</a>. No payments collected in this build.</p>
+</div>
+<div>
+<p><strong>Learn</strong></p>
+<p><a href="/dashboard">Skill tree</a><br><a href="/labs">Terminal labs</a><br><a href="/arena">Battle arena</a><br><a href="/conduct">Code of conduct</a></p>
+</div>
+<div>
+<p><strong>Legal</strong></p>
+<p><a href="/privacy">Privacy</a><br><a href="/terms">Terms</a><br><a href="/cookies">Cookies</a><br><a href="/refunds">Refunds</a><br><a href="/about">About &amp; business info</a></p>
+</div>
+</div>
+</footer>
+<div id="consent" role="dialog" aria-live="polite" aria-label="Cookie notice">
+<p><strong>One cookie, no trackers.</strong> We store a login session and remember this choice on your device. No analytics, no ads, no third-party embeds. <a href="/cookies">Cookie policy</a></p>
+<p><button class="btn primary small" id="c-ok" type="button">Accept essential only</button>
+<button class="btn small" id="c-no" type="button">Dismiss</button></p>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

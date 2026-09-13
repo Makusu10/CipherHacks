@@ -1,0 +1,142 @@
+[
+  {
+    "slug": "passwords-2fa",
+    "band": "recruit",
+    "title": "Passwords that hold + 2FA that helps",
+    "body": "A password manager plus a second factor beats memorized cleverness. Pick one manager, turn on app-based 2FA for email first, then bank and school accounts. Write down backup codes on paper. This lesson sticks to habits you can do tonight on your own accounts — nothing to scan, nothing to probe.",
+    "xp_reward": 40,
+    "coins_reward": 10,
+    "quiz": [
+      {"q": "Your email offers SMS codes or an authenticator app. Which holds up better against SIM-swap theft?", "choices": ["Authenticator app", "SMS codes", "No 2FA, longer password"], "answer": 0},
+      {"q": "Where should backup 2FA codes live?", "choices": ["Screenshot posted in chat", "Paper in a safe place", "Same notes app as passwords"], "answer": 1},
+      {"q": "What does the CIA triad's 'Confidentiality' mean here?", "choices": ["Only the right people can read it", "Data never changes", "Systems stay online"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "phishing-red-flags",
+    "band": "recruit",
+    "title": "Spot phishing without clicking",
+    "body": "Check the sender address letter by letter, hover links instead of tapping, and treat urgency plus attachments as a stop sign. Real schools don't ask for passwords over chat. When unsure, open the official site yourself instead of following the message link.",
+    "xp_reward": 40,
+    "coins_reward": 10,
+    "quiz": [
+      {"q": "A message says 'account locked, verify now' with a short link. Safest move?", "choices": ["Click fast before lockout", "Type the official site address yourself", "Reply with your ID to confirm"], "answer": 1},
+      {"q": "Which sender looks most forged?", "choices": ["registrar@myschool.edu.ph", "registrar@myschooI.edu.ph (capital i)", "helpdesk@myschool.edu.ph"], "answer": 1}
+    ]
+  },
+  {
+    "slug": "cia-malware-crypto",
+    "band": "recruit",
+    "title": "CIA triad, malware names, encryption in plain words",
+    "body": "Confidentiality, Integrity, Availability. Viruses need a host file, worms move on their own, trojans pretend to be useful, ransomware locks files for payment. Encryption scrambles readable text with a key; hashing is one-way fingerprinting. Knowing the names keeps later lessons readable.",
+    "xp_reward": 50,
+    "coins_reward": 12,
+    "quiz": [
+      {"q": "Ransomware primarily breaks which leg of the triad?", "choices": ["Availability", "Confidentiality", "Both equally every time"], "answer": 0},
+      {"q": "Hashing a password is best described as?", "choices": ["One-way fingerprint", "Reversible encryption", "Backup copy"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "recruit-checkpoint",
+    "band": "recruit",
+    "title": "Recruit checkpoint",
+    "body": "Short gate before Operator. You need 3 of 4 to pass. No terminal yet — that unlocks after this.",
+    "xp_reward": 60,
+    "coins_reward": 15,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "Someone calls claiming to be IT and asks for your one-time code. You?", "choices": ["Read it out, they sound senior", "Refuse and report via official channel", "Ask them to text from personal number"], "answer": 1},
+      {"q": "Safe browsing habit?", "choices": ["Reuse one strong password everywhere", "Unique passwords + 2FA on email", "Save passwords in browser on shared PC"], "answer": 1},
+      {"q": "Malware attached as 'grades.xlsx.exe' is likely?", "choices": ["Trojan", "Firewall", "VPN"], "answer": 0},
+      {"q": "Encryption needs what to unscramble?", "choices": ["The key", "A faster computer only", "The file name"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "linux-first-steps",
+    "band": "operator",
+    "title": "Linux: ls, cd, cat without fear",
+    "body": "Open the practice terminal in the Lab page. Try pwd, ls, ls -la, cat readme.txt. Flags look like flag{...}. Everything here runs against a fake machine we ship — don't try these scans or logins on real school or cafe networks.",
+    "xp_reward": 60,
+    "coins_reward": 15,
+    "quiz": [
+      {"q": "Which command lists files including hidden ones?", "choices": ["ls -la", "list-all", "show /"], "answer": 0},
+      {"q": "Which command prints a text file?", "choices": ["cat", "dog", "run"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "ports-protocols",
+    "band": "operator",
+    "title": "Ports and protocols you will actually meet",
+    "body": "IP gets packets to the machine, TCP keeps them ordered, UDP fires and forgets. Common doors: 22 SSH, 53 DNS, 80 HTTP, 443 HTTPS, 3306 MySQL. The scan-sim lab pretends to knock on these so you learn reading output, not touching real hosts.",
+    "xp_reward": 60,
+    "coins_reward": 15,
+    "quiz": [
+      {"q": "HTTPS normally listens on?", "choices": ["443", "21", "25"], "answer": 0},
+      {"q": "DNS normally uses?", "choices": ["Port 53", "Port 443 only", "Port 22"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "perms-scripting",
+    "band": "operator",
+    "title": "Permissions and tiny scripts",
+    "body": "rwx for user, group, other. chmod +x makes a script runnable. A three-line bash loop beats clicking 50 times. The lab asks you to read a permission string and run one safe local script — still inside our sandbox.",
+    "xp_reward": 60,
+    "coins_reward": 15,
+    "quiz": [
+      {"q": "What does rwx mean?", "choices": ["read, write, execute", "run, wait, exit", "root, wheel, xfer"], "answer": 0},
+      {"q": "chmod +x does what?", "choices": ["Makes a file executable", "Deletes a file", "Encrypts a file"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "operator-checkpoint",
+    "band": "operator",
+    "title": "Operator checkpoint + terminal gate",
+    "body": "Pass this plus the linux-basics lab flag to reach Analyst. Hints now cost coins.",
+    "xp_reward": 80,
+    "coins_reward": 20,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "SSH default port?", "choices": ["22", "80", "8080"], "answer": 0},
+      {"q": "Which prints working directory?", "choices": ["pwd", "ls", "cd"], "answer": 0},
+      {"q": "A file with -rw------- means?", "choices": ["Only owner can read/write", "Everyone can execute", "No one can read"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "osint-footprinting",
+    "band": "analyst",
+    "title": "OSINT without stalking",
+    "body": "Practice on our fictional company 'Alon Freight'. Check the fake site map, staff page, and DNS-style records we provide in the lab. Lesson: collect what's public, write down sources, stop before contact or intrusion. Real people are off limits.",
+    "xp_reward": 70,
+    "coins_reward": 18,
+    "quiz": [
+      {"q": "Good OSINT notes include?", "choices": ["Source + date for each fact", "Guesses presented as facts", "Passwords if found"], "answer": 0},
+      {"q": "Out of bounds?", "choices": ["Messaging an employee to trick them", "Reading the public site map", "Listing public subdomains of the practice target"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "owasp-sqli-xss",
+    "band": "analyst",
+    "title": "SQL injection and XSS, safely demoed",
+    "body": "A login form that builds SQL by gluing strings breaks when you type ' OR '1'='1. A comment box that echoes raw HTML lets scripts run. Our practice app shows both with the database reset button. Never test this on real sites — use only the lab we ship.",
+    "xp_reward": 80,
+    "coins_reward": 20,
+    "quiz": [
+      {"q": "The root cause of classic SQLi?", "choices": ["String-built queries without parameters", "Passwords too short", "Wi-Fi signal weak"], "answer": 0},
+      {"q": "Stored XSS lands where?", "choices": ["Saved then shown to others without escaping", "Only in server logs nobody reads", "Only in encrypted backups"], "answer": 0}
+    ]
+  },
+  {
+    "slug": "analyst-checkpoint",
+    "band": "analyst",
+    "title": "Analyst checkpoint",
+    "body": "Gate to Specialist. Requires the scan-sim flag plus this quiz.",
+    "xp_reward": 90,
+    "coins_reward": 22,
+    "is_checkpoint": true,
+    "quiz": [
+      {"q": "Simulated nmap shows 80/tcp open. That usually means?", "choices": ["A web server may be there", "The machine is off", "Email is running"], "answer": 0},
+      {"q": "Fix for SQLi?", "choices": ["Parameterized queries", "Hiding the login page", "Longer HTML"], "answer": 0},
+      {"q": "Fix for reflected XSS?", "choices": ["Output escaping + CSP", "Faster internet", "More cookies"], "answer": 0}
+    ]
+  }
+]
