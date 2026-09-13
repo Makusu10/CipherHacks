@@ -11,7 +11,10 @@
 <p><button class="btn small primary" type="submit">Build exam</button></p>
 </form>
 {% if guest_note %}<div class="alert" role="status">{{ guest_note }} <a href="/signup">Claim handle</a></div>{% endif %}
-{% if result %}<div class="ok" role="status">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). {% if me %}70%+ earned +60 XP.{% else %}Log in to bank XP.{% endif %}</div>{% endif %}
+{% if result %}
+{% if result.pct >= 70 %}<div class="ok" role="status">Passed: {{ result.score }}/{{ result.total }} ({{ result.pct }}%). {% if me %}+60 XP and +12 coins banked.{% else %}Log in to bank the +60 XP — <a href="/signup">claim a free handle</a>.{% endif %}</div>
+{% else %}<div class="alert" role="alert">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%) — below the 70% bar, so no XP banked. Nothing lost; rebuild and retry.</div>{% endif %}
+{% endif %}
 {% if questions and not result %}
 <form class="quiz card" method="post">
 <input type="hidden" name="qs" value="{{ questions|tojson|forceescape }}">

@@ -158,3 +158,21 @@ def test_logged_in_exam_banks_xp():
     assert "100%" in r.get_data(as_text=True)
     prof = c.get("/profile").get_data(as_text=True)
     assert "60 XP" in prof and "62 coins" in prof, prof[:300]
+
+def test_failed_exam_says_no_xp():
+    import json as _json
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": _handle("failnote"), "consent": "yes"})
+    page = c.get("/exams?band=recruit&n=5").get_data(as_text=True)
+    import html as ihtml
+    import re as _re
+    qs = _json.loads(ihtml.unescape(_re.search(r'name="qs" value="(.*?)"\s*/?>', page, _re.S).group(1)))
+    data = {"qs": _json.dumps(qs), "band": "recruit", "n": "5"}
+    for i, q in enumerate(qs):
+        data[f"q{i}"] = str((q["answer"] + 1) % len(q["choices"]))
+    html = c.post("/exams", data=data).get_data(as_text=True)
+    assert "no XP banked" in html
+    assert "+60 XP" not in html and "banked" not in html.split("no XP banked")[0][-200:]
+    prof = c.get("/profile").get_data(as_text=True)
+    assert "· 0 XP" in prof and "50 coins" in prof
