@@ -14,9 +14,10 @@
 {% if quiz %}
 <form class="quiz card" method="post">
 {% for item in quiz %}
+{% set qi = loop.index0 %}
 <fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
 {% for c in item.choices %}
-<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>
+<label><input type="radio" name="q{{ qi }}" value="{{ loop.index0 }}" required> {{ c }}</label>
 {% endfor %}
 </fieldset>
 {% endfor %}

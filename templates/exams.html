@@ -17,8 +17,9 @@
 <input type="hidden" name="qs" value="{{ questions|tojson|forceescape }}">
 <input type="hidden" name="band" value="{{ band }}"><input type="hidden" name="n" value="{{ n }}">
 {% for item in questions %}
+{% set qi = loop.index0 %}
 <fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
-{% for c in item.choices %}<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}
+{% for c in item.choices %}<label><input type="radio" name="q{{ qi }}" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}
 </fieldset>
 {% endfor %}
 <button class="btn primary" type="submit">Submit exam</button>

@@ -119,3 +119,22 @@ def test_grader_mediums():
     s = c.get("/sitemap.xml")
     assert s.status_code == 200 and "<urlset" in s.get_data(as_text=True)
     assert c.get("/static/img/og.png").status_code == 200
+
+def test_quiz_radio_groups():
+    import re
+    app = create_app()
+    c = app.test_client()
+    # every question's radios must form exactly ONE group, distinct per question
+    for url in ["/lesson/passwords-2fa", "/exams?band=recruit&n=5"]:
+        html = c.get(url).get_data(as_text=True)
+        sets = re.split(r"<fieldset", html)[1:]
+        assert sets, url
+        seen = set()
+        for fs in sets:
+            names = set(re.findall(r'name="(q\d+)"', fs))
+            assert len(names) == 1, (url, names)
+            assert names.pop() not in seen, url
+            seen.update(names)
+    # full marks when every answer is right (lesson has answers 0,1,0)
+    r = c.post("/lesson/passwords-2fa", data={"q0": "0", "q1": "1", "q2": "0"})
+    assert "Passed: 3/3" in r.get_data(as_text=True)
