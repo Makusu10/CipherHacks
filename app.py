@@ -156,7 +156,7 @@ def create_app():
     def sitemap():
         from xml.sax.saxutils import escape
         base = request.url_root.rstrip("/")
-        paths = ["/", "/missions", "/dashboard", "/flashcards", "/exams", "/labs",
+        paths = ["/", "/start", "/missions", "/dashboard", "/flashcards", "/exams", "/labs",
                  "/arena", "/leaderboards", "/guilds", "/daily", "/signup", "/login",
                  "/privacy", "/terms", "/cookies", "/refunds", "/conduct", "/about"]
         urls = "\n".join(
@@ -205,6 +205,25 @@ def create_app():
     def logout():
         session.clear()
         return redirect(url_for("index"))
+
+    @app.route("/start")
+    def start():
+        me = current_user()
+        done = completed_slugs(me["id"]) if me else set()
+        flags = set()
+        if me:
+            con = get_db()
+            flags = {r["lab_id"] for r in con.execute("SELECT lab_id FROM flags WHERE user_id=?", (me["id"],))}
+        nxt = "passwords-2fa"
+        if "recruit-checkpoint" in done and "linux-first-steps" in done and "operator-checkpoint" not in done:
+            nxt = "operator-checkpoint"
+        elif "recruit-checkpoint" in done and "linux-first-steps" not in done:
+            nxt = "linux-first-steps"
+        elif "recruit-checkpoint" in done:
+            nxt = "analyst-checkpoint"
+        elif done:
+            nxt = "recruit-checkpoint"
+        return render_template("start.html", me=me, done=done, flags=flags, nxt=nxt)
 
     @app.route("/dashboard")
     @login_required

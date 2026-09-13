@@ -176,3 +176,13 @@ def test_failed_exam_says_no_xp():
     assert "+60 XP" not in html and "banked" not in html.split("no XP banked")[0][-200:]
     prof = c.get("/profile").get_data(as_text=True)
     assert "· 0 XP" in prof and "50 coins" in prof
+
+def test_start_roadmap():
+    app = create_app()
+    c = app.test_client()
+    html = c.get("/start").get_data(as_text=True)
+    assert "Pick your trail" in html
+    for t in ["First boot", "Terminal tourist", "Skip the line"]:
+        assert t in html
+    assert "ch-trail" in html
+    assert "/lesson/recruit-checkpoint" in html and "/lab/linux-basics" in html

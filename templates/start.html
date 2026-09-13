@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Start here — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Trailhead · no wrong door</p>
+<h1>Pick your trail.</h1>
+<p class="lead" style="max-width:62ch">Three doors, one mountain. Answer honestly — the site gates bands by checkpoints, not by what you claim, so the fastest route is always the one that matches your hands.</p>
+{% if me %}
+<div class="card banner"><p style="margin:0"><strong>Recon says:</strong> you're {{ my_rank }}, Lv {{ me['level'] }}. Next stamped file: <a href="/lesson/{{ nxt }}">{{ nxt }}</a>. Ticks below save on this device; stamped files save on your handle.</p></div>
+{% else %}
+<div class="card"><p style="margin:0"><strong>Guest mode:</strong> every step below works without an account. Ticks save on this device only — <a href="/signup">claim a free handle</a> when you want XP banked.</p></div>
+{% endif %}
+<div class="tabs" role="tablist" aria-label="Trails">
+<button class="btn small primary" data-trail="pa" type="button">First boot</button>
+<button class="btn small" data-trail="pb" type="button">Terminal tourist</button>
+<button class="btn small" data-trail="pc" type="button">Skip the line?</button>
+</div>
+
+<div id="pa">
+<p class="muted">Never opened a terminal? Start here. ~2 hours, up to ~330 XP banked. <span class="mono" id="pg-pa">0/6</span></p>
+<div class="tprogress" role="progressbar" aria-label="First boot progress"><span id="pb-pa"></span></div>
+<ol class="trail">
+<li><label><input type="checkbox" data-k="pa1" {% if 'passwords-2fa' in done %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="4" y="2" width="18" height="16" fill="#101d33" stroke="#3cf5a5" stroke-width="2"/><rect x="8" y="2" width="2" height="16" fill="#3cf5a5"/></svg><span><strong>Read: passwords + 2FA.</strong> <a href="/lesson/passwords-2fa">Open the file</a> — ten minutes, manager plus app-based codes. <span class="tag">~10 min · +40 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pa2" {% if 'phishing-red-flags' in done %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="4" y="2" width="18" height="16" fill="#101d33" stroke="#3cf5a5" stroke-width="2"/><rect x="8" y="2" width="2" height="16" fill="#3cf5a5"/></svg><span><strong>Read: spot phishing.</strong> <a href="/lesson/phishing-red-flags">Open the file</a> — sender addresses, hover-not-tap, urgency as a stop sign. <span class="tag">~10 min · +40 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pa3"><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="5" width="12" height="12" fill="#13253f" stroke="#3fe0ff" stroke-width="2"/><rect x="10" y="2" width="12" height="12" fill="#101d33" stroke="#3fe0ff" stroke-width="2"/></svg><span><strong>Flip twenty cards.</strong> <a href="/flashcards">Open flashcards</a>, mark Missed honestly — the weak list is the loot. <span class="tag">~10 min · +0 XP, weak list</span></span></label></li>
+<li><label><input type="checkbox" data-k="pa4" {% if 'recruit-checkpoint' in done %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="6" y="8" width="14" height="10" fill="#8a6a1c"/><rect x="9" y="4" width="8" height="8" fill="none" stroke="#ffd166" stroke-width="2"/></svg><span><strong>Pass the Recruit checkpoint.</strong> <a href="/lesson/recruit-checkpoint">Stamp the file</a> at 70% — the terminal unlocks here. <span class="tag">~10 min · +60 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pa5" {% if 'linux-basics' in flags %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="3" width="22" height="14" fill="#101d33" stroke="#3cf5a5" stroke-width="2"/><rect x="5" y="7" width="8" height="2" fill="#3cf5a5"/><rect x="5" y="11" width="5" height="2" fill="#ffd166"/></svg><span><strong>Crack linux-basics.</strong> <a href="/lab/linux-basics">Jack in</a> — <span class="mono">ls -la</span>, read the flag, submit it. <span class="tag">~20 min · +100 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pa6"><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="3" y="9" width="16" height="3" fill="#8fa0bd" transform="rotate(35 11 10)"/><rect x="7" y="9" width="16" height="3" fill="#c7d2e4" transform="rotate(-35 15 10)"/></svg><span><strong>Duel the bot.</strong> <a href="/signup">Claim a handle</a>, then <a href="/arena">fight</a> five questions for ELO. <span class="tag">~15 min · +50 XP on a win</span></span></label></li>
+</ol>
+</div>
+
+<div id="pb" hidden>
+<p class="muted">Used Linux before? Skip the bedtime stories. ~90 minutes. <span class="mono" id="pg-pb">0/5</span></p>
+<div class="tprogress" role="progressbar" aria-label="Tourist progress"><span id="pb-pb"></span></div>
+<ol class="trail">
+<li><label><input type="checkbox" data-k="pb1" {% if 'recruit-checkpoint' in done %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="6" y="8" width="14" height="10" fill="#8a6a1c"/><rect x="9" y="4" width="8" height="8" fill="none" stroke="#ffd166" stroke-width="2"/></svg><span><strong>Prove hygiene fast.</strong> <a href="/lesson/recruit-checkpoint">Recruit checkpoint</a> straight — four questions, no terminal. <span class="tag">~10 min · +60 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pb2"><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="3" width="22" height="14" fill="#101d33" stroke="#3cf5a5" stroke-width="2"/><rect x="5" y="7" width="8" height="2" fill="#3cf5a5"/><rect x="5" y="11" width="5" height="2" fill="#ffd166"/></svg><span><strong>OSI + first shell.</strong> <a href="/lesson/osi-tcpip">OSI/TCP-IP</a> then <a href="/lesson/linux-first-steps">Linux steps</a> — read outputs, not manuals. <span class="tag">~20 min · +120 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pb3"><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="4" y="2" width="3" height="16" fill="#8fa0bd"/><rect x="7" y="2" width="12" height="8" fill="#3cf5a5"/></svg><span><strong>Two flags.</strong> <a href="/lab/linux-basics">linux-basics</a> then <a href="/lab/scan-sim">scan-sim</a> — <span class="mono">flag{...}</span> each. <span class="tag">~30 min · +200 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pb4" {% if 'operator-checkpoint' in done %}checked disabled{% endif %}><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="6" y="8" width="14" height="10" fill="#8a6a1c"/><rect x="9" y="4" width="8" height="8" fill="none" stroke="#ffd166" stroke-width="2"/></svg><span><strong>Operator checkpoint.</strong> <a href="/lesson/operator-checkpoint">Stamp it</a> — Analyst and real scan-reading open up. <span class="tag">~10 min · +80 XP</span></span></label></li>
+<li><label><input type="checkbox" data-k="pb5"><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="3" y="9" width="16" height="3" fill="#8fa0bd" transform="rotate(35 11 10)"/><rect x="7" y="9" width="16" height="3" fill="#c7d2e4" transform="rotate(-35 15 10)"/></svg><span><strong>Arena + daily.</strong> <a href="/arena">Duel</a>, then <a href="/daily">set the streak</a> — one question a day keeps ELO warm. <span class="tag">~15 min · +50 XP + streak</span></span></label></li>
+</ol>
+</div>
+
+<div id="pc" hidden>
+<p class="muted">Already dangerous? The gate doesn't care — and that's the feature. No grind-skips exist; checkpoints are the only keys.</p>
+<ol class="trail">
+<li><div><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="6" y="8" width="14" height="10" fill="#8a6a1c"/><rect x="9" y="4" width="8" height="8" fill="none" stroke="#ffd166" stroke-width="2"/></svg><span><strong>Fastest legal route:</strong> <a href="/lesson/recruit-checkpoint">Recruit</a> → <a href="/lesson/operator-checkpoint">Operator</a> → <a href="/lesson/analyst-checkpoint">Analyst</a> checkpoints, each at 70%, plus the <a href="/labs">matching lab flags</a>. Hours, not weeks, if your hands are real.</span></div></li>
+<li><div><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="7" y="10" width="4" height="8" fill="#ffd166"/><rect x="11" y="6" width="4" height="12" fill="#ffd166"/><rect x="15" y="2" width="4" height="16" fill="#ffd166"/></svg><span><strong>Then prove depth:</strong> <a href="/lesson/specialist-checkpoint">Specialist</a> → <a href="/lesson/redteam-checkpoint">Red Team</a> → <a href="/lesson/apex-checkpoint">Apex</a>. Multi-step boxes and a timed boss — the part PBQ study can't fake.</span></div></li>
+<li><div><svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><rect x="3" y="9" width="16" height="3" fill="#8fa0bd" transform="rotate(35 11 10)"/><rect x="7" y="9" width="16" height="3" fill="#c7d2e4" transform="rotate(-35 15 10)"/></svg><span><strong>Endgame:</strong> Prestige at 100, monthly rotator pool, guild wars on the <a href="/leaderboards">season ladders</a>.</span></div></li>
+</ol>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("[data-trail]").forEach(function(b){b.addEventListener("click",function(){
+document.querySelectorAll("[data-trail]").forEach(function(x){x.classList.remove("primary")});
+b.classList.add("primary");["pa","pb","pc"].forEach(function(id){document.getElementById(id).hidden=(id!==b.dataset.trail)});});});
+(function(){
+var store={};try{store=JSON.parse(localStorage.getItem("ch-trail")||"{}");}catch(e){}
+document.querySelectorAll(".trail input[type=checkbox]").forEach(function(box){
+if(box.disabled)return;if(store[box.dataset.k])box.checked=true;
+box.addEventListener("change",function(){store[box.dataset.k]=box.checked;
+try{localStorage.setItem("ch-trail",JSON.stringify(store));}catch(e){}count();});});
+function count(){["pa","pb"].forEach(function(id){
+var boxes=document.querySelectorAll("#"+id+" input[type=checkbox]");
+var got=0;boxes.forEach(function(b){if(b.checked)got++;});
+document.getElementById("pg-"+id).textContent=got+"/"+boxes.length;
+document.getElementById("pb-"+id).style.width=(boxes.length?Math.round(100*got/boxes.length):0)+"%";});}
+count();})();
+</script>
+{% endblock %}
