@@ -175,7 +175,7 @@ def test_failed_exam_says_no_xp():
     assert "no XP banked" in html
     assert "+60 XP" not in html and "banked" not in html.split("no XP banked")[0][-200:]
     prof = c.get("/profile").get_data(as_text=True)
-    assert "· 0 XP" in prof and "50 coins" in prof
+    assert ">0 XP<" in prof and "50 coins" in prof
 
 def test_start_roadmap():
     app = create_app()
@@ -186,3 +186,14 @@ def test_start_roadmap():
         assert t in html
     assert "ch-trail" in html
     assert "/lesson/recruit-checkpoint" in html and "/lab/linux-basics" in html
+
+def test_character_sheet():
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": _handle("sheetbud"), "consent": "yes"})
+    html = c.get("/profile").get_data(as_text=True)
+    assert "Character sheet" in html
+    assert 'viewBox="0 0 64 76"' in html
+    assert "Street Awake" in html
+    assert "Next title:" in html and "XP to go" in html
+    assert "Trophy case" in html and "Flag vault" in html

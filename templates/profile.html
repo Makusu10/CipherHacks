@@ -1,15 +1,65 @@
 {% extends "base.html" %}
-{% block title %}Profile — CipherHacks{% endblock %}
+{% block title %}{{ me['username'] }} — character sheet — CipherHacks{% endblock %}
 {% block content %}
-<h1>{{ me['username'] }}</h1>
-<p class="muted">Lv {{ me['level'] }} · {{ me['xp'] }} XP · {{ me['coins'] }} coins · ELO {{ me['elo'] }} · streak {{ me['streak'] }} · prestige {{ me['prestige'] }} · {{ done }} lessons cleared.</p>
-<div class="grid two">
-<div class="card"><h3>Badges</h3><p>{% for b in badges %}<span class="pill">{{ b.code }} · {{ b.awarded_at[:10] }}</span>{% else %}<span class="muted">None yet. Clear a lesson.</span>{% endfor %}</p>
-<h3>Flags</h3><p>{% for f in flags %}<span class="pill mono">{{ f.lab_id }}</span>{% else %}<span class="muted">No flags yet.</span>{% endfor %}</p>
-<h3>Guilds</h3><p>{% for g in guilds %}<span class="pill">{{ g.name }}</span>{% else %}<span class="muted">Guildless.</span>{% endfor %}</p></div>
+{% set bc = {'recruit': '#3cf5a5', 'operator': '#3fe0ff', 'analyst': '#a78bfa', 'specialist': '#ff9f5c', 'redteam': '#ff7070', 'apex': '#ffe08a'}[band] %}
+<p class="kicker">Character sheet · {{ band_label(band) }} division</p>
+<div class="sheet">
+<div class="card idcard">
+<div class="stage" aria-hidden="true">
+<svg class="avatar px-bot" viewBox="0 0 64 76" width="160" height="190">
+<ellipse cx="32" cy="70" rx="20" ry="4" fill="#000" opacity=".45"/>
+{% if band in ('specialist', 'redteam', 'apex') %}
+<rect x="6" y="34" width="10" height="8" fill="{{ pal[1] }}"/><rect x="48" y="34" width="10" height="8" fill="{{ pal[1] }}"/>
+{% endif %}
+{% if band in ('redteam', 'apex') %}
+<rect x="14" y="6" width="4" height="8" fill="{{ bc }}" transform="rotate(-18 16 10)"/><rect x="46" y="6" width="4" height="8" fill="{{ bc }}" transform="rotate(18 48 10)"/>
+{% endif %}
+{% if band == 'apex' %}
+<rect x="20" y="2" width="24" height="6" fill="#ffe08a"/><rect x="20" y="2" width="4" height="10" fill="#ffe08a"/><rect x="30" y="2" width="4" height="10" fill="#ffe08a"/><rect x="40" y="2" width="4" height="10" fill="#ffe08a"/>
+{% elif band == 'operator' %}
+<rect x="30" y="2" width="4" height="8" fill="{{ pal[1] }}"/><rect x="28" y="0" width="8" height="4" fill="{{ bc }}"/>
+{% endif %}
+<rect x="16" y="10" width="32" height="22" fill="{{ pal[0] }}"/>
+<rect x="16" y="10" width="32" height="4" fill="{{ pal[1] }}"/>
+<rect x="20" y="18" width="24" height="8" fill="#06281c"/>
+<rect class="px-eye" x="23" y="20" width="5" height="4" fill="{{ bc }}"/>
+<rect class="px-eye" x="36" y="20" width="5" height="4" fill="{{ bc }}"/>
+{% if band == 'analyst' %}<rect x="46" y="18" width="4" height="4" fill="{{ bc }}"/>{% endif %}
+<rect x="12" y="32" width="8" height="16" fill="{{ pal[0] }}"/>
+<rect x="44" y="32" width="8" height="16" fill="{{ pal[0] }}"/>
+<rect x="20" y="32" width="24" height="22" fill="{{ pal[0] }}"/>
+<rect x="20" y="32" width="24" height="4" fill="{{ pal[1] }}"/>
+<rect x="28" y="40" width="8" height="8" fill="{{ bc }}"/>
+<rect x="24" y="54" width="6" height="14" fill="{{ pal[1] }}"/>
+<rect x="34" y="54" width="6" height="14" fill="{{ pal[1] }}"/>
+</svg>
+<span class="lvbadge">LV {{ me['level'] }}</span>
+</div>
+<h1 style="margin:.4rem 0">{{ me['username'] }}</h1>
+<p class="rankline">{{ rank }} · {{ band_label(band) }}{% if me['prestige'] %} · prestige {{ me['prestige'] }}{% endif %}</p>
+<div class="xpbar" role="progressbar" aria-valuenow="{{ prog.pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Progress to next level"><span style="width:{{ prog.pct }}%"></span></div>
+<p class="muted">{{ prog.have }}/{{ prog.need }} XP to Lv {{ me['level'] + 1 }}</p>
+{% if nxt_rank %}<p class="muted">Next title: <strong>{{ nxt_rank.title }}</strong> at Lv {{ nxt_rank.level }} — {{ nxt_rank.xp_left }} XP to go. Earn it in <a href="/labs">labs</a> or <a href="/arena">arena</a>.</p>{% endif %}
+<div class="chips">
+<span class="chip" title="Experience">{{ me['xp'] }} XP</span>
+<span class="chip" title="Hint currency">{{ me['coins'] }} coins</span>
+<span class="chip" title="Duel rating">ELO {{ me['elo'] }}</span>
+<span class="chip" title="Daily streak">{{ me['streak'] }}d streak</span>
+<span class="chip" title="Lessons cleared">{{ done }} files</span>
+</div>
+</div>
+<div>
+<div class="card"><h3>Trophy case</h3>
+<p class="medals">{% for b in badges %}<span class="medal" title="Earned {{ b.awarded_at[:10] }}">{{ b.code }}</span>{% else %}<span class="muted">Empty shelf. Clear a lesson to hang the first one.</span>{% endfor %}</p>
+<h3>Flag vault</h3>
+<ul class="vault">{% for f in flags %}<li><span class="mono">{{ f.lab_id }}</span><span class="tag">{{ f.submitted_at[:10] }} · verified</span></li>{% else %}<li class="muted">No flags banked. <a href="/labs">Boxes are open</a>.</li>{% endfor %}</ul>
+<h3>Banner</h3>
+<p>{% for g in guilds %}<span class="pill">{{ g.name }}</span>{% else %}<span class="muted">Guildless — <a href="/guilds">swear to a banner</a>.</span>{% endfor %}</p>
+</div>
 <div class="card"><h3>Account</h3>
-{% if can_prestige %}<form method="post"><input type="hidden" name="action" value="prestige"><button class="btn small" type="submit">Prestige: reset to Lv 1 + badge</button></form>{% else %}<p class="muted">Prestige unlocks at Lv 100.</p>{% endif %}
+{% if can_prestige %}<p>Level 100 reached. The reset is real: XP to zero, progress wiped, badge forever.</p><form method="post"><input type="hidden" name="action" value="prestige"><button class="btn small primary" type="submit">Prestige to Lv 1 + badge</button></form>{% else %}<p class="muted">Prestige unlocks at Lv 100 ({{ 100 - me['level'] }} to go).</p>{% endif %}
 <hr><form method="post" onsubmit="return confirm('Delete handle and all progress?');"><input type="hidden" name="action" value="delete"><button class="btn small ghost" type="submit">Delete my data</button></form>
-<p class="tag">Deletion is immediate and removes your row, progress, badges, and flags. See <a href="/privacy">Privacy</a>.</p></div>
+<p class="tag">Immediate wipe of handle, progress, badges, flags. See <a href="/privacy">Privacy</a>.</p></div>
+</div>
 </div>
 {% endblock %}

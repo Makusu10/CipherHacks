@@ -596,8 +596,24 @@ def create_app():
             con.commit()
             give_badge(me["id"], f"prestige-{me['prestige']+1}")
             return redirect(url_for("dashboard"))
+        from utils.leveling import RANK_TITLES, xp_for_level as _xp_for
+        band = band_for_level(me["level"])
+        pals = [("#c7d2e4", "#8fa0bd"), ("#b9d9b0", "#6f9a68"), ("#e4d3ac", "#a08c5b"),
+                ("#d3b8e0", "#8f6aa8"), ("#e0b3a8", "#a86a5b"), ("#a8dcd2", "#5b9a8f")]
+        pal = pals[sum(bytearray(me["username"], "utf-8")) % len(pals)]
+        nxt_rank = None
+        for lo, name in RANK_TITLES:
+            if lo > me["level"]:
+                nxt_rank = {"level": lo, "title": name,
+                            "xp_left": max(0, _xp_for(lo) - me["xp"])}
+                break
+        lvl, have, need = progress_to_next(me["xp"])
         return render_template("profile.html", badges=badges, flags=flags, done=prog,
-                               guilds=gm, can_prestige=can_prestige, me=current_user())
+                               guilds=gm, can_prestige=can_prestige, me=current_user(),
+                               band=band, pal=pal, rank=rank_title(me["level"]),
+                               nxt_rank=nxt_rank,
+                               prog={"have": have, "need": need,
+                                     "pct": round(100 * have / max(1, need))})
 
     @app.route("/daily", methods=["GET", "POST"])
     @login_required
