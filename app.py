@@ -214,12 +214,16 @@ def create_app():
         cases = []
         for slug, lo, hi, label in BANDS:
             title, brief = BAND_DOSSIER[slug]
-            items = [dict(l) for l in lessons if l["band"] == slug]
-            for it in items:
-                it["done"] = it["slug"] in done
-                it["locked"] = bool(me and not can_access_band(me["id"], slug)) if slug != "recruit" else False
+            entries = []
+            for l in lessons:
+                if l["band"] != slug:
+                    continue
+                entries.append({"slug": l["slug"], "title": l["title"],
+                                "xp_reward": l["xp_reward"],
+                                "done": l["slug"] in done,
+                                "locked": bool(me and not can_access_band(me["id"], slug)) if slug != "recruit" else False})
             cases.append({"band": slug, "label": label, "lo": lo, "hi": hi,
-                          "title": title, "brief": brief, "items": items})
+                          "title": title, "brief": brief, "entries": entries})
         return render_template("missions.html", cases=cases, me=me)
 
     @app.route("/lesson/<slug>", methods=["GET", "POST"])

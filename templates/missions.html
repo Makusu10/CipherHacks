@@ -10,7 +10,7 @@
 <h2 style="margin:.2rem 0">{{ c.title }}</h2>
 <p>{{ c.brief }}</p>
 <ol class="case-list">
-{% for it in c.items %}
+{% for it in c.entries %}
 <li>{% if it.done %}✅{% elif it.locked %}🔒{% else %}▫️{% endif %}
 <a href="/lesson/{{ it.slug }}">{{ it.title }}</a>
 <span class="tag">+{{ it.xp_reward }} XP{% if 'checkpoint' in it.slug %} · checkpoint{% endif %}</span></li>
