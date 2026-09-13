@@ -50,24 +50,23 @@
 </svg>
 <div class="px-cap"><span id="px-say">boop. tap the bot — it talks.</span><span class="mono" id="px-type">$ help  →  3 boxes online▊</span></div>
 </div>
-<div class="hero grid hero2">
-<div>
-<p class="kicker">Completely free · no signup to try · fictional targets only</p>
-<h1>Type your way into security.</h1>
-<div class="scan" aria-hidden="true"></div>
+<div class="hero-file">
+<div class="hero-main">
+<h1>Type your <em>way</em> into<br><span class="hollow">security.</span></h1>
 <p class="lead">CipherHacks runs like a match, not a textbook: flip flashcards, sit timed exams, crack scripted terminal boxes, then duel in the arena. <strong>Everything below works right now — no handle needed.</strong> Claim one only when you want XP, ranks, and guilds saved. No card, no trial clock, ever in this build.</p>
-<p><a class="btn primary big" href="/flashcards">Play now — no signup</a>
+<p class="actions"><a class="btn primary big" href="/flashcards">Play now — no signup</a>
 <a class="btn big" href="/signup">Save progress (free)</a></p>
-<p><span class="pill free">free</span><span class="pill recruit">29 lessons live</span><span class="pill operator">8 labs</span><span class="pill analyst">arena + ELO</span></p>
-<div class="statrow" role="group" aria-label="What is live">
-<div class="stat"><b>70+</b><span class="muted">quiz + card prompts</span></div>
-<div class="stat"><b>8</b><span class="muted">terminal boxes</span></div>
-<div class="stat"><b>5Q</b><span class="muted">arena bouts</span></div>
-<div class="stat"><b>0</b><span class="muted">pesos to start</span></div>
+<p class="stamps" role="group" aria-label="Facts"><span class="stamp s1">free</span><span class="stamp s2">29 lessons live</span><span class="stamp s3">8 labs</span><span class="stamp s4">arena + ELO</span></p>
+<ul class="manifest" role="group" aria-label="What is live">
+<li><span>Quiz + card prompts</span><span class="dots" aria-hidden="true"></span><b>70+</b></li>
+<li><span>Terminal boxes</span><span class="dots" aria-hidden="true"></span><b>8</b></li>
+<li><span>Arena bouts</span><span class="dots" aria-hidden="true"></span><b>5Q</b></li>
+<li><span>Pesos to start</span><span class="dots" aria-hidden="true"></span><b>0</b></li>
+</ul>
+<p class="fieldnote">Completely free · no signup to try · fictional targets only. Filed under: an open case anyone may pick up.</p>
 </div>
-</div>
-<div class="card" role="region" aria-label="Live preview">
-<p class="kicker">Live terminal — type below, no login</p>
+<div class="tap">
+<p class="tap-tag">FIELD TAP 001 — recruit-box · answers guests · invented hardware</p>
 <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box</span></div>
 <div class="term-out mono" id="demo-out" aria-live="polite">Type 'help' below — this box answers for guests.
 $ </div>
@@ -89,14 +88,14 @@ $ </div>
 
 <h2>The six bands, from hygiene to boss fight</h2>
 <p>Level unlocks material, not just titles — each band runs roughly twice as deep as the last, and every door needs XP <em>plus</em> the previous checkpoint. Concrete examples under each band so you know what Tuesday night looks like.</p>
-<div class="grid three">
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="12" y="2" width="10" height="12" fill="#3cf5a5"/><rect x="14" y="14" width="6" height="8" fill="#8fa0bd"/><rect x="4" y="6" width="6" height="4" fill="#ffd166"/><rect x="24" y="6" width="6" height="4" fill="#3fe0ff"/></svg> 1. Recruit (1–10)</h3><p>Passwords, phishing, CIA triad. Quiz and cards only — no terminal yet. Example: tell which sender is forged, <span class="mono">registrar@myschooI.edu.ph</span>, then pass the checkpoint to earn shell access.</p></div>
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><rect x="2" y="4" width="30" height="16" fill="#101d33"/><rect x="5" y="7" width="14" height="3" fill="#3cf5a5"/><rect x="5" y="12" width="9" height="3" fill="#3fe0ff"/><rect x="5" y="17" width="5" height="2" fill="#ffd166"/></svg> 2. Operator (11–25)</h3><p>OSI, ports, Linux, permissions, tiny scripts. Terminal goes live, tightly guided. Example: <span class="mono">ls -la</span> finds <span class="mono">.note</span>, then <span class="mono">cat /home/recruit/flag.txt</span> banks your first flag.</p></div>
-<div class="card lift"><h3><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true" style="image-rendering:pixelated;vertical-align:-4px"><circle cx="14" cy="11" r="7" fill="none" stroke="#3fe0ff" stroke-width="3"/><rect x="19" y="15" width="9" height="3" fill="#8fa0bd" transform="rotate(45 19 15)"/><rect x="24" y="4" width="6" height="6" fill="#ff7070"/></svg> 3. Analyst (26–45)</h3><p>OSINT, scan reading, SQLi, XSS, CSRF on our demo app. Example: <span class="mono">scan 10.13.0.5</span> shows 80/tcp open, <span class="mono">probe --web</span> exposes the glued-string login. Hints cost 1.5x now.</p></div>
-<div class="card lift"><h3>4. Specialist (46–70)</h3><p>Privilege escalation, hash drills, a caged stack overflow (offset only, no shellcode), AD map-reading, wireless defense. Example: <span class="mono">sudo -l</span> plus a world-writable cron script — config before cleverness. Hints 2x. This is the wall rote memorization cannot climb.</p></div>
-<div class="card lift"><h3>5. Red Team (71–90)</h3><p>MITRE-style chains, SSRF and deserialization on a fake fetcher, sandboxed malware report-reading, fake-cloud misconfigs. Example: <span class="mono">list-buckets</span> finds a world-readable invoice bucket; you quote the policy line, fix it, move on. Hints 2.5x.</p></div>
-<div class="card lift"><h3>6. Apex (91–100)</h3><p>Timed boss battle chaining every band plus blue-team log triage — contain first, then cure. Example: a 02:14 login, fresh cron persistence, and an outbound spike means isolate before wiping. Prestige resets you to 1 with a badge and a monthly rotator pool.</p></div>
-</div>
+<ol class="bandledger">
+<li><span class="bl-num" aria-hidden="true">01</span><div><h3>Recruit · Lv 1–10</h3><p>Passwords, phishing, CIA triad. Quiz and cards only — no terminal yet. Example: tell which sender is forged, <span class="mono">registrar@myschooI.edu.ph</span>, then pass the checkpoint to earn shell access.</p></div></li>
+<li><span class="bl-num" aria-hidden="true">02</span><div><h3>Operator · Lv 11–25</h3><p>OSI, ports, Linux, permissions, tiny scripts. Terminal goes live, tightly guided. Example: <span class="mono">ls -la</span> finds <span class="mono">.note</span>, then <span class="mono">cat /home/recruit/flag.txt</span> banks your first flag.</p></div></li>
+<li><span class="bl-num" aria-hidden="true">03</span><div><h3>Analyst · Lv 26–45</h3><p>OSINT, scan reading, SQLi, XSS, CSRF on our demo app. Example: <span class="mono">scan 10.13.0.5</span> shows 80/tcp open, <span class="mono">probe --web</span> exposes the glued-string login. Hints cost 1.5x now.</p></div></li>
+<li><span class="bl-num" aria-hidden="true">04</span><div><h3>Specialist · Lv 46–70</h3><p>Privilege escalation, hash drills, a caged stack overflow (offset only, no shellcode), AD map-reading, wireless defense. Example: <span class="mono">sudo -l</span> plus a world-writable cron script — config before cleverness. Hints 2x. This is the wall rote memorization cannot climb.</p></div></li>
+<li><span class="bl-num" aria-hidden="true">05</span><div><h3>Red Team · Lv 71–90</h3><p>MITRE-style chains, SSRF and deserialization on a fake fetcher, sandboxed malware report-reading, fake-cloud misconfigs. Example: <span class="mono">list-buckets</span> finds a world-readable invoice bucket; you quote the policy line, fix it, move on. Hints 2.5x.</p></div></li>
+<li><span class="bl-num" aria-hidden="true">06</span><div><h3>Apex · Lv 91–100</h3><p>Timed boss battle chaining every band plus blue-team log triage — contain first, then cure. Example: a 02:14 login, fresh cron persistence, and an outbound spike means isolate before wiping. Prestige resets you to 1 with a badge and a monthly rotator pool.</p></div></li>
+</ol>
 
 <h2>A sample evening: 30 minutes, zero signup</h2>
 <div class="card"><ol>

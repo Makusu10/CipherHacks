@@ -121,7 +121,47 @@ footer.site .wrap{max-width:1120px;margin:0 auto;padding:1.5rem 1rem;display:gri
 .fcontrols{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
 .badge-wall{display:flex;gap:.4rem;flex-wrap:wrap}
 .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}
-/* ---- responsive foundations (mobile-first helpers) ---- */
+/* ---- hero file world (editorial dossier, not SaaS) ---- */
+::selection{background:var(--green);color:#06130d}
+input,textarea{caret-color:var(--green)}
+.term-out{scrollbar-width:thin;scrollbar-color:var(--green) transparent}
+.term-out::-webkit-scrollbar{width:8px}
+.term-out::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+a{text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+.hero-file{display:grid;gap:2rem;padding:2.2rem 0 1rem}
+@media(min-width:960px){.hero-file{grid-template-columns:1.02fr .98fr;align-items:start}}
+.hero-main h1{font-size:clamp(2.7rem,6.5vw,4.4rem);line-height:.98;letter-spacing:-.035em;margin:0 0 1rem;text-wrap:balance}
+.hero-main h1 em{font-style:normal;color:var(--green)}
+.hero-main h1 .hollow{color:transparent;-webkit-text-stroke:1.5px var(--text)}
+.hero-main .lead{max-width:56ch;font-size:1.06rem}
+.hero-main .actions{margin:1.2rem 0 .9rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.stamps{display:flex;gap:.55rem;flex-wrap:wrap;margin:.4rem 0 1rem;padding:0}
+.stamp{font-family:ui-monospace,Consolas,monospace;font-size:.76rem;letter-spacing:1px;text-transform:uppercase;
+  border:1.5px solid var(--muted);border-radius:6px;padding:.3rem .6rem;color:var(--text);background:rgba(255,255,255,.02)}
+.stamp.s1{border-color:var(--amber);color:var(--amber);transform:rotate(-1.6deg)}
+.stamp.s2{border-color:var(--green);color:var(--green);transform:rotate(.8deg)}
+.stamp.s3{border-color:var(--cyan);color:var(--cyan);transform:rotate(-.6deg)}
+.stamp.s4{border-color:var(--violet);color:var(--violet);transform:rotate(1.1deg)}
+.manifest{list-style:none;margin:1rem 0;padding:1rem 0 0;border-top:2px solid var(--line);max-width:34rem}
+.manifest li{display:flex;align-items:baseline;gap:.6rem;padding:.42rem 0}
+.manifest .dots{flex:1;border-bottom:2px dotted #33507a;transform:translateY(-4px)}
+.manifest b{font-family:ui-monospace,Consolas,monospace;font-size:1.05rem;color:var(--green)}
+.fieldnote{border-top:1px dashed #33507a;padding-top:.8rem;max-width:56ch}
+.tap{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1rem}
+.tap::before,.tap::after{content:"";position:absolute;width:22px;height:22px;border:2px solid var(--amber)}
+.tap::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.tap::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.tap-tag{font-family:ui-monospace,Consolas,monospace;font-size:.72rem;letter-spacing:1.5px;color:var(--amber);margin:0 0 .7rem;text-transform:uppercase}
+/* ---- band ledger: sequence carries the info, so numerals are earned ---- */
+.bandledger{list-style:none;margin:1rem 0 0;padding:0;max-width:60rem}
+.bandledger li{display:flex;gap:1rem;padding:1.1rem .2rem;border-top:1px solid var(--line)}
+.bandledger li:last-child{border-bottom:1px solid var(--line)}
+.bandledger li:nth-child(even){margin-left:clamp(0px,4vw,3rem)}
+.bl-num{font-family:ui-monospace,Consolas,monospace;font-size:1.5rem;font-weight:800;color:transparent;-webkit-text-stroke:1px var(--cyan);line-height:1.2;flex:0 0 auto}
+.bandledger h3{margin:0 0 .3rem;font-size:1.08rem}
+.bandledger p{margin:0;max-width:70ch}
+@media(max-width:640px){.hero-file{padding-top:1.2rem}.bandledger li:nth-child(even){margin-left:0}.bl-num{font-size:1.2rem}}
 img,svg,video,canvas{max-width:100%;height:auto}
 @media(max-width:820px){
   .grid.hero2{grid-template-columns:1fr}
