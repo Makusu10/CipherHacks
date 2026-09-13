@@ -138,3 +138,23 @@ def test_quiz_radio_groups():
     # full marks when every answer is right (lesson has answers 0,1,0)
     r = c.post("/lesson/passwords-2fa", data={"q0": "0", "q1": "1", "q2": "0"})
     assert "Passed: 3/3" in r.get_data(as_text=True)
+
+def test_logged_in_exam_banks_xp():
+    import html as ihtml
+    import json as _json
+    import re as _re
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": _handle("xpfriend"), "consent": "yes"})
+    page = c.get("/exams?band=recruit&n=5").get_data(as_text=True)
+    m = _re.search(r'name="qs" value="(.*?)"\s*/?>', page, _re.S)
+    assert m, "hidden qs field missing"
+    qs = _json.loads(ihtml.unescape(m.group(1)))
+    assert len(qs) == 5
+    data = {"qs": _json.dumps(qs), "band": "recruit", "n": "5"}
+    for i, q in enumerate(qs):
+        data[f"q{i}"] = str(q["answer"])
+    r = c.post("/exams", data=data)
+    assert "100%" in r.get_data(as_text=True)
+    prof = c.get("/profile").get_data(as_text=True)
+    assert "60 XP" in prof and "62 coins" in prof, prof[:300]
