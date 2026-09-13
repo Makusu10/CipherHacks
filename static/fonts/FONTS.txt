@@ -1,0 +1,10 @@
+Fonts in this folder (self-hosted so the site makes zero third-party requests):
+
+- Orbitron (600, 800) — Copyright 2011 The Orbitron Project Authors
+  (Matt McInerney). Used for headings and display type.
+- Share Tech Mono (400) — Copyright 2012 Cody Boisclair. Used for quiz
+  answers, labels, terminal-adjacent UI, and buttons.
+
+Both licensed under the SIL Open Font License 1.1
+(https://openfontlicense.org). Source: Google Fonts (fonts.google.com),
+downloaded once at build time; no runtime requests leave this server.

@@ -5,7 +5,7 @@
 <p class="kicker">Mission file · {{ les['band'] }} {% if les['is_checkpoint'] %}· checkpoint (70% to pass){% endif %}</p>
 <h1>{{ les['title'] }}</h1>
 <p class="muted">Field rule: this file's tricks work only inside our fictional boxes. Real systems are out of scope — see <a href="/conduct">conduct</a>.</p>
-<div class="card"><p>{{ les['body'] }}</p><p class="tag">Reward: +{{ les['xp_reward'] }} XP, +{{ les['coins_reward'] }} coins on first pass.</p></div>
+<div class="card briefing">{% for para in les['body'].split('\n\n') %}<p>{{ para }}</p>{% endfor %}<p class="tag">Reward: +{{ les['xp_reward'] }} XP, +{{ les['coins_reward'] }} coins on first pass.</p></div>
 {% if guest_note %}<div class="alert" role="status">{{ guest_note }} <a href="/signup">Claim handle</a></div>{% endif %}
 {% if result %}
 {% if result.passed %}<div class="ok" role="status">Passed: {{ result.score }}/{{ result.total }} ({{ result.pct }}%). XP and coins added on first clear.</div>

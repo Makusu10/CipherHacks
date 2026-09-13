@@ -1,8 +1,17 @@
+/* Self-hosted cyber type (see static/fonts/FONTS.txt — zero third-party requests) */
+@font-face{font-family:"Orbitron";font-style:normal;font-weight:600;font-display:swap;
+  src:url("../fonts/orbitron-600.ttf") format("truetype")}
+@font-face{font-family:"Orbitron";font-style:normal;font-weight:800;font-display:swap;
+  src:url("../fonts/orbitron-800.ttf") format("truetype")}
+@font-face{font-family:"Share Tech Mono";font-style:normal;font-weight:400;font-display:swap;
+  src:url("../fonts/sharetechmono-400.ttf") format("truetype")}
 :root{
   --bg:#060a11; --bg2:#090f1a; --panel:#0d1626; --panel2:#122036; --line:#22344f;
   --text:#eaf4f0; --muted:#9db1c7; --green:#3cf5a5; --cyan:#3fe0ff;
   --amber:#ffd166; --red:#ff7070; --violet:#a78bfa; --radius:14px;
   --glow:0 0 0 1px rgba(60,245,165,.15),0 8px 32px rgba(0,0,0,.45);
+  --display:"Orbitron","Segoe UI",system-ui,sans-serif;
+  --cyber:"Share Tech Mono",ui-monospace,Consolas,Menlo,monospace;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -10,7 +19,7 @@ body{margin:0;color:var(--text);line-height:1.6;
   font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
   background:radial-gradient(1200px 500px at 20% -10%,rgba(63,224,255,.12),transparent 60%),
   radial-gradient(1000px 480px at 90% 0%,rgba(60,245,165,.10),transparent 55%),var(--bg);}
-.mono{font-family:ui-monospace,Consolas,"Cascadia Code",Menlo,monospace}
+.mono{font-family:var(--cyber)}
 a{color:var(--cyan)}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:6px}
 .skip{position:absolute;left:-9999px;top:0;background:var(--amber);color:#111;padding:.6rem 1rem;z-index:99;font-weight:700}
@@ -218,7 +227,7 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .brand{background:none;padding:.2rem .3rem .2rem 0;line-height:0}
 .brand .px-logo{height:24px;width:auto;image-rendering:pixelated}
 .brand:hover .px-logo,.brand:focus-visible .px-logo{filter:drop-shadow(0 0 9px rgba(60,245,165,.55))}
-.nav a.btn,.nav button.btn{font-family:ui-monospace,Consolas,"Liberation Mono",monospace;text-transform:uppercase;
+.nav a.btn,.nav button.btn{font-family:var(--cyber);text-transform:uppercase;
   font-size:.76rem;font-weight:700;letter-spacing:1.5px;color:var(--text);
   background:#101d33;border:0;border-radius:0;padding:.6rem .85rem .6rem .8rem;
   clip-path:polygon(0 6px,6px 6px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 6px),0 calc(100% - 6px));
@@ -253,6 +262,19 @@ img,svg,video,canvas{max-width:100%;height:auto}
   background-size:220% 100%;animation:shine 3.2s infinite linear;color:#fff8e1}
 @keyframes shine{from{background-position:180% 0}to{background-position:-80% 0}}
 @media(prefers-reduced-motion:reduce){.nav a.btn.who.redteam,.nav a.btn.who.apex{animation:none}}
+/* ---- cyber type system: display voice + answer voice ---- */
+h1,h2,h3{font-family:var(--display);line-height:1.15}
+h1{font-weight:800}
+h2{font-weight:800;font-size:1.45rem}
+h3{font-weight:600;font-size:1.1rem}
+.quiz legend,.quiz label,.btn,button,input,select,textarea,th,.chip,.stamp,.qtime,
+.rule-no,.cred-tag,.cred-head,.tap-tag,.px-cap,.lvbadge,.medal,.pill,.bl-num,
+.fcard,.term-out,.term-in input{font-family:var(--cyber)}
+.quiz label{font-size:1.02rem;letter-spacing:.01em}
+.btn{letter-spacing:.06em}
+/* briefing: teach-first lesson bodies */
+.briefing p{max-width:72ch}
+.briefing p:first-child{font-size:1.05rem}
 /* ---- quest log: time chips, path, loot lines ---- */
 .questlog{list-style:none;margin:1rem 0 0;padding:0;max-width:60rem;position:relative}
 .questlog::before{content:"";position:absolute;left:26px;top:12px;bottom:12px;width:2px;

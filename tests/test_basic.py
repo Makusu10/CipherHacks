@@ -217,3 +217,20 @@ def test_logged_in_lesson_banks_xp():
     assert "40 XP" in prof
     dash = c.get("/dashboard").get_data(as_text=True)
     assert "Replay file" in dash
+
+def test_teach_first_bodies_and_cyber_type():
+    import json as _json
+    lessons = _json.load(open("data/curriculum.json", encoding="utf-8"))
+    assert len(lessons) == 29
+    for l in lessons:
+        words = len(l["body"].split())
+        assert words >= 40, (l["slug"], words)
+        assert "IN PRACTICE" in l["body"], l["slug"]
+    app = create_app()
+    c = app.test_client()
+    html = c.get("/lesson/passwords-2fa").get_data(as_text=True)
+    assert "SIM-swap" in html and "briefing" in html
+    css = c.get("/static/css/style.css").get_data(as_text=True)
+    assert "@font-face" in css and "Orbitron" in css and "Share Tech Mono" in css
+    for f in ["orbitron-600.ttf", "orbitron-800.ttf", "sharetechmono-400.ttf"]:
+        assert c.get(f"/static/fonts/{f}").status_code == 200, f
