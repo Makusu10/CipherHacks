@@ -764,6 +764,14 @@ def create_app():
     def about():
         return render_template("about.html")
 
+    @app.errorhandler(404)
+    def not_found(_e):
+        return render_template("error.html", msg="No such page. The address may be mistyped — try the skill map."), 404
+
+    @app.errorhandler(500)
+    def server_error(_e):
+        return render_template("error.html", msg="Something broke on our side. Your progress is saved — try again."), 500
+
     return app
 
 

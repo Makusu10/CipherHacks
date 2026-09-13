@@ -7,6 +7,7 @@
 <meta name="description" content="{% block meta_desc %}CipherHacks: free, story-driven cybersecurity practice with quizzes, flashcards, scripted terminal labs, duels, and guilds. Fictional targets only.{% endblock %}">
 <link rel="canonical" href="{{ request.url_root.rstrip('/') }}{{ request.path }}">
 <meta name="theme-color" content="#070b12">
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CipherHacks">
 <meta property="og:title" content="{% block og_title %}CipherHacks — practice cybersecurity, honestly{% endblock %}">
@@ -31,6 +32,12 @@
 {"@context": "https://schema.org", "@type": "WebSite", "name": "CipherHacks",
  "url": "https://github.com/Makusu10/CipherHacks",
  "description": "Skill map, flashcards, practice exams, scripted terminal labs, arena duels, guilds, and season ladders for learning security."}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Course", "name": "CipherHacks security practice track",
+ "description": "Free six-band practice track: cyber hygiene, Linux and networking, web basics, exploitation concepts, red-team chains, and a blue-team capstone. Fictional training targets only; no credential issued.",
+ "provider": {"@type": "Organization", "name": "CipherHacks", "sameAs": "https://github.com/Makusu10/CipherHacks"},
+ "isAccessibleForFree": true, "teaches": "cybersecurity fundamentals, Linux, networking, web vulnerabilities, log analysis"}
 </script>
 </head>
 <body>

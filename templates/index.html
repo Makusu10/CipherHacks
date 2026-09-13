@@ -32,7 +32,7 @@
 <rect class="px-pkt" x="0" y="80" width="8" height="3" fill="#3fe0ff"/>
 <rect class="px-pkt p2" x="0" y="88" width="8" height="3" fill="#3cf5a5"/>
 <rect class="px-pkt p3" x="0" y="94" width="8" height="3" fill="#ffd166"/>
-<g id="px-bot" class="px-bot px-mascot" tabindex="0" aria-label="Pixel robot mascot. Activate for a tip.">
+<g id="px-bot" class="px-bot px-mascot" aria-hidden="true">
 <rect x="160" y="106" width="40" height="30" fill="#c7d2e4"/>
 <rect x="160" y="106" width="40" height="6" fill="#8fa0bd"/>
 <rect x="166" y="116" width="28" height="14" fill="#06281c"/>
@@ -48,7 +48,7 @@
 <g class="px-flag"><rect x="52" y="34" width="3" height="18" fill="#8fa0bd"/><rect x="55" y="34" width="16" height="9" fill="#3cf5a5"/></g>
 <rect x="0" y="142" width="360" height="8" fill="#04070d"/>
 </svg>
-<div class="px-cap"><span id="px-say">boop. hover or tap the bot — it talks.</span><span class="mono" id="px-type">$ help  →  3 boxes online▊</span></div>
+<div class="px-cap"><span id="px-say">boop. tap the bot — it talks.</span><span class="mono" id="px-type">$ help  →  3 boxes online▊</span></div>
 </div>
 <div class="hero grid hero2">
 <div>
@@ -59,14 +59,14 @@
 <p><a class="btn primary big" href="/flashcards">Play now — no signup</a>
 <a class="btn big" href="/signup">Save progress (free)</a></p>
 <p><span class="pill free">free</span><span class="pill recruit">29 lessons live</span><span class="pill operator">8 labs</span><span class="pill analyst">arena + ELO</span></p>
-<div class="statrow" aria-label="What is live">
+<div class="statrow" role="group" aria-label="What is live">
 <div class="stat"><b>70+</b><span class="muted">quiz + card prompts</span></div>
 <div class="stat"><b>8</b><span class="muted">terminal boxes</span></div>
 <div class="stat"><b>5Q</b><span class="muted">arena bouts</span></div>
 <div class="stat"><b>0</b><span class="muted">pesos to start</span></div>
 </div>
 </div>
-<div class="card" aria-label="Live preview">
+<div class="card" role="region" aria-label="Live preview">
 <p class="kicker">Live terminal — type below, no login</p>
 <div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box</span></div>
 <div class="term-out mono" id="demo-out" aria-live="polite">Type 'help' below — this box answers for guests.
