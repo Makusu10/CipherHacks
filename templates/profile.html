@@ -52,7 +52,7 @@
 <div class="card"><h3>Trophy case</h3>
 <p class="medals">{% for b in badges %}<span class="medal" title="Earned {{ b.awarded_at[:10] }}">{{ b.code }}</span>{% else %}<span class="muted">Empty shelf. Clear a lesson to hang the first one.</span>{% endfor %}</p>
 <h3>Flag vault</h3>
-<ul class="vault">{% for f in flags %}<li><span class="mono">{{ f.lab_id }}</span><span class="tag">{{ f.submitted_at[:10] }} · verified</span></li>{% else %}<li class="muted">No flags banked. <a href="/labs">Boxes are open</a>.</li>{% endfor %}</ul>
+<ul class="vault">{% for f in flags %}<li><span class="mono">{{ f.lab_id }}</span><span class="tag">{{ f.submitted_at[:10] }} · verified</span></li>{% else %}<li class="empty"><span class="muted">No flags banked. <a href="/labs">Boxes are open</a>.</span></li>{% endfor %}</ul>
 <h3>Banner</h3>
 <p>{% for g in guilds %}<span class="pill">{{ g.name }}</span>{% else %}<span class="muted">Guildless — <a href="/guilds">swear to a banner</a>.</span>{% endfor %}</p>
 </div>

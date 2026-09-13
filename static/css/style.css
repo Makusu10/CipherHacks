@@ -311,3 +311,4 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .vault{list-style:none;margin:.4rem 0;padding:0}
 .vault li{display:flex;justify-content:space-between;gap:.6rem;border:1px dashed #33507a;border-radius:8px;
   padding:.45rem .7rem;margin:.4rem 0}
+.vault li.empty{display:block}
