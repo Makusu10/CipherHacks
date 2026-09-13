@@ -5,3 +5,5 @@ instance/
 venv/
 .pytest_cache/
 .env
+*tunnel.log
+*.log.err
