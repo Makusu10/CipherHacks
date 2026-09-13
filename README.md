@@ -10,7 +10,9 @@ signup; a free handle only saves XP, flags, ELO, and guilds.
 builder, 8 scripted terminal labs, 1v1 arena with ELO, 4 season ladders (XP,
 flag hunters, duelists, guilds), guild hall, daily streak, coins-for-hints
 shop (priced by band), rank titles (Street Awake → Apex Myth), Prestige at
-level 100, and a pixel-arcade interface with hand-drawn art.
+level 100, and a pixel-arcade interface with hand-drawn art. Lost beginners
+start at `/start`: three branching trails (first boot, terminal tourist,
+skip-the-line) with checkable steps and honest time/XP per step.
 
 ---
 
@@ -97,6 +99,7 @@ nav on shared PCs.
 
 | Want… | Go to | Notes |
 |---|---|---|
+| Don't know where to begin | `/start` | 3 trails, checkable steps, next-file suggestion |
 | Follow the story | `/missions` | 6 cases, 29 files, checkpoints gate bands |
 | See your character | `/dashboard` | Rank title, XP bar, visual skill map |
 | Crack boxes | `/labs` | 8 sims; hints priced by band (1x → 2.5x) |
@@ -129,10 +132,10 @@ for a failing score.
 python -m pytest tests/ -q
 ```
 
-10 tests should pass: health, gating, blocked-command guard, guest-first
+11 tests should pass: health, gating, blocked-command guard, guest-first
 access, full 1–100 ladder, game layer (ranks, cases, boards), grader SEO
 checks (words, FAQ, meta, robots, sitemap), quiz radio groups, logged-in
-exam XP banking, and fail-state honesty.
+exam XP banking, fail-state honesty, and the start roadmap.
 
 ## 8. Admin panel (optional)
 
@@ -169,13 +172,13 @@ data/curriculum.json   29 lessons across 6 bands + 6 checkpoints
 data/terminal_scenarios.json  8 scripted labs, flags, hint ladders, cost multipliers
 utils/leveling.py      XP curve, bands, ELO math, rank titles, case dossiers
 utils/db.py · utils/seed.py  SQLite schema + idempotent seed (lessons, demo bots)
-templates/             Pages: map, cases, cards, exams, labs, arena, ladders, guilds, legal
+templates/             Pages: start, map, cases, cards, exams, labs, arena, ladders, guilds, legal
 static/css/style.css   Hand CSS, pixel arcade nav, case-file hero, quest log, game boards (no frameworks)
 static/js/             app.js (consent), pixel.js (mascot, typing teaser)
 static/img/            logo.svg + favicon.svg + og.png, all hand-made (no stock)
 robots/sitemap         /robots.txt + /sitemap.xml routes; JSON-LD (Organization,
                        WebSite, Course, FAQPage) + canonical/OG tags in base.html
-tests/                 10 pytest checks
+tests/                 11 pytest checks
 ```
 
 ## 11. Safety, privacy, honesty (read before teaching others)
