@@ -32,3 +32,14 @@ def test_terminal_blocked():
     assert "Blocked" in r.get_json()["output"]
     r2 = c.post("/api/terminal", json={"lab_id": "linux-basics", "cmd": "ls -la"})
     assert ".note" in r2.get_json()["output"]
+
+def test_free_modes():
+    app = create_app()
+    c = app.test_client()
+    c.post("/signup", data={"username": "tester3", "consent": "yes"})
+    assert c.get("/flashcards").status_code == 200
+    assert c.get("/exams").status_code == 200
+    assert c.get("/labs").status_code == 200
+    assert c.get("/arena").status_code == 200
+    home = c.get("/").get_data(as_text=True)
+    assert "free" in home.lower() and "Claim a free handle" in home

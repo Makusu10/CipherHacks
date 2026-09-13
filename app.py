@@ -494,6 +494,61 @@ def create_app():
             already = True
         return render_template("daily.html", q=q, already=already, msg=msg, me=current_user())
 
+    @app.route("/flashcards")
+    @login_required
+    def flashcards():
+        con = get_db()
+        cards = []
+        for r in con.execute("SELECT slug, title, band, quiz_json FROM lessons").fetchall():
+            try:
+                quiz = json.loads(r["quiz_json"] or "[]")
+            except Exception:
+                quiz = []
+            for i, item in enumerate(quiz):
+                choices = item.get("choices", [])
+                ans = item.get("answer", 0)
+                front = item.get("q", "")
+                back = choices[ans] if 0 <= ans < len(choices) else ""
+                cards.append({"lesson": r["slug"], "band": r["band"], "front": front,
+                              "back": back, "choices": choices})
+        random.shuffle(cards)
+        return render_template("flashcards.html", cards=cards[:40], me=current_user())
+
+    @app.route("/exams", methods=["GET", "POST"])
+    @login_required
+    def exams():
+        me = current_user()
+        con = get_db()
+        band = request.values.get("band", "all")
+        n = min(20, max(5, int(request.values.get("n", 10) or 10)))
+        pool = []
+        for r in con.execute("SELECT band, quiz_json FROM lessons").fetchall():
+            if band != "all" and r["band"] != band:
+                continue
+            try:
+                pool.extend(json.loads(r["quiz_json"] or "[]"))
+            except Exception:
+                pass
+        questions = random.sample(pool, min(n, len(pool))) if pool else []
+        result = None
+        if request.method == "POST":
+            qs = json.loads(request.form.get("qs", "[]"))
+            score = 0
+            for i, item in enumerate(qs):
+                try:
+                    if int(request.form.get(f"q{i}", "-1")) == item.get("answer"):
+                        score += 1
+                except ValueError:
+                    pass
+            pct = round(100 * score / max(1, len(qs)))
+            if pct >= 70:
+                award_xp(me["id"], 60, 12)
+                me = current_user()
+            result = {"score": score, "total": len(qs), "pct": pct}
+            questions = qs
+        return render_template("exams.html", questions=questions, result=result,
+                               band=band, n=n, me=me)
+
     @app.route("/guilds", methods=["GET", "POST"])
     @login_required
     def guilds():

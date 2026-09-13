@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Flashcards — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Free · spaced by hand</p>
+<h1>Flashcards</h1>
+<p class="muted">{{ cards|length }} cards shuffled from lessons. Click or press Enter to flip. Mark Got / Missed — misses stack into your weak list below. No timers here.</p>
+<div class="flash">
+<div class="fcard" id="card" tabindex="0" role="button" aria-label="Flashcard, activate to flip"><div><div id="front"></div><small id="meta"></small></div></div>
+<div class="fcontrols">
+<button class="btn small" id="prev" type="button">← Prev</button>
+<button class="btn small primary" id="flip" type="button">Flip (Enter)</button>
+<button class="btn small" id="next" type="button">Next →</button>
+<button class="btn small" id="got" type="button">Got it</button>
+<button class="btn small ghost" id="miss" type="button">Missed</button>
+</div>
+<p class="muted" id="count"></p>
+</div>
+<div class="card"><h3>Weak list this session</h3><ul id="weak" class="muted"><li>Nothing missed yet. Good.</li></ul>
+<p><a class="btn small" href="/exams">Turn misses into an exam</a></p></div>
+{% endblock %}
+{% block scripts %}
+<script>
+var cards={{ cards|tojson }};var i=0,showing=false,weak=[];
+var front=document.getElementById("front"),meta=document.getElementById("meta"),count=document.getElementById("count");
+function render(){if(!cards.length){front.textContent="No cards.";return;}
+var c=cards[i];front.textContent=showing?("→ "+c.back):c.front;meta.textContent=(c.band+" · "+c.lesson+" · "+(i+1)+"/"+cards.length);count.textContent="Card "+(i+1)+" of "+cards.length+(weak.length?(" · missed "+weak.length):"");}
+function flip(){showing=!showing;render();}
+document.getElementById("flip").onclick=flip;
+document.getElementById("card").addEventListener("click",flip);
+document.getElementById("card").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flip();}});
+document.getElementById("next").onclick=function(){i=(i+1)%cards.length;showing=false;render();};
+document.getElementById("prev").onclick=function(){i=(i-1+cards.length)%cards.length;showing=false;render();};
+document.getElementById("got").onclick=function(){i=(i+1)%cards.length;showing=false;render();};
+document.getElementById("miss").onclick=function(){weak.push(cards[i].front);var ul=document.getElementById("weak");if(weak.length===1)ul.innerHTML="";var li=document.createElement("li");li.textContent=cards[i].front+" → "+cards[i].back;ul.appendChild(li);i=(i+1)%cards.length;showing=false;render();};
+render();
+</script>
+{% endblock %}

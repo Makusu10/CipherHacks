@@ -1,13 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Sign up — CipherHacks{% endblock %}
+{% block title %}Sign up free — CipherHacks{% endblock %}
 {% block content %}
-<h1>Pick a handle</h1>
-<p class="muted">We store only your handle plus progress. No email needed, no newsletter, no tracking. Read <a href="/privacy">Privacy</a> first.</p>
+<div class="grid hero2">
+<div>
+<p class="kicker">Free account · full practice set</p>
+<h1>Claim your handle. Start fighting.</h1>
+<p class="lead">No email, no card, no trial. Handle + progress only. Delete anytime from Profile.</p>
+<ul><li>Flashcards, exams, 3 labs, arena, guilds, daily — all included</li><li>XP + coins + ELO from minute one</li><li>Logs out cleanly on shared PCs (button in nav)</li></ul>
+</div>
+<div>
 {% if err %}<div class="alert" role="alert">{{ err }}</div>{% endif %}
 <form class="card" method="post">
-<label class="fl" for="username">Handle (3–24 chars)</label>
+<label class="fl" for="username">Handle (3–24 chars: letters, numbers, _ -)</label>
 <input id="username" name="username" type="text" required minlength="3" maxlength="24" autocomplete="username" placeholder="quiet_packet">
-<p><label><input type="checkbox" name="consent" value="yes" required> I agree to store my handle and lesson progress so the skill tree works. I know I can delete it anytime under Profile.</label></p>
-<button class="btn primary" type="submit">Create account</button>
+<p><label><input type="checkbox" name="consent" value="yes" required> I agree to store my handle and lesson progress so the skill tree works. I know I can delete it anytime under Profile. (<a href="/privacy">Privacy</a>)</label></p>
+<button class="btn primary big" type="submit">Create free account</button>
+<p class="tag">Already have one? <a href="/login">Log in</a>.</p>
 </form>
+</div>
+</div>
 {% endblock %}

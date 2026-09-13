@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Exams — CipherHacks{% endblock %}
+{% block content %}
+<p class="kicker">Timed by you · free builder</p>
+<h1>Practice exams</h1>
+<form class="card" method="get">
+<label class="fl" for="band">Band</label>
+<select id="band" name="band"><option value="all" {% if band=='all' %}selected{% endif %}>All bands</option><option value="recruit" {% if band=='recruit' %}selected{% endif %}>Recruit</option><option value="operator" {% if band=='operator' %}selected{% endif %}>Operator</option><option value="analyst" {% if band=='analyst' %}selected{% endif %}>Analyst</option></select>
+<label class="fl" for="n">Questions (5–20)</label>
+<input id="n" name="n" type="text" inputmode="numeric" value="{{ n }}">
+<p><button class="btn small primary" type="submit">Build exam</button></p>
+</form>
+{% if result %}<div class="ok" role="status">Scored {{ result.score }}/{{ result.total }} ({{ result.pct }}%). 70%+ earned +60 XP.</div>{% endif %}
+{% if questions and not result %}
+<form class="quiz card" method="post">
+<input type="hidden" name="qs" value='{{ questions|tojson }}'>
+<input type="hidden" name="band" value="{{ band }}"><input type="hidden" name="n" value="{{ n }}">
+{% for item in questions %}
+<fieldset><legend>{{ loop.index }}. {{ item.q }}</legend>
+{% for c in item.choices %}<label><input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required> {{ c }}</label>{% endfor %}
+</fieldset>
+{% endfor %}
+<button class="btn primary" type="submit">Submit exam</button>
+</form>
+{% elif result %}<p><a class="btn primary" href="/exams?band={{ band }}&n={{ n }}">New exam, same settings</a></p>
+{% else %}<div class="card"><p class="muted">Pick a band and size above. Questions come from lessons you can already see.</p></div>{% endif %}
+{% endblock %}

@@ -1,25 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="hero">
-<p class="kicker">Fictional targets only · no real hacking</p>
-<h1>Learn security by typing, not just tapping.</h1>
+<div class="hero grid hero2">
+<div>
+<p class="kicker">Free while in prototype · fictional targets only</p>
+<h1>Type your way into security.</h1>
 <div class="scan" aria-hidden="true"></div>
-<p style="max-width:62ch">CipherHacks is a small practice ground I built to teach the boring-important stuff first: passwords, phishing, Linux, ports, then web bugs and hash drills. Quizzes unlock a scripted terminal. Wins earn XP and coins. Coins buy hints. Top ranks reset monthly so late joiners still have a shot.</p>
-<p><a class="btn primary" href="/signup">Create a handle and start at Recruit</a>
-<a class="btn" href="/dashboard">See the skill tree</a></p>
-<p class="muted">Early prototype. Curriculum covers Recruit → Analyst fully; Specialist and up ship as scripted previews. No certificates, no job promises.</p>
+<p class="lead">CipherHacks runs like a match, not a textbook: flip flashcards, sit timed exams, crack scripted terminal boxes, then duel in the arena. XP unlocks harder bands. Checkpoints stop you skipping ahead. <strong>Free account = full practice set.</strong> No card, no trial clock.</p>
+<p><a class="btn primary big" href="/signup">Claim a free handle</a>
+<a class="btn big" href="/dashboard">Peek at the skill tree</a></p>
+<p><span class="pill free">free</span><span class="pill recruit">11 lessons live</span><span class="pill operator">3 labs</span><span class="pill analyst">arena + ELO</span></p>
+<div class="statrow" aria-label="What is live">
+<div class="stat"><b>40+</b><span class="muted">quiz + card prompts</span></div>
+<div class="stat"><b>3</b><span class="muted">terminal boxes</span></div>
+<div class="stat"><b>5Q</b><span class="muted">arena bouts</span></div>
+<div class="stat"><b>0</b><span class="muted">pesos to start</span></div>
 </div>
+</div>
+<div class="card" aria-label="Live preview">
+<p class="kicker">Preview — no login needed to read</p>
+<div class="term"><div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mono muted" style="margin-left:.5rem">recruit-box</span></div>
+<div class="term-out mono" id="demo">$ help
+commands: help, pwd, ls, ls -la, cat &lt;file&gt;, scan &lt;ip&gt;, probe --web, crack, submit flag{...}
+$ ls -la
+readme.txt  .note  missions/
+$ <span id="caret">▊</span></div></div>
+<p class="muted">The real box answers back after signup. Everything here is invented — no real hosts.</p>
+<p><a class="btn small primary" href="/signup">Try it free</a> <a class="btn small" href="/labs">See labs</a></p>
+</div>
+</div>
+
+<div class="tabs" role="tablist" aria-label="Modes">
+<button class="btn small primary" data-tab="t1" type="button">Cards + Exams</button>
+<button class="btn small" data-tab="t2" type="button">Terminal labs</button>
+<button class="btn small" data-tab="t3" type="button">Arena + Guilds</button>
+</div>
+<div class="card" id="t1"><h3>Study like a competitor</h3><p>Flashcards flip on click with keyboard support (Tab + Enter). Timed exams pull 5–20 questions by band. Misses feed your weak-area list — the same mechanic cert grinders pay for, here free.</p><p><a class="btn small" href="/flashcards">Open flashcards</a> <a class="btn small" href="/exams">Build an exam</a></p></div>
+<div class="card" id="t2" hidden><h3>Labs that talk back</h3><p>Scripted boxes pretend to be a recruit host, a scan target, a hash file. Type <span class="mono">scan 10.13.0.5</span>, read the fake output, submit <span class="mono">flag{...}</span> for +100 XP. Real-host syntax gets blocked on purpose.</p><p><a class="btn small" href="/labs">Open labs</a></p></div>
+<div class="card" id="t3" hidden><h3>Duels, seasons, crews</h3><p>Five-question bouts vs a sparring bot with ELO. Guilds pool XP. Boards reset monthly so newcomers aren't buried. Daily one-question streak keeps you warm.</p><p><a class="btn small" href="/arena">Enter arena</a> <a class="btn small" href="/guilds">Find a guild</a></p></div>
+
 <div class="grid three">
-<div class="card"><h3>1. Recruit (Lv 1–10)</h3><p>Passwords, 2FA, phishing, CIA triad. Quiz-only. Pass the checkpoint to earn terminal access.</p></div>
-<div class="card"><h3>2. Operator (Lv 11–25)</h3><p>Linux commands, ports, permissions, tiny scripts. Guided labs with a hint ladder that costs coins.</p></div>
-<div class="card"><h3>3. Analyst (Lv 26–45)</h3><p>OSINT habits, fake nmap reads, SQLi and XSS on our demo app. Less hand-holding.</p></div>
+<div class="card lift"><h3>1. Recruit (1–10)</h3><p>Passwords, phishing, CIA triad. Quiz + cards only. Checkpoint unlocks the terminal.</p></div>
+<div class="card lift"><h3>2. Operator (11–25)</h3><p>Linux, ports, permissions. Guided labs, hints cost coins you earned.</p></div>
+<div class="card lift"><h3>3. Analyst (26–45)</h3><p>OSINT habits, fake scans, SQLi/XSS on our demo app. Less help, more reading.</p></div>
 </div>
-<div class="card">
-<h2>How it differs from cert-cram tools</h2>
-<p>Flashcards stop at recall. Here you also type <span class="mono">ls -la</span>, read a fake scan, submit <span class="mono">flag{...}</span>, duel a rival for ELO, and join a guild for the season board. Gating is strict: XP alone doesn't unlock the next band — you must also pass its checkpoint.</p>
-</div>
-<div class="grid two">
-<div class="card"><h3>What you get now</h3><ul><li>Skill-tree dashboard with locks</li><li>11 lessons with auto-graded quizzes</li><li>3 scripted terminal labs</li><li>1v1 arena vs sparring bot + ELO</li><li>Guilds, seasons, daily streak</li></ul></div>
-<div class="card"><h3>What you don't get</h3><ul><li>No real targets, ever — practice boxes only</li><li>No tracking scripts or ad embeds</li><li>No fake reviews or “#1 platform” claims</li><li>No payments, so no surprise charges</li></ul></div>
-</div>
+<div class="marquee"><strong>Free-first promise:</strong> every mode on this page works with a free handle. If a paywall ever appears, the free practice set stays. No card collected anywhere in this build.</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){
+document.querySelectorAll("[data-tab]").forEach(function(x){x.classList.remove("primary")});
+b.classList.add("primary");["t1","t2","t3"].forEach(function(id){document.getElementById(id).hidden=(id!==b.dataset.tab)});});});
+</script>
 {% endblock %}

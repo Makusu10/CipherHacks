@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Dashboard — CipherHacks{% endblock %}
 {% block content %}
-<p class="kicker">Skill tree</p>
+<p class="kicker">Skill tree · free track</p>
 <h1>Your map, {{ me['username'] }}</h1>
-<p class="muted">Level {{ me['level'] }} · {{ me['xp'] }} XP · {{ me['coins'] }} coins · ELO {{ me['elo'] }} · streak {{ me['streak'] }} · {% if me['prestige'] %}prestige {{ me['prestige'] }} · {% endif %}next bands need checkpoints, not just XP.</p>
-{% if badges %}<p>{% for b in badges %}<span class="pill">{{ b }}</span>{% endfor %}</p>{% endif %}
+<div class="statrow">
+<div class="stat"><b>Lv {{ me['level'] }}</b><span class="muted">{{ me['xp'] }} XP</span></div>
+<div class="stat"><b>{{ me['coins'] }}</b><span class="muted">coins for hints</span></div>
+<div class="stat"><b>{{ me['elo'] }}</b><span class="muted">arena ELO</span></div>
+<div class="stat"><b>{{ me['streak'] }}d</b><span class="muted">streak</span></div>
+</div>
+<p class="muted">Next bands need checkpoints, not just XP. Quick lane: <a href="/flashcards">cards</a> → <a href="/exams">exam</a> → <a href="/labs">lab</a> → <a href="/arena">duel</a>.</p>
+<div class="badge-wall">{% for b in badges %}<span class="pill">{{ b }}</span>{% else %}<span class="muted">No badges yet — clear a lesson.</span>{% endfor %}</div>
 <div class="tree">
 {% for t in tree %}
 <div class="node {% if t.done %}done{% endif %} {% if t.locked %}locked{% endif %}">
