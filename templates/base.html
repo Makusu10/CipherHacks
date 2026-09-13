@@ -4,8 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}CipherHacks — practice cybersecurity, honestly{% endblock %}</title>
-<meta name="description" content="CipherHacks: story-driven cybersecurity practice with quizzes, scripted terminal labs, duels, and guilds. Fictional targets only. Early prototype.">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta name="description" content="{% block meta_desc %}CipherHacks: free, story-driven cybersecurity practice with quizzes, flashcards, scripted terminal labs, duels, and guilds. Fictional targets only.{% endblock %}">
+<link rel="canonical" href="{{ request.url_root.rstrip('/') }}{{ request.path }}">
+<meta name="theme-color" content="#070b12">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CipherHacks">
+<meta property="og:title" content="{% block og_title %}CipherHacks — practice cybersecurity, honestly{% endblock %}">
+<meta property="og:description" content="Free story-driven security practice: skill map, terminal labs on fictional targets, arena duels, guilds.">
+<meta property="og:url" content="{{ request.url }}">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="screen">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Organization", "name": "CipherHacks",
+ "url": "https://github.com/Makusu10/CipherHacks",
+ "sameAs": ["https://github.com/Makusu10/CipherHacks"],
+ "description": "Free-first, story-driven cybersecurity practice platform. Fictional training targets only; prototype, no payments."}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "WebSite", "name": "CipherHacks",
+ "url": "https://github.com/Makusu10/CipherHacks",
+ "description": "Skill map, flashcards, practice exams, scripted terminal labs, arena duels, guilds, and season ladders for learning security."}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>

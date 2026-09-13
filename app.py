@@ -146,6 +146,25 @@ def create_app():
     def healthz():
         return jsonify(ok=True)
 
+    @app.route("/robots.txt")
+    def robots():
+        base = request.url_root.rstrip("/")
+        body = f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n"
+        return app.response_class(body, mimetype="text/plain")
+
+    @app.route("/sitemap.xml")
+    def sitemap():
+        from xml.sax.saxutils import escape
+        base = request.url_root.rstrip("/")
+        paths = ["/", "/missions", "/dashboard", "/flashcards", "/exams", "/labs",
+                 "/arena", "/leaderboards", "/guilds", "/daily", "/signup", "/login",
+                 "/privacy", "/terms", "/cookies", "/refunds", "/conduct", "/about"]
+        urls = "\n".join(
+            f'  <url><loc>{escape(base + p)}</loc><changefreq>weekly</changefreq></url>'
+            for p in paths)
+        xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>'
+        return app.response_class(xml, mimetype="application/xml")
+
     @app.route("/signup", methods=["GET", "POST"])
     def signup():
         err = None
