@@ -15,17 +15,28 @@ a{color:var(--cyan)}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:6px}
 .skip{position:absolute;left:-9999px;top:0;background:var(--amber);color:#111;padding:.6rem 1rem;z-index:99;font-weight:700}
 .skip:focus{left:.5rem;top:.5rem}
-header.top{border-bottom:1px solid var(--line);background:rgba(8,13,23,.92);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
-.nav{max-width:1120px;margin:0 auto;display:flex;gap:.5rem;align-items:center;padding:.65rem 1rem;flex-wrap:wrap}
-.brand{font-weight:800;letter-spacing:.5px;color:var(--green);text-decoration:none;font-size:1.3rem;margin-right:.4rem}
-.brand span{color:var(--cyan)}
-.nav a.btn,.btn{display:inline-block;background:#15233c;color:var(--text);border:1px solid var(--line);
-  padding:.55rem .95rem;border-radius:11px;text-decoration:none;cursor:pointer;font-size:.94rem;transition:transform .08s ease,border-color .15s}
-.btn:hover{border-color:var(--cyan)}
+header.top{border-bottom:1px solid var(--line);background:rgba(8,13,23,.94);backdrop-filter:blur(10px);position:sticky;top:0;z-index:20}
+.nav{max-width:1120px;margin:0 auto;display:flex;gap:.45rem;align-items:center;padding:.6rem 1rem;flex-wrap:wrap}
+.brand{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-weight:900;letter-spacing:-.5px;text-decoration:none;font-size:1.42rem;margin-right:.5rem;
+  background:linear-gradient(92deg,var(--green) 10%,var(--cyan) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  padding:.1rem .2rem;border-radius:8px;transition:filter .15s,transform .1s}
+.brand:hover{filter:brightness(1.15) drop-shadow(0 0 10px rgba(60,245,165,.45));transform:translateY(-1px)}
+.brand:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.nav a.btn,.btn{display:inline-flex;align-items:center;gap:.3rem;background:linear-gradient(180deg,#182847,#131f36);color:var(--text);border:1px solid #2a3d5f;
+  padding:.5rem .9rem;border-radius:999px;text-decoration:none;cursor:pointer;font-size:.92rem;font-weight:600;
+  font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;letter-spacing:.2px;position:relative;
+  transition:transform .12s ease,border-color .16s,background .16s,box-shadow .16s,color .16s}
+.nav a.btn::after{content:"";position:absolute;left:.8rem;right:.8rem;bottom:.32rem;height:2px;border-radius:99px;
+  background:linear-gradient(90deg,var(--green),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .18s ease}
+.nav a.btn:hover,.btn:hover{border-color:var(--cyan);background:linear-gradient(180deg,#1d2f52,#16233c);transform:translateY(-2px);
+  box-shadow:0 4px 18px rgba(63,224,255,.22);color:#fff}
+.nav a.btn:hover::after{transform:scaleX(1)}
+.nav a.btn:active,.btn:active{transform:translateY(0) scale(.98)}
 .btn.primary{background:linear-gradient(135deg,var(--green),#7dffc9);color:#06130d;border-color:transparent;font-weight:800;box-shadow:var(--glow)}
-.btn.primary:hover{transform:translateY(-1px)}
+.btn.primary:hover{background:linear-gradient(135deg,#5cffb8,#a7ffe0);box-shadow:0 6px 22px rgba(60,245,165,.35);color:#04120c}
+.btn.primary::after{display:none}
 .btn.ghost{background:transparent}
-.btn.small{padding:.38rem .65rem;font-size:.85rem}
+.btn.small{padding:.4rem .75rem;font-size:.86rem}
 .btn.big{padding:.8rem 1.3rem;font-size:1.05rem}
 main{max-width:1120px;margin:0 auto;padding:1.2rem 1rem 4rem}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.02),transparent),var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.2rem;margin:.9rem 0;box-shadow:var(--glow)}
