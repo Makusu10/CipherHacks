@@ -12,7 +12,7 @@ from utils.db import connect, init_db
 
 # Bumped every deploy-debug cycle so the live revision is observable
 # (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
-APP_REVISION = "r8"
+APP_REVISION = "r9"
 
 
 class _StripApiPrefix:

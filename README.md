@@ -153,16 +153,16 @@ Quiz JSON looks like
 
 ## 8b. Deploy on Vercel (share a link with friends)
 
-The repo is already Vercel-ready (`api/index.py` + `vercel.json` route
-everything to the Flask app):
+Vercel auto-detects the root `app.py` Flask app and routes every request to
+it — no `vercel.json` rewrites needed (a rewrite is what broke routing
+before: Vercel started serving the *destination* path to Flask, 404ing
+every page, so it was deleted):
 
-1. Push to GitHub (already done — `main` has the fix).
-2. On [vercel.com](https://vercel.com) → Add New → Project → import
-   `Makusu10/CipherHacks`. Accept the defaults and Deploy.
-3. If you deployed **before** the serverless fix and see
-   `FUNCTION_INVOCATION_FAILED`, open the project → Deployments → `···`
-   on the latest one → **Redeploy** with **“Use existing Build Cache”
-   switched OFF**.
+1. Push to GitHub, then on [vercel.com](https://vercel.com) → Add New →
+   Project → import `Makusu10/CipherHacks`. Accept the defaults and Deploy.
+2. If an old deployment shows `FUNCTION_INVOCATION_FAILED` or endless 404s,
+   open Deployments, confirm the entry's commit matches latest `main`, and
+   **Redeploy** it with **“Use existing Build Cache” switched OFF**.
 
 Two honest caveats: on Vercel the database lives in `/tmp`, so accounts
 and XP reset whenever Vercel cold-starts the function — perfect for demos,
