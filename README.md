@@ -151,6 +151,24 @@ Open `http://127.0.0.1:5000/admin?token=pick-a-long-random-string`.
 Quiz JSON looks like
 `[{"q":"…?","choices":["a","b"],"answer":0}]`. Keep every target fictional.
 
+## 8b. Deploy on Vercel (share a link with friends)
+
+The repo is already Vercel-ready (`api/index.py` + `vercel.json` route
+everything to the Flask app):
+
+1. Push to GitHub (already done — `main` has the fix).
+2. On [vercel.com](https://vercel.com) → Add New → Project → import
+   `Makusu10/CipherHacks`. Accept the defaults and Deploy.
+3. If you deployed **before** the serverless fix and see
+   `FUNCTION_INVOCATION_FAILED`, open the project → Deployments → `···`
+   on the latest one → **Redeploy** with **“Use existing Build Cache”
+   switched OFF**.
+
+Two honest caveats: on Vercel the database lives in `/tmp`, so accounts
+and XP reset whenever Vercel cold-starts the function — perfect for demos,
+not for keeping progress. And set `SECRET_KEY` + `ADMIN_TOKEN` env vars in
+the project settings before sharing it beyond friends.
+
 ## 9. Troubleshooting for beginners
 
 | Symptom | Fix |
