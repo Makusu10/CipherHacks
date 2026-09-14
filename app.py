@@ -12,7 +12,37 @@ from utils.db import connect, init_db
 
 # Bumped every deploy-debug cycle so the live revision is observable
 # (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
-APP_REVISION = "r7"
+APP_REVISION = "r8"
+
+
+class _StripApiPrefix:
+    """Vercel serves root app.py itself as the backend entrypoint while
+    routing requests by the rewrite destination (/api/index...), split
+    across SCRIPT_NAME + PATH_INFO. Flask matches on PATH_INFO alone, so
+    every page 404s unless the function-name head is removed. Lives here
+    (not in api/index.py) so it applies no matter which file Vercel picks
+    as the entrypoint. Idempotent: safe to wrap twice."""
+
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        script = environ.get("SCRIPT_NAME") or ""
+        path = environ.get("PATH_INFO") or "/"
+        if (script == "/api" or script.startswith("/api/")) and (
+            path == "/index" or path.startswith("/index/")
+        ):
+            path = path[len("/index"):] or "/"
+            environ["SCRIPT_NAME"] = ""
+        for prefix in ("/api/index.py", "/api/index"):
+            if path == prefix:
+                path = "/"
+                break
+            if path.startswith(prefix + "/"):
+                path = path[len(prefix):] or "/"
+                break
+        environ["PATH_INFO"] = path or "/"
+        return self.wsgi_app(environ, start_response)
 from utils.leveling import (
     BANDS, BAND_DOSSIER, CHECKPOINT_FOR_BAND, band_for_level, band_label,
     elo_delta, level_from_xp, progress_to_next, rank_title,
@@ -836,6 +866,7 @@ def create_app():
             response.headers["Cache-Control"] = "no-store, must-revalidate"
         return response
 
+    app.wsgi_app = _StripApiPrefix(app.wsgi_app)
     return app
 
 

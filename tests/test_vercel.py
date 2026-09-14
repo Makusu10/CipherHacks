@@ -77,6 +77,14 @@ def test_normal_paths_untouched():
     assert c.get("/nope-not-real").status_code == 404
 
 
+def test_factory_applies_strip_regardless_of_entrypoint():
+    # The serving entrypoint on Vercel may be root app.py, not api/index.py,
+    # so normalization must live in create_app itself.
+    from app import _StripApiPrefix, create_app
+    w = create_app().wsgi_app
+    assert isinstance(w, _StripApiPrefix)
+
+
 def test_error_pages_never_cached():
     c = _handler_client()
     r = c.get("/nope-not-real")
