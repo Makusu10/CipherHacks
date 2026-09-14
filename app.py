@@ -12,7 +12,7 @@ from utils.db import connect, init_db
 
 # Bumped every deploy-debug cycle so the live revision is observable
 # (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
-APP_REVISION = "r6"
+APP_REVISION = "r7"
 from utils.leveling import (
     BANDS, BAND_DOSSIER, CHECKPOINT_FOR_BAND, band_for_level, band_label,
     elo_delta, level_from_xp, progress_to_next, rank_title,

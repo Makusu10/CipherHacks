@@ -11,16 +11,23 @@ from app import app  # noqa: E402  -- Vercel looks for `app` variable
 
 
 class _StripApiPrefix:
-    """Vercel invokes this file at /api/index, and some rewrite setups hand
-    Flask the destination path (/api/index...) instead of the original URL.
-    Flask then 404s every page, including `/`. Normalize it back; requests
-    that already carry the right path pass through untouched."""
+    """Vercel serves this file at /api/index and splits that destination
+    across SCRIPT_NAME + PATH_INFO (e.g. SCRIPT_NAME=/api, PATH_INFO=/index
+    for a request to `/`). Flask matches on PATH_INFO alone, so every page
+    404s unless the function-name head is removed. Requests that already
+    carry the right path pass through untouched."""
 
     def __init__(self, wsgi_app):
         self.wsgi_app = wsgi_app
 
     def __call__(self, environ, start_response):
-        path = environ.get("PATH_INFO", "") or "/"
+        script = environ.get("SCRIPT_NAME") or ""
+        path = environ.get("PATH_INFO") or "/"
+        if (script == "/api" or script.startswith("/api/")) and (
+            path == "/index" or path.startswith("/index/")
+        ):
+            path = path[len("/index"):] or "/"
+            environ["SCRIPT_NAME"] = ""
         for prefix in ("/api/index.py", "/api/index"):
             if path == prefix:
                 path = "/"
@@ -28,7 +35,7 @@ class _StripApiPrefix:
             if path.startswith(prefix + "/"):
                 path = path[len(prefix):] or "/"
                 break
-        environ["PATH_INFO"] = path
+        environ["PATH_INFO"] = path or "/"
         return self.wsgi_app(environ, start_response)
 
 

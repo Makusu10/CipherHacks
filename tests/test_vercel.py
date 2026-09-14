@@ -51,6 +51,26 @@ def test_vercel_path_shapes():
         assert "Type your" in r.get_data(as_text=True), shape
 
 
+def test_vercel_script_name_split():
+    # Live forensics (view-source): Vercel sends SCRIPT_NAME=/api with the
+    # function name as head of PATH_INFO. This exact shape 404d everything.
+    c = _handler_client()
+    r = c.get("/", environ_overrides={"SCRIPT_NAME": "/api",
+                                      "PATH_INFO": "/index"})
+    html = r.get_data(as_text=True)
+    assert r.status_code == 200
+    assert "Type your" in html
+    r = c.get("/__route_debug",
+              environ_overrides={"SCRIPT_NAME": "/api",
+                                 "PATH_INFO": "/index/__route_debug"})
+    assert r.status_code == 200
+    assert r.get_json()["flask_path"] == "/__route_debug"
+    r = c.get("/static/css/style.css",
+              environ_overrides={"SCRIPT_NAME": "/api",
+                                 "PATH_INFO": "/index/static/css/style.css"})
+    assert r.status_code == 200
+
+
 def test_normal_paths_untouched():
     c = _handler_client()
     assert c.get("/").status_code == 200
