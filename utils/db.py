@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import config
 
@@ -77,7 +78,10 @@ CREATE TABLE IF NOT EXISTS daily_completions(
 """
 
 def connect():
-    con = sqlite3.connect(config.DB_PATH)
+    parent = os.path.dirname(os.path.abspath(config.DB_PATH))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    con = sqlite3.connect(config.DB_PATH, timeout=30, check_same_thread=False)
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys=ON")
     return con
