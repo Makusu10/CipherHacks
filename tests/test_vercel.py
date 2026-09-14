@@ -55,3 +55,10 @@ def test_normal_paths_untouched():
     c = _handler_client()
     assert c.get("/").status_code == 200
     assert c.get("/nope-not-real").status_code == 404
+
+
+def test_error_pages_never_cached():
+    c = _handler_client()
+    r = c.get("/nope-not-real")
+    assert r.status_code == 404
+    assert "no-store" in r.headers.get("Cache-Control", "")
