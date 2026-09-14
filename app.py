@@ -12,7 +12,7 @@ from utils.db import connect, init_db
 
 # Bumped every deploy-debug cycle so the live revision is observable
 # (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
-APP_REVISION = "r5"
+APP_REVISION = "r6"
 from utils.leveling import (
     BANDS, BAND_DOSSIER, CHECKPOINT_FOR_BAND, band_for_level, band_label,
     elo_delta, level_from_xp, progress_to_next, rank_title,
@@ -827,6 +827,14 @@ def create_app():
     @app.errorhandler(500)
     def server_error(_e):
         return render_template("error.html", msg="Something broke on our side. Your progress is saved — try again."), 500
+
+    @app.after_request
+    def no_cache_errors(response):
+        # Error pages must never be cached: a cached 404 looks exactly like
+        # a still-broken deploy and sends debugging in circles.
+        if response.status_code >= 400:
+            response.headers["Cache-Control"] = "no-store, must-revalidate"
+        return response
 
     return app
 
