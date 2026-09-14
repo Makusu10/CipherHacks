@@ -40,6 +40,17 @@ def test_vercel_nested_and_static_paths():
     assert r.status_code == 200
 
 
+def test_vercel_path_shapes():
+    # Every plausible destination shape must resolve, including the
+    # trailing-slash hole that slipped through middleware v1.
+    c = _handler_client()
+    for shape in ["/api/index", "/api/index/", "/api/index.py",
+                  "/api/index.py/"]:
+        r = c.get("/", environ_overrides={"PATH_INFO": shape})
+        assert r.status_code == 200, shape
+        assert "Type your" in r.get_data(as_text=True), shape
+
+
 def test_normal_paths_untouched():
     c = _handler_client()
     assert c.get("/").status_code == 200
