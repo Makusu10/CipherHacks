@@ -26,8 +26,9 @@ def seed():
              1 if l.get("is_checkpoint") else 0),
         )
     # demo accounts for leaderboard honesty: marked as bots, small xp
+    # ON CONFLICT DO NOTHING works in both SQLite and Postgres.
     for name, xp, elo in [("marisol_bot", 320, 860), ("jun_bot", 180, 820)]:
-        con.execute("INSERT OR IGNORE INTO users(username, xp, coins, elo) VALUES(?,?,?,?)",
+        con.execute("INSERT INTO users(username, xp, coins, elo) VALUES(?,?,?,?) ON CONFLICT(username) DO NOTHING",
                     (name, xp, 60, elo))
     con.commit()
     # refresh levels

@@ -12,7 +12,7 @@ from utils.db import connect, init_db
 
 # Bumped every deploy-debug cycle so the live revision is observable
 # (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
-APP_REVISION = "r9"
+APP_REVISION = "r10"
 
 
 class _StripApiPrefix:
@@ -55,7 +55,9 @@ def create_app():
     app.config["SECRET_KEY"] = config.SECRET_KEY
     app.config["SESSION_COOKIE_HTTPONLY"] = True
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-    app.config["SESSION_COOKIE_SECURE"] = False  # set True behind HTTPS in prod
+    app.config["SESSION_COOKIE_SECURE"] = getattr(config, "SESSION_COOKIE_SECURE", False)
+    app.config["PERMANENT_SESSION_LIFETIME"] = getattr(
+        config, "PERMANENT_SESSION_LIFETIME", 2592000)
 
     init_db()
     # seed on boot (idempotent)
@@ -68,7 +70,12 @@ def create_app():
     def get_db():
         if "db" not in g:
             g.db = connect()
-            g.db.row_factory = sqlite3.Row
+            # sqlite3 connections accept row_factory; the Postgres wrapper
+            # already returns dict-like rows.
+            try:
+                g.db.row_factory = sqlite3.Row
+            except AttributeError:
+                pass
         return g.db
 
     @app.teardown_appcontext
@@ -77,12 +84,85 @@ def create_app():
         if db is not None:
             db.close()
 
+    def _normalize_handle(raw):
+        return (raw or "").strip().lower()[:24]
+
+    def _set_login_session(user_id, username):
+        session.clear()
+        session["uid"] = user_id
+        session["handle"] = username
+        session.permanent = True
+
     def current_user():
+        """Resilient lookup for Vercel's ephemeral /tmp SQLite.
+
+        Signup may land on instance A while the next request hits instance
+        B (fresh /tmp DB) or a cold start wipes the file entirely. The old
+        code only stored session["uid"], so the row lookup failed, every
+        page rendered logged-out, and re-login said "No such handle".
+        We now also store session["handle"] (the signed cookie survives
+        across instances) and self-heal: rebind by handle, or re-create
+        the same handle on a fresh DB so the user stays logged in.
+        XP on a wiped DB still resets (demo mode) unless DATABASE_URL
+        points at Postgres — but login never dead-ends anymore."""
         uid = session.get("uid")
-        if not uid:
-            return None
+        handle = session.get("handle")
         con = get_db()
-        return con.execute("SELECT * FROM users WHERE id=?", (uid,)).fetchone()
+        if uid:
+            try:
+                u = con.execute("SELECT * FROM users WHERE id=?", (uid,)).fetchone()
+            except Exception:
+                u = None
+            if u:
+                try:
+                    uname = u["username"]
+                except Exception:
+                    uname = None
+                if uname and handle != uname:
+                    session["handle"] = uname
+                    session.permanent = True
+                return u
+        if handle:
+            h = _normalize_handle(handle)
+            if h:
+                try:
+                    u2 = con.execute("SELECT * FROM users WHERE username=?", (h,)).fetchone()
+                except Exception:
+                    u2 = None
+                if u2:
+                    session["uid"] = u2["id"]
+                    session["handle"] = u2["username"]
+                    session.permanent = True
+                    return u2
+                # Fresh/ephemeral DB lost the row: recreate the same handle
+                # so the session (and any re-login) keeps working.
+                try:
+                    cur = con.execute("INSERT INTO users(username) VALUES(?)", (h,))
+                    con.commit()
+                    new_id = cur.lastrowid
+                    session["uid"] = new_id
+                    session["handle"] = h
+                    session.permanent = True
+                    return con.execute("SELECT * FROM users WHERE id=?", (new_id,)).fetchone()
+                except sqlite3.IntegrityError:
+                    try:
+                        con.rollback()
+                    except Exception:
+                        pass
+                    u3 = con.execute("SELECT * FROM users WHERE username=?", (h,)).fetchone()
+                    if u3:
+                        session["uid"] = u3["id"]
+                        session["handle"] = u3["username"]
+                        session.permanent = True
+                        return u3
+                    return None
+                except Exception:
+                    try:
+                        con.rollback()
+                    except Exception:
+                        pass
+                    return None
+        return None
 
     def login_required(fn):
         @wraps(fn)
@@ -220,7 +300,7 @@ def create_app():
     def signup():
         err = None
         if request.method == "POST":
-            handle = (request.form.get("username") or "").strip().lower()[:24]
+            handle = _normalize_handle(request.form.get("username"))
             consent = request.form.get("consent")
             if len(handle) < 3 or not handle.replace("_", "").replace("-", "").isalnum():
                 err = "Pick a handle with 3-24 letters, numbers, _ or -."
@@ -231,9 +311,13 @@ def create_app():
                 try:
                     cur = con.execute("INSERT INTO users(username) VALUES(?)", (handle,))
                     con.commit()
-                    session["uid"] = cur.lastrowid
+                    _set_login_session(cur.lastrowid, handle)
                     return redirect(url_for("dashboard"))
                 except sqlite3.IntegrityError:
+                    try:
+                        con.rollback()
+                    except Exception:
+                        pass
                     err = "That handle is taken. Try a variant."
         return render_template("signup.html", err=err)
 
@@ -241,13 +325,16 @@ def create_app():
     def login():
         err = None
         if request.method == "POST":
-            handle = (request.form.get("username") or "").strip().lower()
+            handle = _normalize_handle(request.form.get("username"))
+            # Drop any stale uid first: on Vercel the stored uid may point
+            # at a row that only existed on another instance's /tmp DB.
+            session.clear()
             con = get_db()
-            u = con.execute("SELECT * FROM users WHERE username=?", (handle,)).fetchone()
+            u = con.execute("SELECT * FROM users WHERE username=?", (handle,)).fetchone() if handle else None
             if not u:
                 err = "No such handle yet. Sign up first."
             else:
-                session["uid"] = u["id"]
+                _set_login_session(u["id"], u["username"])
                 nxt = request.args.get("next") or url_for("dashboard")
                 return redirect(nxt)
         return render_template("login.html", err=err)

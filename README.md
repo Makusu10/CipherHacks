@@ -164,10 +164,20 @@ every page, so it was deleted):
    open Deployments, confirm the entry's commit matches latest `main`, and
    **Redeploy** it with **“Use existing Build Cache” switched OFF**.
 
-Two honest caveats: on Vercel the database lives in `/tmp`, so accounts
-and XP reset whenever Vercel cold-starts the function — perfect for demos,
-not for keeping progress. And set `SECRET_KEY` + `ADMIN_TOKEN` env vars in
-the project settings before sharing it beyond friends.
+Two honest caveats: on Vercel the database lives in `/tmp` by default, so
+accounts and XP reset whenever Vercel cold-starts the function — perfect
+for demos, not for keeping progress. Fixed in r10: sessions now store the
+handle too and self-heal, so you stay logged in across instances and
+re-login never dead-ends with "No such handle" (a wiped demo DB
+re-creates your handle; XP still resets until you add a real database).
+And set `SECRET_KEY` + `ADMIN_TOKEN` env vars in the project settings
+before sharing it beyond friends.
+
+**Keep XP on Vercel (5 minutes, free):** Vercel → Storage → Create →
+Postgres (or Neon/Supabase) → connect it to this project. The app
+auto-uses `DATABASE_URL` / `POSTGRES_URL` when present (Postgres) and
+falls back to SQLite locally, so no code change is needed. After adding
+the variable, Redeploy with build cache OFF.
 
 ## 9. Troubleshooting for beginners
 
