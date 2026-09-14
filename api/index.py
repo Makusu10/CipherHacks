@@ -24,7 +24,7 @@ class _StripApiPrefix:
         if path == "/api/index":
             path = "/"
         elif path.startswith("/api/index/"):
-            path = path[len("/api/index"):]
+            path = path[len("/api/index"):] or "/"
         environ["PATH_INFO"] = path
         return self.wsgi_app(environ, start_response)
 

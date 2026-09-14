@@ -149,6 +149,19 @@ def create_app():
     def healthz():
         return jsonify(ok=True)
 
+    @app.route("/__route_debug")
+    def route_debug():
+        # Temporary diagnostic: shows ONLY routing data (no secrets, no env)
+        # so we can see what path Vercel hands Flask. Delete after fix.
+        return jsonify({
+            "wsgi_PATH_INFO": request.environ.get("PATH_INFO"),
+            "wsgi_SCRIPT_NAME": request.environ.get("SCRIPT_NAME"),
+            "REQUEST_URI": request.environ.get("REQUEST_URI"),
+            "RAW_URI": request.environ.get("RAW_URI"),
+            "flask_path": request.path,
+            "vercel_env": os.environ.get("VERCEL"),
+        })
+
     @app.route("/robots.txt")
     def robots():
         base = request.url_root.rstrip("/")
