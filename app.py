@@ -9,6 +9,10 @@ from flask import Flask, g, jsonify, redirect, render_template, request, session
 
 import config
 from utils.db import connect, init_db
+
+# Bumped every deploy-debug cycle so the live revision is observable
+# (HTML comment in base.html + /__route_debug). Delete both after Vercel fix.
+APP_REVISION = "r5"
 from utils.leveling import (
     BANDS, BAND_DOSSIER, CHECKPOINT_FOR_BAND, band_for_level, band_label,
     elo_delta, level_from_xp, progress_to_next, rank_title,
@@ -154,6 +158,7 @@ def create_app():
         # Temporary diagnostic: shows ONLY routing data (no secrets, no env)
         # so we can see what path Vercel hands Flask. Delete after fix.
         return jsonify({
+            "rev": APP_REVISION,
             "wsgi_PATH_INFO": request.environ.get("PATH_INFO"),
             "wsgi_SCRIPT_NAME": request.environ.get("SCRIPT_NAME"),
             "REQUEST_URI": request.environ.get("REQUEST_URI"),

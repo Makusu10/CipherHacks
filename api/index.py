@@ -21,10 +21,13 @@ class _StripApiPrefix:
 
     def __call__(self, environ, start_response):
         path = environ.get("PATH_INFO", "") or "/"
-        if path == "/api/index":
-            path = "/"
-        elif path.startswith("/api/index/"):
-            path = path[len("/api/index"):] or "/"
+        for prefix in ("/api/index.py", "/api/index"):
+            if path == prefix:
+                path = "/"
+                break
+            if path.startswith(prefix + "/"):
+                path = path[len(prefix):] or "/"
+                break
         environ["PATH_INFO"] = path
         return self.wsgi_app(environ, start_response)
 
